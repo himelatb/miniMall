@@ -35,9 +35,7 @@
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
+  @include('admin.layout.controlsidebar')
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
