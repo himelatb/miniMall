@@ -21,7 +21,7 @@ class AdminsTableSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make(123),
             'status' => 1,
-            'type' => 'admin',
+            'type' => 1,
             ],
         ];
         Admin::insert($adminRecords);
