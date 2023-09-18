@@ -286,6 +286,69 @@
 
     })
 
+    $(document).on('click','#passChangeBtn',function(){
+
+if(confirm("confirm password change?")){
+    let oldPassword = $("#oldPassword").val();
+    let newPassword = $("#newPassword").val();
+    let confirmPassword = $("#confirmPassword").val();
+    
+    $.ajax({
+        url:"{{url('admin/password.admins')}}",
+        method: 'post',
+        data:{
+            oldPassword:oldPassword,
+            newPassword:newPassword,
+            confirmPassword:confirmPassword,
+        
+        },
+        success:function(res) {
+          $('.spanmsg').remove();
+          $('.errbr').remove();
+        if (res.status =='not_matched') {
+                    $('.nerrormsg').append('<span class=" bg-danger spanmsg">'+'Confirm password is not maching'+'</span>'+'<br class="errbr">');
+                }
+        if (res.status =='wrong_pass') {
+                    $('#oerrormsg').append('<span class=" bg-danger spanmsg">'+'Enter current password'+'</span>'+'<br class="errbr">');
+                }
+        if(res.status =='success'){
+            Command: toastr["success"]("Password changed successfully", "Successful")
+
+                toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+                }
+                window.location.href = "{{url('admin/dashboard')}}";
+            
+        }
+        },
+        error:function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function(index, value){
+                    $('#perrormsg').append('<span class=" bg-danger spanmsg">'+value+'</span>'+'<br class="errbr">');
+                });
+                
+    }
+        
+        });
+}
+})
+
   });
 
 

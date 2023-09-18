@@ -29,6 +29,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('pagination', 'AdminController@pagination');
         Route::get('search', 'AdminController@search');
         Route::get('logout', 'AdminController@logout');
+        Route::match(['get', 'post'],'password.admins', 'AdminController@passwordAdmins');
     });
 
 });

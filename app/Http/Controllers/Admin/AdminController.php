@@ -139,4 +139,30 @@ class AdminController extends Controller
         
     }
 
+    public function passwordAdmins(Request $request){
+        if($request->isMethod('post')){
+            $request->validate([
+                "oldPassword" => "required",
+                "newPassword" => "required",
+                "confirmPassword" => "required",
+                ]);
+            if(Hash::check($request->oldPassword, Auth::guard('admin')->user()->password)){
+                if($request->newPassword== $request->confirmPassword){
+                    Admin::where('id',Auth::guard('admin')->user()->id)->update([
+                        'password' => Hash::make($request->newPassword)
+                    ]);
+                    return response()->json(['status'=> "success"]);
+                }
+                else {
+                    return response()->json(['status'=> "not_matched"]);
+                }
+            }
+            else {
+                return response()->json(['status'=> "wrong_pass"]);
+            }
+
+        }
+        return view('admin.users.password_change');
+    }
+
 }

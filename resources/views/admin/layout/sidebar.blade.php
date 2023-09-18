@@ -41,7 +41,6 @@
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
 
@@ -51,6 +50,15 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Staff
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{url('admin/password.admins')}}" class="nav-link">
+              <i class="nav-icon fas a fa-ellipsis-h"></i>
+              <p>
+                Change password
               </p>
             </a>
           </li>
