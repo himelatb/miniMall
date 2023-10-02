@@ -8,32 +8,32 @@
             </button>
           </div>
             
-            <form id="updateForm" name="updateForm" method="POST" class="form-horizontal">
+            <form id="updateForm" name="updateForm" method="POST" class="form-horizontal" enctype="multipart/form-data">
                 <div class="modal-body">
                 @csrf
                 <div class="form-group col-sm-12" id="uerrormsg">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="id" id="uid" value="" hidden>
-                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <input type="text" name="uid" id="uid" value="" hidden>
+                    <label for="uname" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="uname" name="name" value="" required="">
+                        <input type="text" class="form-control" id="uname" name="uname" value="" required="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="email" id="uemailLabel" class="col-sm-2 control-label">Email</label>
+                    <label for="uemail" id="uemailLabel" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="uemail" name="email" value="" required="">
+                        <input type="text" class="form-control" id="uemail" name="uemail" value="" required="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="mobile" class="col-sm-2 control-label">Mobile</label>
+                    <label for="umobile" class="col-sm-2 control-label">Mobile</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="umobile" name="mobile" value="" required="">
+                        <input type="text" class="form-control" id="umobile" name="umobile" value="" required="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="type" class="col-sm-2 control-label">Type</label>
+                    <label for="utype" class="col-sm-2 control-label">Type</label>
                     <div class="col-sm-12">
                         <select class="form-control" id="utype">
                             <option value="" selected disabled hidden>Select type</option>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="status" class="col-sm-2 control-label">Status</label>
+                    <label for="ustatus" class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-12">
                         <select class="form-control" id="ustatus">
                             <option value="" selected disabled hidden>Select status</option>
@@ -51,11 +51,16 @@
                             <option value="2">Active</option>
                           </select>
                     </div>
-                    
+                 </div>
+                 <div class="form-group">
+                    <label for="uimage" class="col-sm-2 control-label">Image</label>
+                    <div class="col-sm-12">
+                        <input type="file" class="form-control" id="uimage" name="uimage">
+
+                    </div>
                 </div>
-     
                 <div class="col-sm-offset-2 col-sm-10">
-                 <button type="button" class="btn btn-primary" id="updateAdminBtn" value="create">Update
+                 <button type="submit" class="btn btn-primary" id="updateAdminBtn">Update
                  </button>
                 </div>
             

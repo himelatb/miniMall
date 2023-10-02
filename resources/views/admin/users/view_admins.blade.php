@@ -21,6 +21,7 @@
               <th>Mobile</th>
               <th>Type</th>
               <th style="width: 2px">Status</th>
+              <th style="width: 2px">Image</th>
               <th style="width: 2px">Action</th>
             </tr>
           </thead>
@@ -33,6 +34,7 @@
                 <td>{{$admin['mobile']}}</td>
                 <td>{{($admin['type'])==1 ? "Admin" : "Sub admin"}}</td>
                 <td>{{($admin['status'])==1 ? "Inactive" : "Active"}}</td>
+                <td><img src="{{asset('admin/images/'.$admin['image'])}}" alt="{{$admin['name'].' image'}}" width="50" height="50"></td>
                 <td class="d-flex">
     
                        <a data-toggle="modal" data-target="#updateModal" class="btn btn-primary editAdminBtn"

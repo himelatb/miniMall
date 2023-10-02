@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('cms_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('mobile');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('image')->nullable();
+            $table->string('title');
+            $table->text('description');
+            $table->string('url');
+            $table->string('meta_title');
+            $table->string('meta_description');
+            $table->string('meta_keywords');
             $table->tinyInteger('status');
-            $table->tinyInteger('type');
             $table->timestamps();
-            
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('cms_pages');
     }
 };

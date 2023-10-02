@@ -56,6 +56,7 @@ class AdminController extends Controller
             'type'=> 'required',
             'status'=> 'required',
             'password' => 'required',
+            'image' => 'image',
         ],
         [
             'name.required'=> 'name is required',
@@ -63,11 +64,19 @@ class AdminController extends Controller
             'email.email'=> 'must be an email address',
             'type.required'=> 'type is required',
             'mobile.required'=> 'mobile is required',
-            'password.required'=> 'password is required'
+            'password.required'=> 'password is required',
+            'image.image' => 'image file is not appropriate',
         ]
         );
-
         $admin = new Admin();
+
+        if($request->has('image')){
+            $img_tmp = $request->image;
+                $extension = $img_tmp->getClientOriginalExtension();
+                $imgName = rand(1,99999).'.'.$extension;
+                $request->image->move(public_path('admin/images/'), $imgName);
+                $admin->image = $imgName;
+        }
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->mobile = $request->mobile;
@@ -85,27 +94,35 @@ class AdminController extends Controller
 
     public function updateAdmins(Request $request){
         $request->validate([
-            'name'=> 'required',
-            'email'=> 'required|email',
-            'mobile'=> 'required',
-            'type'=> 'required',
-            'status'=> 'required',
+            'uname'=> 'required',
+            'uemail'=> 'required|email',
+            'umobile'=> 'required',
+            'utype'=> 'required',
+            'ustatus'=> 'required',
+            'uimage' => 'image',
         ],
         [
-            'name.required'=> 'name is required',
-            'email.required'=> 'email is required',
-            'email.email'=> 'must be an email address',
-            'type.required'=> 'type is required',
-            'mobile.required'=> 'mobile is required',
+            'uname.required'=> 'name is required',
+            'uemail.required'=> 'email is required',
+            'uemail.email'=> 'must be an email address',
+            'utype.required'=> 'type is required',
+            'umobile.required'=> 'mobile is required',
+            'uimage.image'=> 'image is not appropriate',
         ]
         );
-
-        Admin::where('id',$request->id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'mobile' => $request->mobile,
-            'type' => $request->type,
-            'status' => $request->status,
+        if($request->has('uimage')){
+                $img_tmp = $request->uimage;
+                $extension = $img_tmp->getClientOriginalExtension();
+                $imgName = rand(1,99999).'.'.$extension;
+                $request->uimage->move(public_path('admin/images/'), $imgName);
+                Admin::where('id',$request->uid)->update(['image'=> $imgName]);
+        }
+        Admin::where('id',$request->uid)->update([
+            'name' => $request->uname,
+            'email' => $request->uemail,
+            'mobile' => $request->umobile,
+            'type' => $request->utype,
+            'status' => $request->ustatus,
         ]);
         return response()->json(['status' => 'success']);
 

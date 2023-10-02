@@ -12,7 +12,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('admin/images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('admin/images/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt=" User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
@@ -37,7 +37,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="{{url('admin/dashboard')}}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -45,8 +45,9 @@
             </a>
 
           </li>
+
           <li class="nav-item">
-            <a href="{{url('admin/view.admins')}}" class="nav-link">
+            <a href="{{url('admin/view.admins')}}" class="nav-link ">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Staff
@@ -55,13 +56,46 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{url('admin/password.admins')}}" class="nav-link">
-              <i class="nav-icon fas a fa-ellipsis-h"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Change password
+                Settings
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview" style="display: none;">
+              <li class="nav-item">
+                <a href="{{url('admin/password.admins')}}" class="nav-link">
+                  <i class="nav-icon fas a fa-ellipsis-h"></i>
+                  <p>
+                    Change password
+                  </p>
+                </a>
+              </li>
+            </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                CMS pages
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" style="display: none;">
+              <li class="nav-item">
+                <a href="{{url('admin/password.admins')}}" class="nav-link">
+                  <i class="nav-icon fas a fa-ellipsis-h"></i>
+                  <p>
+                    About page
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

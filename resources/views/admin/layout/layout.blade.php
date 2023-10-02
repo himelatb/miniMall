@@ -81,29 +81,21 @@
 <script>
   $(document).ready(function () {
 
-    $(document).on('click','#saveAdminBtn',function(){
-
+    $(document).on('submit','#adminForm',function(e){
+          e.preventDefault();
           $('.spanmsg').remove();
           $('.errbr').remove();
-          let name = $('#name').val();
-          let email = $('#email').val();
-          let mobile = $('#mobile').val();
-          let password = $('#password').val();
-          let type = $('#type').val();
-          let status = $('#status').val();
+          var formData = new FormData(this);
+          formData.append("type",$('#type').val());
+          formData.append("status",$('#status').val());
           
           
           $.ajax({
                 url:"{{url('admin/add.admins')}}",
                 method: 'post',
-                data:{
-                    name:name,
-                    email:email,
-                    mobile:mobile,
-                    type:type,
-                    status:status,
-                    password:password
-                },
+                data:formData,
+                processData: false,
+                contentType: false,
                 success:function(res) {
                   if(res.status =='success'){
                       $("#adminModal .close").click();
@@ -162,28 +154,23 @@
           $('#ustatus').val((status==1)? "1" : "2");
      })
     
-     $(document).on('click','#updateAdminBtn',function(){
+     $(document).on('submit','#updateForm',function(e){
+          e.preventDefault();
           $('.spanmsg').remove();
           $('.errbr').remove();
-          let id = $('#uid').val();
-          let name = $('#uname').val();
-          let email = $('#uemail').val();
-          let mobile = $('#umobile').val();
-          let type = $('#utype').val();
-          let status = $('#ustatus').val();
+          var formData = new FormData(this);
+          formData.append("utype", $('#utype').val());
+          formData.append("ustatus", $('#ustatus').val());
+        
           
 
           $.ajax({
               url:"{{url('admin/update.admins')}}",
               method: 'post',
-              data:{
-                id:id,
-                name:name,
-                email:email,
-                mobile:mobile,
-                type:type,
-                status:status,
-              },
+              data:formData,
+              cache:false,
+              contentType: false,
+              processData: false,
               success:function(res) {
                 if(res.status =='success'){
                     $("#updateModal .close").click();

@@ -8,7 +8,7 @@
             </button>
           </div>
             
-            <form id="adminForm" name="adminForm" method="POST"  class="form-horizontal">
+            <form id="adminForm" name="adminForm" method="POST"  class="form-horizontal" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                 
@@ -18,25 +18,25 @@
                     <input type="text" name="id" id="id" value="" hidden>
                     <label for="name" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="name" name="name" value="" required="">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" id="emailLabel" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="email" name="email" value="" required="">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" required="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="mobile" class="col-sm-2 control-label">Mobile</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="mobile" name="mobile" value="" required="">
+                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile number" required="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" id="passwordLabel" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-12">
-                        <input type="password" class="form-control" id="password" name="password" value="">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                     </div>
                 </div>
                 <div class="form-group">
@@ -58,10 +58,16 @@
                             <option value="2">Active</option>
                           </select>
                     </div>
-                    
                 </div>
+                <div class="form-group">
+                    <label for="image" class="col-sm-2 control-label">Image</label>
+                    <div class="col-sm-12">
+                        <input type="file" class="form-control" id="image" name="image">
+                    </div>
+                </div>
+     
                 <div class="col-sm-offset-2 col-sm-10">
-                 <button type="button" class="btn btn-primary" id="saveAdminBtn">Save
+                 <button type="submit" class="btn btn-primary" id="saveAdminBtn">Save
                  </button>
                 </div>
             

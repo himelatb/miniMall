@@ -1,6 +1,7 @@
 @extends('admin.layout.layout')
 @section('content')
-<div class="card">
+<div class="row justify-content-md-center" style="margin-top: 100px;">
+  <div class="card">
     <div class="card-header bg-primary">
         <h3 class="card-title">Change your password</h3>
     </div>
@@ -42,4 +43,6 @@
     <div class="card-footer bg-primary"></div>
         
 </div>
+</div>
+
 @endsection
