@@ -57,7 +57,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Settings
                 <i class="right fas fa-angle-left"></i>
@@ -76,23 +76,12 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="{{url('admin/cms.pages')}}" class="nav-link">
+              <i class="nav-icon fas fa-pencil-alt"></i>
               <p>
                 CMS pages
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview" style="display: none;">
-              <li class="nav-item">
-                <a href="{{url('admin/password.admins')}}" class="nav-link">
-                  <i class="nav-icon fas a fa-ellipsis-h"></i>
-                  <p>
-                    About page
-                  </p>
-                </a>
-              </li>
-            </ul>
           </li>
 
 

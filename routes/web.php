@@ -26,10 +26,17 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('add.admins', 'AdminController@addAdmins');
         Route::post('update.admins', 'AdminController@updateAdmins');
         Route::post('delete.admins', 'AdminController@deleteAdmins');
-        Route::get('pagination', 'AdminController@pagination');
-        Route::get('search', 'AdminController@search');
+        //Route::get('pagination', 'AdminController@pagination');
+        //Route::get('search', 'AdminController@search');
         Route::get('logout', 'AdminController@logout');
         Route::match(['get', 'post'],'password.admins', 'AdminController@passwordAdmins');
+
+        //cms pages route
+        Route::get('cms.pages', 'CmsController@index');
+        Route::post('add.cms', 'CmsController@store');
+        Route::post('update.cms', 'CmsController@update');
+        Route::post('delete.cms', 'CmsController@delete');
+
     });
 
 });

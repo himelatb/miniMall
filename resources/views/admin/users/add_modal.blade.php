@@ -65,8 +65,12 @@
                         <input type="file" class="form-control" id="image" name="image">
                     </div>
                 </div>
-     
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="form-group">
+                    <div class="h-100 d-flex align-items-center justify-content-center">
+                        <img width="200" height="200" id="imageView" name="imageView" />
+                    </div>
+                </div>
+                <div class="h-100 d-flex align-items-center justify-content-center">
                  <button type="submit" class="btn btn-primary" id="saveAdminBtn">Save
                  </button>
                 </div>

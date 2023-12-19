@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="uemail" id="uemailLabel" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="uemail" name="uemail" value="" required="">
+                        <input type="text" class="form-control text-dark bg-secondary" id="uemail" name="uemail" value="" readonly required="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,11 +55,15 @@
                  <div class="form-group">
                     <label for="uimage" class="col-sm-2 control-label">Image</label>
                     <div class="col-sm-12">
-                        <input type="file" class="form-control" id="uimage" name="uimage">
-
+                        <input type="file" class="form-control" id="uimage" name="uimage" onchange="previewFile(this);">
                     </div>
                 </div>
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="form-group">
+                    <div class="h-100 d-flex align-items-center justify-content-center">
+                        <img width="200" height="200" id="uimageView" name="uimageView"/>
+                    </div>
+                </div>
+                <div class="h-100 d-flex align-items-center justify-content-center">
                  <button type="submit" class="btn btn-primary" id="updateAdminBtn">Update
                  </button>
                 </div>

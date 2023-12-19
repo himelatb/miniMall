@@ -26,8 +26,17 @@ class AdminController extends Controller
                 'password' => 'required',
             ]);
 
-            if(Auth::guard('admin')->attempt(['email' => $req['email'], 'password' => $req['password']])){
-                return redirect('admin/dashboard');
+            if(Auth::guard('admin')->attempt(['email' => $req['email'], 'password' => $req['password'],'status'=> 2])){
+                    
+                if (isset($req['remember'])&&!empty($req['remember'])) {
+                    setcookie('email',$req["email"],time()+3600);
+                    setcookie('password',$req["password"],time()+3600);
+                } else {
+                    setcookie('email','');
+                    setcookie('password','');
+                }
+                
+                    return redirect('admin/dashboard');
             }
            else {
                 return redirect()->back()->withErrors('Invalid credential!');
@@ -43,7 +52,7 @@ class AdminController extends Controller
     }
 
     public function viewAdmins(){
-        $admins = Admin::orderBy("id", "asc")->paginate(5);
+        $admins = Admin::orderBy("id", "asc")->get();
         return view('admin.users.view_admins', compact('admins'));
         //echo "<pre";print_r($admins);die;
         
