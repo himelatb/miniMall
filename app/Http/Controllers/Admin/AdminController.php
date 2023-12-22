@@ -120,6 +120,15 @@ class AdminController extends Controller
         ]
         );
         if($request->has('uimage')){
+            $admin = Admin::where('id',$request->uid)->first();
+            
+            if($admin['image']!=''){
+                $old_path = public_path('admin/images/'.$admin['image']);
+                if(file_exists($old_path)){
+                unlink($old_path);
+                }
+            }   
+            
                 $img_tmp = $request->uimage;
                 $extension = $img_tmp->getClientOriginalExtension();
                 $imgName = rand(1,99999).'.'.$extension;
@@ -139,7 +148,13 @@ class AdminController extends Controller
     }
 
     public function deleteAdmins(Request $request){
-            
+        
+        $admin = Admin::where('id',$request->id)->first();
+        if($admin['image']!=''){   
+        $image_path = public_path('admin/images/'.$admin['image']);
+        if(file_exists($image_path)){
+          unlink($image_path);
+        }}
         Admin::find($request->id)->delete();
         
         return response()->json(['status' => 'success']);

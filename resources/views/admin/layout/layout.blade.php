@@ -47,6 +47,9 @@
 
   @include('admin.pages.add_cms_modal')
   @include('admin.pages.update_cms_modal')
+
+  @include('admin.category.edit_cat_modal')
+  @include('admin.category.add_cat_modal')
   {!! Toastr::message() !!} 
 </div>
 <!-- ./wrapper -->
@@ -88,6 +91,8 @@
 <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{ url('admin/js/custom/customtable.js')}}"></script>
+<script src="{{ url('admin/js/custom/custom.js')}}"></script>
             
 <script type="text/javascript">
   $.ajaxSetup({
@@ -333,102 +338,84 @@
 
   $(document).on('click','#passChangeBtn',function(){
 
-          if(confirm("confirm password change?")){
-              let oldPassword = $("#oldPassword").val();
-              let newPassword = $("#newPassword").val();
-              let confirmPassword = $("#confirmPassword").val();
-              
-              $.ajax({
-                  url:"{{url('admin/password.admins')}}",
-                  method: 'post',
-                  data:{
-                      oldPassword:oldPassword,
-                      newPassword:newPassword,
-                      confirmPassword:confirmPassword,
-                  
+    swal({
+                      title:"Do you want to change the password?",
+                      type: "warning",
+                      showCancelButton: true,
+                      confirmButtonClass: 'btn btn-success',
+                      cancelButtonClass: 'btn btn-danger',
+                      buttonsStyling: false,
+                      confirmButtonText: "Yes",
+                      cancelButtonText: "Cancel",
+                      closeOnConfirm: true,
+                      showLoaderOnConfirm: true,
                   },
-                  success:function(res) {
-                    $('.spanmsg').remove();
-                    $('.errbr').remove();
-                  if (res.status =='not_matched') {
-                              $('.nerrormsg').append('<span class=" bg-danger spanmsg">'+'Confirm password is not maching'+'</span>'+'<br class="errbr">');
-                          }
-                  if (res.status =='wrong_pass') {
-                              $('#oerrormsg').append('<span class=" bg-danger spanmsg">'+'Enter current password'+'</span>'+'<br class="errbr">');
-                          }
-                  if(res.status =='success'){
-                      Command: toastr["success"]("Password changed successfully", "Successful")
-
-                          toastr.options = {
-                          "closeButton": false,
-                          "debug": false,
-                          "newestOnTop": false,
-                          "progressBar": false,
-                          "positionClass": "toast-top-right",
-                          "preventDuplicates": true,
-                          "onclick": null,
-                          "showDuration": "300",
-                          "hideDuration": "1000",
-                          "timeOut": "5000",
-                          "extendedTimeOut": "1000",
-                          "showEasing": "swing",
-                          "hideEasing": "linear",
-                          "showMethod": "fadeIn",
-                          "hideMethod": "fadeOut"
-                          }
-                          window.location.href = "{{url('admin/dashboard')}}";
+                  function(isConfirm){
+                      if(isConfirm){
+            
+                      let oldPassword = $("#oldPassword").val();
+                      let newPassword = $("#newPassword").val();
+                      let confirmPassword = $("#confirmPassword").val();
                       
+                      
+                      $.ajax({
+                            url:"{{url('admin/password.admins')}}",
+                            method: 'post',
+                            data:{
+                                oldPassword:oldPassword,
+                                newPassword:newPassword,
+                                confirmPassword:confirmPassword,
+                            
+                            },
+                            success:function(res) {
+                              $('.spanmsg').remove();
+                              $('.errbr').remove();
+                                if (res.status =='not_matched') {
+                                            $('.nerrormsg').append('<span class=" bg-danger spanmsg">'+'Confirm password is not maching'+'</span>'+'<br class="errbr">');
+                                        }
+                                if (res.status =='wrong_pass') {
+                                            $('#oerrormsg').append('<span class=" bg-danger spanmsg">'+'Enter current password'+'</span>'+'<br class="errbr">');
+                                        }
+                                if(res.status =='success'){
+                                    Command: toastr["success"]("Password changed successfully", "Successful")
+
+                                        toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": true,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                        }
+
+                                        setTimeout("location.href = '{{url('admin/login')}}';", 2000);
+                                      }
+                            },
+                            error:function(err){
+                                    $('.spanmsg').remove();
+                                    $('.errbr').remove();
+                                    let error = err.responseJSON;
+                                    $.each(error.errors, function(index, value){
+                                        $('#perrormsg').append('<span class=" bg-danger spanmsg">'+value+'</span>'+'<br class="errbr">');
+                                    });
+                                  }
+                        });
                   }
-                  },
-                  error:function(err){
-                          $('.spanmsg').remove();
-                          $('.errbr').remove();
-                          let error = err.responseJSON;
-                          $.each(error.errors, function(index, value){
-                              $('#perrormsg').append('<span class=" bg-danger spanmsg">'+value+'</span>'+'<br class="errbr">');
-                          });
-                          
-              }
-                  
-                  });
-          }
+                }
+          );
           })
 
 
   //cms scripts
-
-  $(function () {
-    $("#AdminViewTable").DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "pageLength": 5,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-    $("#AdminViewTable_filter").addClass("d-flex");
-    $("#AdminViewTable_filter").children("label").addClass("d-flex");
-    $("#AdminViewTable_wrapper").children().first().children().first().remove();
-  });
-
-  $(function () {
-          $("#CmsViewTable").DataTable({
-            "paging":true,
-            "lengthChange": false,
-            "pageLength": 5,
-            "searching": true,
-            "ordering": true,
-            "autoWidth": false,
-            "responsive": true,
-
-          });
-          $("#CmsViewTable_filter").addClass("d-flex");
-          $("#CmsViewTable_filter").children("label").addClass("d-flex");
-          $("#CmsViewTable_wrapper").children().first().children().first().remove();
-        });
-
   $(document).on('submit','#cmsForm',function(e){
           e.preventDefault();
           $('.spanmsg').remove();
@@ -614,6 +601,187 @@
                                   }
                                 }); 
                               })
+    
+    $(document).on('submit','#addcategoryForm',function(e){
+          e.preventDefault();
+
+          $('.spanmsg').remove();
+          $('.errbr').remove();
+          var formData = new FormData(this);
+          $.ajax({
+              url:"{{url('admin/add.category')}}",
+              method: 'post',
+              data:formData,
+              processData: false,
+              contentType: false,
+              success:function(res) {
+                if(res.status =='success'){
+                    $("#addcategoryModal .close").click();
+                    $('#addcategoryForm').trigger("reset");
+                    setTimeout(location.reload.bind(location), 1500);
+
+                    Command: toastr["success"]("Category added successfully", "Updated")
+
+                      toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      }
+                }
+                
+              },
+              error:function(err){
+                let error = err.responseJSON;
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                $.each(error.errors, function(index, value){
+                  $('#errormsg').append('<span class="text-danger spanmsg">'+value+'</span>'+'<br class="errbr">');
+                });
+              }
+            });
+           })  
+                            
+     $(document).on('click','.editCategoryBtn',function() {
+     
+          $('.spanmsg').remove();
+          $('.errbr').remove();
+          $('#ucategory_id').val($(this).data("id"));
+          $('#ucategory_name').val($(this).data("name"));
+          $('#ucategory_url').val($(this).data("url"));
+          $('#ucategory_description').val($(this).data("description"));
+          $('#ucategory_discount').val($(this).data("discount"));
+          $('#ucategory_parent').val($(this).data("parent_id"));
+          $('#ucategory_imageView').attr('src','{{ asset('category/images/')}}'+$(this).data("image"));
+          $('#ucategory_meta_description').val($(this).data("meta_description"));
+          $('#ucategory_meta_title').val($(this).data("meta_title"));
+          $('#ucategory_meta_keywords').val($(this).data("meta_keywords"));
+          $('#ucategory_status').val($(this).data("status"));
+
+      
+     })
+
+     $(document).on('submit','#updatecategoryForm',function(e){
+          e.preventDefault();
+
+          $('.spanmsg').remove();
+          $('.errbr').remove();
+          var formData = new FormData(this);
+          $.ajax({
+              url:"{{url('admin/update.category')}}",
+              method: 'post',
+              data:formData,
+              processData: false,
+              contentType: false,
+              success:function(res) {
+                if(res.status =='success'){
+                    $("#updatecategoryModal .close").click();
+                    $('#updatecategoryForm').trigger("reset");
+                    setTimeout(location.reload.bind(location), 1500);
+
+                    Command: toastr["info"]("Category updated successfully", "Updated")
+
+                      toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      }
+                }
+                
+              },
+              error:function(err){
+                let error = err.responseJSON;
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                $.each(error.errors, function(index, value){
+                  $('#errormsg').append('<span class="text-danger spanmsg">'+value+'</span>'+'<br class="errbr">');
+                });
+              }
+            });
+           })
+     
+     
+     $('.deleteCategoryBtn').click(function() {
+      let id = $(this).data('id');
+                swal({
+                      title:"Do you want delete this page?",
+                      type: "warning",
+                      showCancelButton: true,
+                      confirmButtonClass: 'btn btn-success',
+                      cancelButtonClass: 'btn btn-danger',
+                      buttonsStyling: false,
+                      confirmButtonText: "Delete",
+                      cancelButtonText: "Cancel",
+                      closeOnConfirm: true,
+                      showLoaderOnConfirm: true,
+                  },
+                  function(isConfirm){
+                      if(isConfirm){
+                              $.ajax({
+                                url:"{{url('admin/delete.category')}}",
+                                method:'POST',
+                                data: {
+                                  "id": id
+                                },
+                                success:function(data){
+                                  if(data.status =='success'){
+                                                                  setTimeout(location.reload.bind(location), 1500);
+
+
+                                                                    Command: toastr["error"]("Category deleted successfully", "Deleted")
+
+                                                                      toastr.options = {
+                                                                        "closeButton": false,
+                                                                        "debug": false,
+                                                                        "newestOnTop": false,
+                                                                        "progressBar": false,
+                                                                        "positionClass": "toast-top-right",
+                                                                        "preventDuplicates": true,
+                                                                        "onclick": null,
+                                                                        "showDuration": "300",
+                                                                        "hideDuration": "1000",
+                                                                        "timeOut": "5000",
+                                                                        "extendedTimeOut": "1000",
+                                                                        "showEasing": "swing",
+                                                                        "hideEasing": "linear",
+                                                                        "showMethod": "fadeIn",
+                                                                        "hideMethod": "fadeOut"
+                                                                      }
+                                                                  
+                                                                }
+                                                              }
+                                                            
+                                                            });
+                         }
+                          });
+                
+
+     
+                })
+    
 });
 
 

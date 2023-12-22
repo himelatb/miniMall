@@ -4,7 +4,7 @@
     <a href="index3.html" class="brand-link">
       <img src="{{ asset('admin/images/miniMallLogo.svg') }}" alt="miniMall Logo" class="brand-image" style="margin-left: .8rem;
       margin-right: .5rem; height:40px; width:30px;">
-      <span class="brand-text font-weight-light">miniMall</span>
+      <span class="brand-text font-weight-light" style="color: rgba(157, 255, 137, 0.349);">miniMall</span>
     </a>
 
     <!-- Sidebar -->
@@ -12,23 +12,19 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('admin/images/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt=" User Image">
+          <img @if (isset(Auth::guard('admin')->user()->image)&&!empty(Auth::guard('admin')->user()->image))
+           src="{{ asset('admin/images/'.Auth::guard('admin')->user()->image) }}" 
+           @endif
+           class="img-circle elevation-2" alt=" User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
+          
         </div>
       </div>
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control search form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
       </div>
 
       <!-- Sidebar Menu -->
@@ -38,7 +34,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
             <a href="{{url('admin/dashboard')}}" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Dashboard
               </p>
@@ -48,13 +44,49 @@
 
           <li class="nav-item">
             <a href="{{url('admin/view.admins')}}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Staff
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{url('admin/cms.pages')}}" class="nav-link">
+              <i class="nav-icon fas fa-pencil-alt"></i>
+              <p>
+                CMS pages
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-warehouse"></i>
+              <p>
+                Catelogues
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" style="display: none;">
+              <li class="nav-item">
+                <a href="{{url('admin/table.category')}}" class="nav-link">
+                  <i class="nav-icon far fa-circle"></i>
+                  <p>
+                    Categories
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-circle"></i>
+                  <p>
+                    Products
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>
 
+          @if(Auth::guard('admin')->user()->type ==1)
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
@@ -74,15 +106,7 @@
               </li>
             </ul>
           </li>
-
-          <li class="nav-item">
-            <a href="{{url('admin/cms.pages')}}" class="nav-link">
-              <i class="nav-icon fas fa-pencil-alt"></i>
-              <p>
-                CMS pages
-              </p>
-            </a>
-          </li>
+          @endif
 
 
         </ul>

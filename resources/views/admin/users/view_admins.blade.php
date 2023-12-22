@@ -9,8 +9,9 @@
           </ul>
         </div>-->
       </div>
+      @if(Auth::guard('admin')->user()->type ==1)
       <a style="width: 100px;margin-right: 15px;" class="btn btn-success ml-auto mb-2" data-toggle="modal" data-target="#adminModal" id="createNewAdmin">Add admin</a>
-
+      @endif
       <div class="card p-0 table-data">
         <div class="card-body">
           <table id="AdminViewTable" class="table table-bordered table-striped AdminViewTable">
@@ -23,7 +24,9 @@
                 <th>Type</th>
                 <th>Status</th>
                 <th style="width: 5px">Image</th>
+                @if(Auth::guard('admin')->user()->type ==1)
                 <th style="width: 2px">Action</th>
+                @endif
               </tr>
             </thead>
             <tbody>
@@ -35,7 +38,11 @@
                   <td>{{$admin['mobile']}}</td>
                   <td>{{($admin['type'])==1 ? "Admin" : "Sub admin"}}</td>
                   <td>{{($admin['status'])==1 ? "Inactive" : "Active"}}</td>
-                  <td><img src="{{asset('admin/images/'.$admin['image'])}}" alt="{{$admin['name'].' image'}}" width="50" height="50"></td>
+                  <td><img 
+                    @if(isset($admin['image'])&&!empty($admin['image']))
+                    src="{{asset('admin/images/'.$admin['image'])}}"
+                    @endif  alt="Not found"  width="50" height="50"></td>
+                  @if(Auth::guard('admin')->user()->type ==1)
                   <td class="d-flex border-0">
       
                          <div data-toggle="modal" data-target="#updateModal" style="margin-right: 15px;" class="btn btn-primary editAdminBtn"
@@ -59,6 +66,7 @@
                                 </svg>
                               </div>
                   </td>
+                  @endif
               </tr>
               @endforeach
             

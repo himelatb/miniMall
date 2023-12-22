@@ -21,21 +21,29 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     Route::match(['get', 'post'], 'login', 'AdminController@login');
     Route::middleware(['admin'])->group(function () {
+        //dashboard routes
         Route::get('dashboard','AdminController@dashboard');
+        Route::get('logout', 'AdminController@logout');
+        Route::match(['get', 'post'],'password.admins', 'AdminController@passwordAdmins');
+        
+        //admin list routes
         Route::get('view.admins', 'AdminController@viewAdmins');
         Route::post('add.admins', 'AdminController@addAdmins');
         Route::post('update.admins', 'AdminController@updateAdmins');
         Route::post('delete.admins', 'AdminController@deleteAdmins');
-        //Route::get('pagination', 'AdminController@pagination');
-        //Route::get('search', 'AdminController@search');
-        Route::get('logout', 'AdminController@logout');
-        Route::match(['get', 'post'],'password.admins', 'AdminController@passwordAdmins');
+        
 
-        //cms pages route
+        //cms pages routes
         Route::get('cms.pages', 'CmsController@index');
         Route::post('add.cms', 'CmsController@store');
         Route::post('update.cms', 'CmsController@update');
         Route::post('delete.cms', 'CmsController@delete');
+
+        //category pages routes
+        Route::get('table.category', 'CategoryController@viewCat');
+        Route::post('add.category', 'CategoryController@addCat');
+        Route::post('update.category', 'CategoryController@updateCat');
+        Route::post('delete.category', 'CategoryController@deleteCat');
 
     });
 

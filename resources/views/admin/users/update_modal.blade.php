@@ -55,7 +55,7 @@
                  <div class="form-group">
                     <label for="uimage" class="col-sm-2 control-label">Image</label>
                     <div class="col-sm-12">
-                        <input type="file" class="form-control" id="uimage" name="uimage" onchange="previewFile(this);">
+                        <input type="file" class="form-control" id="uimage" name="uimage">
                     </div>
                 </div>
                 <div class="form-group">
