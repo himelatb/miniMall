@@ -12,7 +12,7 @@
                 @csrf
                 <div class="modal-body">
                 
-                <div class="form-group col-sm-12" id="errormsg">
+                <div class="form-group col-sm-12 errormsg" id="errormsg">
                 </div>
                 <div class="form-group">
                     <input type="text" name="ucmsid" id="ucmsid" value="" hidden>

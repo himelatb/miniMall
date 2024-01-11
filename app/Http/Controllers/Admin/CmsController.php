@@ -17,18 +17,6 @@ class CmsController extends Controller
         #dd($cmsPages);
         return view('admin.pages.cms_pages')->with(compact('cmsPages'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([

@@ -11,7 +11,7 @@
             <form id="updateForm" name="updateForm" method="POST" class="form-horizontal" enctype="multipart/form-data">
                 <div class="modal-body">
                 @csrf
-                <div class="form-group col-sm-12" id="uerrormsg">
+                <div class="form-group col-sm-12 errormsg" id="uerrormsg">
                 </div>
                 <div class="form-group">
                     <input type="text" name="uid" id="uid" value="" hidden>

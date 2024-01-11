@@ -40,10 +40,16 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('delete.cms', 'CmsController@delete');
 
         //category pages routes
-        Route::get('table.category', 'CategoryController@viewCat');
+        Route::get('view.category', 'CategoryController@viewCat');
         Route::post('add.category', 'CategoryController@addCat');
         Route::post('update.category', 'CategoryController@updateCat');
         Route::post('delete.category', 'CategoryController@deleteCat');
+
+        //product pages routes
+        Route::get('view.product', 'ProductController@view');
+        Route::post('add.product', 'ProductController@add');
+        Route::post('update.product', 'ProductController@update');
+        Route::post('delete.product', 'ProductController@delete');
 
     });
 

@@ -16,3 +16,4 @@ function myTableFunction(view) {
 myTableFunction("#CmsViewTable");
 myTableFunction("#AdminViewTable");
 myTableFunction("#CategoryViewTable");
+myTableFunction("#ProductViewTable");

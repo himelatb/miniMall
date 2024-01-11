@@ -86,7 +86,7 @@ class AdminController extends Controller
                 $request->image->move(public_path('admin/images/'), $imgName);
                 $admin->image = $imgName;
         }
-        $admin->name = $request->name;
+        $admin->name = ucwords($request->name);
         $admin->email = $request->email;
         $admin->mobile = $request->mobile;
         $admin->type = $request->type;
@@ -136,7 +136,7 @@ class AdminController extends Controller
                 Admin::where('id',$request->uid)->update(['image'=> $imgName]);
         }
         Admin::where('id',$request->uid)->update([
-            'name' => $request->uname,
+            'name' => ucwords($request->uname),
             'email' => $request->uemail,
             'mobile' => $request->umobile,
             'type' => $request->utype,
