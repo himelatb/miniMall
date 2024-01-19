@@ -11,7 +11,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category','category_id','cat_id')->with('parentcategory');
+        return $this->belongsTo('App\Models\Category','category_id','cat_id')->with('parent');
     }
 
     public static function productsFilters()
@@ -23,4 +23,10 @@ class Product extends Model
         $productsFilters['occasionArray'] = array('Casual','Semi-formal','Formal');
         return $productsFilters;
     }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\products_images');
+    }
+    
 }

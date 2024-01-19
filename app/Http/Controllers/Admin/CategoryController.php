@@ -9,10 +9,10 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     public function viewCat(){
-        $categories= Category::with('parentcategory')->orderBy('category_name')->get()->toArray();
-        $catOptions= Category::getCategoryOptions();
-        //dd($showMainAndSubCategories);
-        return view('admin.category.view_category', compact('categories','catOptions'));
+        $categoryView= Category::with('parent')->get()->toArray();
+        $categories= Category::tree();
+        //dd($categoryOptions);
+        return view('admin.category.view_category', compact('categories','categoryView'));
     }
     public function updateCat(Request $request){
         $request->validate([

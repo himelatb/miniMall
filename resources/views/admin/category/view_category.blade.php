@@ -35,12 +35,13 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($categories as $key=>$category)
+            @foreach ($categoryView as $category)
             <tr>
                 <td>{{$category['cat_id']}}</td>
-                <td>@if (isset($category['parentcategory']['category_name']))
-                    {{$category['parentcategory']['category_name']}}
-                @endif
+                <td>
+                  @if (isset($category['parent']['category_name']))
+                    {{$category['parent']['category_name']}}
+                  @endif
                 </td>
                 <td>{{$category['category_name']}}</td>
                 <td>{{$category['category_discount']}}</td>

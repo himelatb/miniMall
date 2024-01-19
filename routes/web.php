@@ -48,8 +48,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //product pages routes
         Route::get('view.product', 'ProductController@view');
         Route::post('add.product', 'ProductController@add');
+        Route::post('get.product', 'ProductController@edit');
         Route::post('update.product', 'ProductController@update');
         Route::post('delete.product', 'ProductController@delete');
+        Route::post('delete.product.image', 'ProductController@deleteImage');
 
     });
 

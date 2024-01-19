@@ -29,15 +29,8 @@
                                 <select class="form-control" id="ucategory_parent" name="ucategory_parent">
                                     <option value="" selected disabled hidden>Select the main category</option>
                                     <option value="0">None</option>
-                                    @if (isset($catOptions) &&!empty($catOptions))
-                                        @foreach($catOptions as $maincategory)
-                                        <option value="{{$maincategory['cat_id']}}">{{$maincategory['category_name']}}</option>
-                                        @if(!empty($maincategory['subcategory']))
-                                        @foreach($maincategory['subcategory'] as $subcategory)
-                                        <option value="{{$subcategory['cat_id']}}">&nbsp;&nbsp;&raquo;{{$subcategory['category_name']}}</option>
-                                        @endforeach
-                                        @endif
-                                        @endforeach
+                                    @if(isset($categories) && !empty($categories))
+                                        <x-categories :categories="$categories"/>
                                     @endif
                                 </select>
                             </div>

@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         //$this->call(CmsPageTableSeeder::class);
         //$this->call(CategoryTableSeeder::class);
         //$this->call(ProductSeeder::class);
+        //$this->call(ColorSeeder::class);
+        //$this->call(ProductsImagesSeeder::class);
 
     }
 }

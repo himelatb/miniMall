@@ -9,16 +9,31 @@ class Category extends Model
 {
     use HasFactory;
 
-    public function parentcategory(){
-        return $this->hasOne('App\models\Category','cat_id','parent_id')
-        ->select('cat_id','category_name','url')->where('status',2);
+    public function parent()
+    {
+        return $this->hasOne("App\Models\Category", "cat_id", "parent_id");
     }
-    public function subcategory(){
-        return $this->hasMany('App\models\Category','parent_id','cat_id');
+
+    public static function tree()
+    {
+       $allcategories = Category::with('parent')->get();
+
+       $rootcategories = $allcategories->where('parent_id',null);
+       
+       self::formatTree($rootcategories, $allcategories);
+       
+       return json_decode($rootcategories, true);
     }
-    public static function getCategoryOptions(){
-        $getcategories = Category::with('subcategory')->where('parent_id', 0)
-        ->orWhere('parent_id', null)->where('status',2)->get()->toArray();
-        return $getcategories;
+    private static function formatTree($categories, $allcategories)
+    {
+        foreach ($categories as $root ) {
+            $root->children = $allcategories->where('parent_id',$root['cat_id']);
+
+            if(!empty($root->children))
+            {
+                self::formatTree($root->children, $allcategories);
+            }
+       }
+       
     }
 }
