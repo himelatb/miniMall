@@ -30,9 +30,6 @@ return new class extends Migration
             $table->text('wash_care')->nullable();
             $table->text('keywords');
             $table->string('material');
-            $table->string('size')->nullable();
-            $table->string('height')->nullable();
-            $table->string('width')->nullable();
             $table->string('sleeve')->nullable();
             $table->string('weight')->nullable();
             $table->string('fit')->nullable();

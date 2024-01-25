@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\products_images;
+use App\Models\ProductAttribute;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use DB;
@@ -58,10 +59,7 @@ class ProductController extends Controller
         $product->product_code = $request->product_code;
         $product->product_color = $request->product_color;
         $product->group_code = $request->group_code;
-        $product->size = $request->product_size;
-        $product->height = $request->product_height;
-        $product->width = $request->product_width;
-        $product->weight = $request->product_weight;
+        //$product->weight = $request->product_weight;
         $product->product_discount = $request->product_discount;
 
         if(!empty($request->product_discount) && $request->product_discount != 0)
@@ -123,6 +121,22 @@ class ProductController extends Controller
             
         }
 
+        foreach ($request->sku as $key => $sku) {
+            if(!empty($sku)){
+                $countSku = ProductAttribute::where('sku', $sku)->count();
+                if($countSku > 0){
+                    return response()->json(["error" => "Sku must be unique"]);
+                }
+                $attribute = new ProductAttribute();
+                $attribute->product_id = $id;
+                $attribute->size = $request->size[$key];
+                $attribute->sku = $request->sku[$key];
+                $attribute->price = $request->price[$key];
+                $attribute->stock = $request->stock[$key];
+                $attribute->save();
+            }
+        }
+
         return  response()->json(['status' => 'success']);
 
 
@@ -130,9 +144,33 @@ class ProductController extends Controller
 
     public function edit(Request $request)
     {
-        $product = Product::with('category','images')->where('id',$request->id)->first();
-
+        $product = Product::with('category','images', 'attributes')->where('id',$request->id)->first();
+        //dd($product);
         return response()->json($product);
+    }
+
+    public function changeAttributeStatus(Request $request)
+    {
+
+        ProductAttribute::where('id', $request->id)->update([
+            'status' => $request->status == 1 ? 0 : 1,
+        ]);
+
+        $productAttributeStatus = ProductAttribute::where('id', $request->id)->get(["status","id"])->toArray();
+
+        return response()->json($productAttributeStatus);
+
+    }
+
+    public function attributeDelete(Request $request)
+    {
+
+        ProductAttribute::where('id', $request->id)->delete();
+
+        $productAttributes = ProductAttribute::where('product_id', $request->product_id)->get()->toArray();
+
+        return response()->json($productAttributes);
+
     }
 
     public function deleteImage(Request $request){
@@ -204,11 +242,8 @@ class ProductController extends Controller
             'product_code' => $request->uproduct_code,
             'product_color' => $request->uproduct_color,
             'group_code' => $request->group_code,
-            'size' => $request->uproduct_size,
             'final_price' => $final_price,
             'discount_type' => $discount_type,
-            'height' => $request->uproduct_height,
-            'width' => $request->uproduct_width,
             'weight' => $request->uproduct_weight,
             'product_discount' => $request->uproduct_discount,
             'product_price' => $request->uproduct_price,
@@ -255,9 +290,32 @@ class ProductController extends Controller
                 ->update(["image_sort" => $request->usort[$key]]);
             }
         }
+        if ($request->has('attributeId')) {
+            foreach ($request->attributeStocks as $key => $stocks) {
+                ProductAttribute::where('id', $request->attributeId[$key])->update([
+                    "price" => $request->attributePrices[$key],
+                    "stock" => $stocks,
+                ]);
+            }
+        }
+
+        foreach ($request->sku as $key => $sku) {
+            if(!empty($sku)){
+                $countSku = ProductAttribute::where('sku', $sku)->count();
+                if($countSku > 0){
+                    return response()->json(["error" => "Sku must be unique"]);
+                }
+                $attribute = new ProductAttribute();
+                $attribute->product_id = $request->uproduct_id;
+                $attribute->size = $request->size[$key];
+                $attribute->sku = $request->sku[$key];
+                $attribute->price = $request->price[$key];
+                $attribute->stock = $request->stock[$key];
+                $attribute->save();
+            }
+        }
 
         $productImages = products_images::where("product_id", $request->uproduct_id)->get();
-        
         return response()->json($productImages);
     }
 

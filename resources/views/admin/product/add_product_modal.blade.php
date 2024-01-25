@@ -18,14 +18,14 @@
                     <div class="form-group col-sm-12 errormsg" id="errormsg">
                     </div>
                     <div class="form-row col-sm-12">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label for="product_name" class="col-sm-2 control-label">Name*</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="product_name" name="product_name"
                                     placeholder="Name" required="">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label for="product_code" class="col-sm-2 control-label">Code*</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="product_code" name="product_code"
@@ -66,15 +66,6 @@
                                     placeholder="Product color">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row col-sm-12">
-                        <div class="form-group col-md-2">
-                            <label for="group_code" class="col-sm-6 control-label">Group code</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="group_code" name="group_code"
-                                    placeholder="Group code">
-                            </div>
-                        </div>
                         <div class="form-group col-md-2">
                             <label for="product_material" class="col-sm-2 control-label">Material*</label>
                             <div class="col-sm-12">
@@ -86,6 +77,22 @@
                                     @endforeach
                                     @endif
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row col-sm-12">
+                        <div class="form-group col-md-2">
+                            <label for="group_code" class="col-sm-6 control-label">Group code</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="group_code" name="group_code"
+                                    placeholder="Group code">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="uproduct_weight" class="col-sm-2 control-label">Weight</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="uproduct_weight" name="uproduct_weight"
+                                    placeholder="Product weight">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -142,36 +149,22 @@
                         </div>
                     </div>
                     <div class="form-row col-sm-12">
-                        <div class="form-group col-md-3">
-                            <label for="product_size" class="col-sm-2 control-label">Size</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="product_size" name="product_size"
-                                    placeholder="Product size">
+                        <div class="form-row col-sm-8 field_wrapper" style="display: block;">
+                            <label class="col-sm-10">Product attributes</label>
+                            <div class="d-flex col-sm-12">
+                                <input type="text" class="col-sm-2 m-1 form-control" name="size[]" value=""
+                                    placeholder="Size" />
+                                <input type="text" class="col-sm-2 m-1 form-control" name="sku[]" value=""
+                                    placeholder="SKU" />
+                                <input type="text" class="col-sm-2 m-1 form-control" name="price[]" value=""
+                                    placeholder="Price" />
+                                <input type="text" class="col-sm-2 m-1 form-control" name="stock[]" value=""
+                                    placeholder="Stock" />
+                                <a href="javascript:void(0);"
+                                    class="col-sm-1 m-1 form-control add_button btn btn-primary"
+                                    style="background: #464768;" title="Add field">Add</a>
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="product_height" class="col-sm-2 control-label">Height</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="product_height" name="product_height"
-                                    placeholder="Product height">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="product_width" class="col-sm-2 control-label">width</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="product_width" name="product_width"
-                                    placeholder="Product width">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="product_weight" class="col-sm-2 control-label">Weight</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="product_weight" name="product_weight"
-                                    placeholder="Product weight">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row col-sm-12">
                         <div class="form-group col-md-4">
                             <label for="product_discount" class="col-sm-4 control-label">Discount(%)</label>
                             <div class="col-sm-12">
@@ -179,20 +172,22 @@
                                     placeholder="Discount...">
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="product_price" class="col-sm-4 control-label">Product price*</label>
+                    </div>
+                    <div class="form-row col-sm-12">
+                        <div class="form-group col-md-6">
+                            <label for="product_price" class="col-sm-5 control-label">Product price*</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="product_price" name="product_price"
                                     placeholder="Product price">
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="product_status" class="col-sm-2 control-label">Status*</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="product_status" name="product_status">
                                     <option value="" selected disabled hidden>Select status</option>
-                                    <option value="1">Inactive</option>
-                                    <option value="2">Active</option>
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
                                 </select>
                             </div>
                         </div>
@@ -259,17 +254,18 @@
                         </div>
                     </div>
                     <div class="form-row">
-                            <label for="product_images" class="col-sm-6 control-label">Select images</label>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" id="product_images" name="product_images[]" multiple="">
-                            </div>
+                        <label for="product_images" class="col-sm-6 control-label">Select images</label>
+                        <div class="col-sm-12">
+                            <input type="file" class="form-control" id="product_images" name="product_images[]"
+                                multiple="">
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="d-flex imagePreview" style="margin: auto; margin-top: 5px;margin-bottom: 10px;"></div>
+                        <div class="d-flex imagePreview" style="margin: auto; margin-top: 5px;margin-bottom: 10px;">
+                        </div>
                     </div>
                     <div class="h-100 d-flex align-items-center justify-content-center">
-                        <button type="submit" class="btn btn-primary">Save
-                        </button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
 
                 </div>

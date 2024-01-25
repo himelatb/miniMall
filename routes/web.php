@@ -52,6 +52,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update.product', 'ProductController@update');
         Route::post('delete.product', 'ProductController@delete');
         Route::post('delete.product.image', 'ProductController@deleteImage');
+        Route::post('attribute.status', 'ProductController@changeAttributeStatus');
+        Route::post('attribute.delete', 'ProductController@attributeDelete');
 
     });
 

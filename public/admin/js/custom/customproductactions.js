@@ -1,5 +1,36 @@
 function productActions() {
 
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div class="d-flex col-sm-12"><input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size"/><input type="text" class="col-sm-2 m-1 form-control" name="sku[]" value="" placeholder="SKU"/><input type="text" class="col-sm-2 m-1 form-control" name="price[]" value="" placeholder="Price"/><input type="text" class="col-sm-2 m-1 form-control" name="stock[]" value="" placeholder="Stock"/><a href="javascript:void(0);" style="background: #464768;" class="col-sm-1 m-1 form-control remove_button btn btn-primary">Remove</a></div>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+
+    // Once add button is clicked
+    $(addButton).click(function () {
+        //Check maximum number of input fields
+        if (x < maxField) {
+            x++; //Increase field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        } else {
+            swal({
+                title: "A maximum of " + maxField + " fields are allowed to be added.",
+                type: "warning",
+                confirmButtonClass: 'btn btn-secondary',
+                buttonsStyling: true,
+                showCancelButton: false,
+                closeOnConfirm: true,
+            });
+        }
+    });
+
+    // Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function (e) {
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrease field counter
+    });
+
     function ProductTable(view) {
         $(view).DataTable({
             "responsive": true,
@@ -35,7 +66,7 @@ function productActions() {
                 },
                 {
                     data: 'action',
-                    name: 'Action',
+                    name: 'action',
                     orderable: false,
                     searchable: false
                 },
@@ -44,6 +75,8 @@ function productActions() {
                 [0, 'asc']
             ]
         });
+        $(view + "_paginate").addClass("pt-3");
+        $(view + "_paginate").removeClass("dataTables_paginate ");
         $(view + "_filter").addClass("d-flex");
         $(view + "_filter").children("label").addClass("d-flex");
     }
@@ -139,10 +172,6 @@ function productActions() {
                 $('#uproduct_code').val(res.product_code);
                 $('#ucolor_family').val(res.color_family);
                 $('#ugroup_code').val(res.group_code);
-                $('#uproduct_size').val(res.size);
-                $('#uproduct_height').val(res.height);
-                $('#uproduct_width').val(res.width);
-                $('#uproduct_weight').val(res.weight);
                 $('#udiscount_type').val(res.discount_type);
                 $('#ufinal_price').val(res.final_price);
                 $('#uproduct_price').val(res.product_price);
@@ -157,7 +186,54 @@ function productActions() {
                 $('#uproduct_meta_title').val(res.meta_title);
                 $('#uproduct_meta_keywords').val(res.meta_keywords);
                 $('#uproduct_status').val(res.status);
+                $('#added_attributes_table').html("");
 
+                res.attributes.forEach(function (attribute) {
+                    $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash"></i></a></td></tr>');
+                });
+
+                $(document).on('click', '.toggleAttributeStatus', function(e){
+                    e.preventDefault();
+                    let id = $(this).data('id'); 
+                    let status = $(this).data('status');
+                    $.ajax({
+                        method: 'POST',
+                        url: "attribute.status",
+                        data: {
+                            id: id,
+                            status: status
+                        },
+                        success: function (res) {
+                            $("#astatus-"+res[0].id).remove();
+                            if(res[0].status == 1){
+                                $("#astatusd-"+res[0].id).html('<a href="javascript:void(0);" data-id="'+res[0].id+'" data-status="1" class="toggleAttributeStatus"><i  class="fas m-1 fa-toggle-on"></i></a><a href="javascript:void(0);" data-id="'+res[0].id+'" data-product_id="'+res[0].product_id+'" class="deleteAttribute"><i class="fas fa-trash"></i></a>');
+                            }
+                            else{
+                                $("#astatusd-"+res[0].id).html('<a href="javascript:void(0);" data-id="'+res[0].id+'" data-status="0" class="toggleAttributeStatus"><i  class="fas m-1 fa-toggle-off"></i></a><a href="javascript:void(0);" data-id="'+res[0].id+'" data-product_id="'+res[0].product_id+'" class="deleteAttribute"><i class="fas fa-trash"></i></a>');
+                            }
+                        },
+                    });
+                });
+                $(document).on('click', '.deleteAttribute', function(e){
+                    e.preventDefault();
+                    let id = $(this).data('id'); 
+                    let product_id = $(this).data('product_id');
+                    $.ajax({
+                        method: 'POST',
+                        url: "attribute.delete",
+                        data: {
+                            id: id,
+                            product_id: product_id
+                        },
+                        success: function (res) {
+                            $('#added_attributes_table').html("");
+                            console.log(res);
+                            res.forEach(function (attribute) {
+                                $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash deleteAttribute"></i></a></td></tr>');
+                            });
+                        },
+                    });
+                });
                 $(document).on('click', '.deleteProductImage', function () {
 
                     let id = $(this).data('id');

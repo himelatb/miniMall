@@ -6,8 +6,10 @@ function myTableFunction(view) {
         "ordering": true,
         "autoWidth": false,
         "responsive": true,
-        "serverSide": true,
+        "serverSide": false,
     });
+    $(view + "_paginate").addClass("pt-3");
+    $(view + "_paginate").removeClass("dataTables_paginate ");
     $(view + "_filter").addClass("d-flex");
     $(view + "_filter").children("label").addClass("d-flex");
 }

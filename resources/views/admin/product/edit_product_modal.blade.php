@@ -18,7 +18,7 @@
                     <div class="form-group col-sm-12 errormsg" id="errormsg">
                     </div>
                     <div class="form-row col-sm-12">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="text" name="uproduct_id" id="uproduct_id" hidden>
                             <input type="text" name="udiscount_type" id="udiscount_type" hidden>
                             <input type="text" name="ufinal_price" id="ufinal_price" hidden>
@@ -28,7 +28,7 @@
                                     placeholder="Name" required="">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label for="uproduct_code" class="col-sm-2 control-label">Code*</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="uproduct_code" name="uproduct_code"
@@ -69,15 +69,6 @@
                                     placeholder="Product color">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row col-sm-12">
-                        <div class="form-group col-md-2">
-                            <label for="ugroup_code" class="col-sm-6 control-label">Group code</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="ugroup_code" name="ugroup_code"
-                                    placeholder="Group code">
-                            </div>
-                        </div>
                         <div class="form-group col-md-2">
                             <label for="uproduct_material" class="col-sm-2 control-label">Material*</label>
                             <div class="col-sm-12">
@@ -89,6 +80,15 @@
                                     @endforeach
                                     @endif
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row col-sm-12">
+                        <div class="form-group col-md-2">
+                            <label for="ugroup_code" class="col-sm-6 control-label">Group code</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="ugroup_code" name="ugroup_code"
+                                    placeholder="Group code">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -143,35 +143,39 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row col-sm-12">
-                        <div class="form-group col-md-3">
-                            <label for="uproduct_size" class="col-sm-2 control-label">Size</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_size" name="uproduct_size"
-                                    placeholder="Product size">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="uproduct_height" class="col-sm-2 control-label">Height</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_height" name="uproduct_height"
-                                    placeholder="Product height">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="uproduct_width" class="col-sm-2 control-label">width</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_width" name="uproduct_width"
-                                    placeholder="Product width">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label for="uproduct_weight" class="col-sm-2 control-label">Weight</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="uproduct_weight" name="uproduct_weight"
                                     placeholder="Product weight">
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-row col-sm-12">
+                        <div class="form-group col-md-4">
+                            <label for="added_attributes" class="col-sm-6 control-label">Added attributes</label>
+                            <div class="col-sm-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Size</th>
+                                        <th>SKU</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody class="added_attributes_table" id="added_attributes_table"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-row col-sm-8 field_wrapper" style="display: block;">
+                                <label class="col-sm-12" >Product attributes</label>
+                                <div class="d-flex col-sm-12">
+                                    <input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size"/>
+                                    <input type="text" class="col-sm-2 m-1 form-control" name="sku[]" value="" placeholder="SKU"/>
+                                    <input type="text" class="col-sm-2 m-1 form-control" name="price[]" value="" placeholder="Price"/>
+                                    <input type="text" class="col-sm-2 m-1 form-control" name="stock[]" value="" placeholder="Stock"/>
+                                    <a href="javascript:void(0);" class="col-sm-1 m-1 form-control add_button btn btn-primary" style="background: #464768;" title="Add field">Add</a>
+                                </div>   
                         </div>
                     </div>
                     <div class="form-row col-sm-12">
@@ -194,8 +198,8 @@
                             <div class="col-sm-12">
                                 <select class="form-control" id="uproduct_status" name="uproduct_status">
                                     <option value="" selected disabled hidden>Select status</option>
-                                    <option value="1">Inactive</option>
-                                    <option value="2">Active</option>
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
                                 </select>
                             </div>
                         </div>
