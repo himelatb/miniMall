@@ -59,6 +59,9 @@
 
             @include('admin.product.edit_product_modal')
             @include('admin.product.add_product_modal')
+
+            @include('admin.brand.edit_brand_modal')
+            @include('admin.brand.add_brand_modal')
             {!! Toastr::message() !!}
         </div>
         <!-- ./wrapper -->
@@ -107,6 +110,7 @@
         <script src="{{ url('admin/js/custom/customproductactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/customcategoryactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/customcmsactions.js')}}"></script>
+        <script src="{{ url('admin/js/custom/custombrandactions.js')}}"></script>
 
         <script type="text/javascript">
             $.ajaxSetup({
@@ -124,6 +128,7 @@
                 cmsActions();
                 productActions();
                 categoryActions();
+                brandActions();
 
             });
 

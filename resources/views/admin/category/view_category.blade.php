@@ -46,7 +46,7 @@
                 <td>{{$category['category_name']}}</td>
                 <td>{{$category['category_discount']}}</td>
                 <td>{{date("d/m/Y H:i A", strtotime($category['updated_at']))}}</td>
-                <td>{{($category['status'])==1 ? "Inactive" : "Active"}}</td>
+                <td>{{($category['status'])==1 ? "Active" : "Inactive"}}</td>
                 @if(Auth::guard('admin')->user()->type ==1)
                 <td class="d-flex border-0">
     

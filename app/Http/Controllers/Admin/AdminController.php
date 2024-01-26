@@ -26,7 +26,7 @@ class AdminController extends Controller
                 'password' => 'required',
             ]);
 
-            if(Auth::guard('admin')->attempt(['email' => $req['email'], 'password' => $req['password'],'status'=> 2])){
+            if(Auth::guard('admin')->attempt(['email' => $req['email'], 'password' => $req['password'],'status'=> 1])){
                     
                 if (isset($req['remember'])&&!empty($req['remember'])) {
                     setcookie('email',$req["email"],time()+3600);
@@ -160,25 +160,6 @@ class AdminController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function pagination(Request $request){
-        $admins = Admin::orderBy("id", "asc")->paginate(5);
-        return view('admin.users.pagination', compact('admins'))->render();
-    }
-
-    public function search(Request $request){
-        $admins = Admin::where("name","LIKE",'%'.$request->str.'%')
-        ->orwhere("mobile","LIKE",'%'.$request->str.'%')
-        ->orwhere("type","LIKE",'%'.$request->str.'%')
-        ->orwhere("status","LIKE",'%'.$request->str.'%')
-        ->orwhere("email","LIKE",'%'.$request->str.'%')
-        ->paginate(5);
-        if($admins->count()>=1){
-            return view('admin.users.view_admins', compact('admins'))->render();
-        }else {
-            return response()->json(['status' => 'empty']);
-        }
-        
-    }
 
     public function passwordAdmins(Request $request){
         if($request->isMethod('post')){

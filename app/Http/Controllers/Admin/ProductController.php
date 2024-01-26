@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Brand;
 use App\Models\products_images;
 use App\Models\ProductAttribute;
 use Intervention\Image\ImageManager;
@@ -18,7 +19,7 @@ class ProductController extends Controller
     public function view(Request $request)
     {
         if($request->ajax()){
-            return datatables()->of(Product::with('category')->select("*"))
+            return datatables()->of(Product::with('category','brand')->select("*"))
             ->addColumn('action','admin/product/product-action')
             ->rawColumns(['action'])
             ->addIndexColumn()
@@ -26,7 +27,8 @@ class ProductController extends Controller
         }
         $categories = Category::tree();
         $productsFilters = Product::productsFilters();
-        return view('admin/product/view_product', compact('categories','productsFilters'));
+        $brands = Brand::get()->toArray();
+        return view('admin/product/view_product', compact('categories','productsFilters','brands'));
         // dd($products);
         
     }
@@ -38,7 +40,7 @@ class ProductController extends Controller
             'product_name'=> 'required',
             'product_status' => 'required',
             'color_family' => 'required',
-            'product_code' => 'required',
+            'product_code' => 'required|unique:products,product_code',
             'product_description' => 'required',
             'product_color' => 'required',
             'product_price' => 'required|numeric',
@@ -59,7 +61,7 @@ class ProductController extends Controller
         $product->product_code = $request->product_code;
         $product->product_color = $request->product_color;
         $product->group_code = $request->group_code;
-        //$product->weight = $request->product_weight;
+        $product->weight = $request->product_weight;
         $product->product_discount = $request->product_discount;
 
         if(!empty($request->product_discount) && $request->product_discount != 0)
@@ -80,6 +82,7 @@ class ProductController extends Controller
             }
         }
         $product->product_price = $request->product_price;
+        $product->brand_id = $request->product_brand;
         $product->description = ucfirst($request->product_description);
         $product->wash_care = $request->product_wash;
         $product->category_id = $request->product_category;
@@ -202,7 +205,7 @@ class ProductController extends Controller
             'uproduct_name'=> 'required',
             'uproduct_status' => 'required',
             'ucolor_family' => 'required',
-            'uproduct_code' => 'required',
+            'uproduct_code' => 'required|unique:products,product_code,'.$request->uproduct_id.',id',
             'uproduct_description' => 'required',
             'uproduct_color' => 'required',
             'uproduct_price' => 'required|numeric',
@@ -250,6 +253,7 @@ class ProductController extends Controller
             'description' => ucfirst($request->uproduct_description),
             'wash_care' => $request->uproduct_wash,
             'category_id' => $request->uproduct_category,
+            'brand_id' => $request->uproduct_brand,
             'material' => $request->uproduct_material,
             'color_family' => $request->ucolor_family,
             'fit' => $request->uproduct_fit,

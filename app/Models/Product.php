@@ -28,9 +28,15 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\products_images');
     }
+
     public function attributes()
     {
         return $this->hasMany('App\Models\ProductAttribute');
+    }
+
+    public function brand()
+    {
+        return $this->hasOne('App\Models\Brand','id', 'brand_id');
     }
     
 }

@@ -17,7 +17,7 @@
 
                     <div class="form-group col-sm-12 errormsg" id="errormsg">
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-2">
                             <input type="text" name="uproduct_id" id="uproduct_id" hidden>
                             <input type="text" name="udiscount_type" id="udiscount_type" hidden>
@@ -83,12 +83,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-2">
-                            <label for="ugroup_code" class="col-sm-6 control-label">Group code</label>
+                            <label for="uproduct_brand" class="col-sm-2 control-label">Brand</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="ugroup_code" name="ugroup_code"
-                                    placeholder="Group code">
+                                <select class="form-control" id="uproduct_brand" name="uproduct_brand">
+                                    <option value="" selected disabled hidden>Select brand</option>
+                                    <option value="0">None</option>
+                                    @if (isset($brands))
+                                    @foreach ($brands as $brand)
+                                    <option value="{{ $brand['id'] }}">{{ $brand['brand_name'] }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -151,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="added_attributes" class="col-sm-6 control-label">Added attributes</label>
                             <div class="col-sm-12">
@@ -178,7 +185,7 @@
                                 </div>   
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="uproduct_discount" class="col-sm-4 control-label">Discount(%)</label>
                             <div class="col-sm-12">
@@ -265,17 +272,19 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="uproduct_image" class="col-sm-6 control-label">Select images</label>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" id="uproduct_images" name="uproduct_images[]" multiple="">
-                            </div>
+                        <div class="form-group col-md-12">
+                            <label for="uproduct_image" class="col-sm-6 control-label">Select images</label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="uproduct_images" name="uproduct_images[]" multiple="">
+                                </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="d-flex" style="margin: auto; margin-top: 5px;margin-bottom: 10px;" id="imageContainer"></div>
                         <div class="d-flex imagePreview" style="margin: auto; margin-top: 5px;margin-bottom: 10px;"></div>
                     </div>
                     <div class="h-100 d-flex align-items-center justify-content-center">
-                        <button type="submit" class="btn btn-primary">Save
+                        <button type="submit" class="btn btn-primary">Save Changes
                         </button>
                     </div>
 

@@ -17,7 +17,7 @@
 
                     <div class="form-group col-sm-12 errormsg" id="errormsg">
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-2">
                             <label for="product_name" class="col-sm-2 control-label">Name*</label>
                             <div class="col-sm-12">
@@ -80,18 +80,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-2">
-                            <label for="group_code" class="col-sm-6 control-label">Group code</label>
+                            <label for="product_brand" class="col-sm-2 control-label">Brand</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="group_code" name="group_code"
-                                    placeholder="Group code">
+                                <select class="form-control" id="product_brand" name="product_brand">
+                                    <option value="" selected disabled hidden>Select brand</option>
+                                    <option value="0">None</option>
+                                    @if (isset($brands))
+                                    @foreach ($brands as $brand)
+                                    <option value="{{ $brand['id'] }}">{{ $brand['brand_name'] }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
                             </div>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="uproduct_weight" class="col-sm-2 control-label">Weight</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_weight" name="uproduct_weight"
+                                <input type="text" class="form-control" id="product_weight" name="product_weight"
                                     placeholder="Product weight">
                             </div>
                         </div>
@@ -148,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-row col-sm-8 field_wrapper" style="display: block;">
                             <label class="col-sm-10">Product attributes</label>
                             <div class="d-flex col-sm-12">
@@ -165,15 +172,15 @@
                                     style="background: #464768;" title="Add field">Add</a>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-sm-4">
                             <label for="product_discount" class="col-sm-4 control-label">Discount(%)</label>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" style="left: 10px;padding-left: 0px;">
                                 <input type="text" class="form-control" id="product_discount" name="product_discount"
                                     placeholder="Discount...">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row col-sm-12">
+                    <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="product_price" class="col-sm-5 control-label">Product price*</label>
                             <div class="col-sm-12">
@@ -254,10 +261,11 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="product_images" class="col-sm-6 control-label">Select images</label>
-                        <div class="col-sm-12">
-                            <input type="file" class="form-control" id="product_images" name="product_images[]"
-                                multiple="">
+                        <div class="form-group col-md-12">
+                            <label for="product_image" class="col-sm-6 control-label">Select images</label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="product_images" name="product_images[]" multiple="">
+                                </div>
                         </div>
                     </div>
                     <div class="form-row">

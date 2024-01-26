@@ -96,8 +96,8 @@ function adminActions() {
         $('#uname').val(name);
         $('#uemail').val(email);
         $('#umobile').val(mobile);
-        $('#utype').val((type == 1) ? "1" : "2");
-        $('#ustatus').val((status == 1) ? "1" : "2");
+        $('#utype').val(type);
+        $('#ustatus').val(status);
         $('#uimageView').attr('src', "images/" + img);
         $('#uimageView').attr('alt', name + " image");
 

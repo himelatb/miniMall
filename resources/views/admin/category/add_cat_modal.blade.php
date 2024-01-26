@@ -88,8 +88,8 @@
                         <div class="col-sm-12">
                             <select class="form-control" id="category_status" name="category_status">
                                 <option value="" selected disabled hidden>Select status</option>
-                                <option value="1">Inactive</option>
-                                <option value="2">Active</option>
+                                <option value="0">Inactive</option>
+                                <option value="1">Active</option>
                               </select>
                         </div>
                     </div>

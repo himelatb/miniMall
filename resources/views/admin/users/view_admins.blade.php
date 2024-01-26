@@ -37,7 +37,7 @@
                   <td>{{$admin['email']}}</td>
                   <td>{{$admin['mobile']}}</td>
                   <td>{{($admin['type'])==1 ? "Admin" : "Sub admin"}}</td>
-                  <td>{{($admin['status'])==1 ? "Inactive" : "Active"}}</td>
+                  <td>{{($admin['status'])==1 ? "Active" : "Inactive"}}</td>
                   <td><img 
                     @if(isset($admin['image'])&&!empty($admin['image']))
                     src="{{asset('admin/images/'.$admin['image'])}}"

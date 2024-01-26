@@ -77,6 +77,14 @@
                              </a>
                          </li>
                          <li class="nav-item">
+                            <a href="{{url('admin/view.brand')}}" class="nav-link">
+                                <i class="nav-icon far fa-circle"></i>
+                                <p>
+                                    Brands
+                                </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
                              <a href="{{url('admin/view.product')}}" class="nav-link">
                                  <i class="nav-icon far fa-circle"></i>
                                  <p>

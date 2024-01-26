@@ -68,7 +68,7 @@ function cmsActions() {
         $('#ucmsdescription').val(description);
         $('#ucmsurl').val(url);
         $('#ucmsmeta_title').val(meta_title);
-        $('#ucmsstatus').val((status == 1) ? "1" : "2");
+        $('#ucmsstatus').val(status);
         $('#ucmsmeta_description').val(meta_description);
         $('#ucmsmeta_keywords').val(meta_keywords);
     })

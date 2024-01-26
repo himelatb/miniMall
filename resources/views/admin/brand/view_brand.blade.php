@@ -16,20 +16,16 @@
         @endif
     </div>
     <a style="width: 150px;margin-right: 15px;" class="btn btn-success ml-auto mb-2" data-toggle="modal"
-        data-target="#addProductModal" id="createNewProduct">Add Product</a>
+        data-target="#addBrandModal" id="createNewBrand">Add Brand</a>
     <!-- /.card-header -->
     <div class="card p-0 table-data">
         <div class="card-body">
-            <table id="ProductViewTable" class="table table-bordered table-striped ProductViewTable">
+            <table id="BrandViewTable" class="table table-bordered table-striped BrandViewTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Code</th>
                         <th>Name</th>
-                        <th>Color</th>
-                        <th>Brand</th>
-                        <th>Category</th>
-                        <th>Parent category</th>
+                        <th>Logo</th>
                         <th style="width: 2px">Action</th>
                     </tr>
                 </thead>

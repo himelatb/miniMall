@@ -57,6 +57,10 @@ function productActions() {
                     name: 'product_color'
                 },
                 {
+                    data: 'brand.brand_name',
+                    name: 'brand.brand_name'
+                },
+                {
                     data: 'category.category_name',
                     name: 'category.category_name'
                 },
@@ -166,9 +170,11 @@ function productActions() {
                 $('#uproduct_id').val(res.id);
                 $('#uproduct_name').val(res.product_name);
                 $('#uproduct_color').val(res.product_color);
+                $('#uproduct_weight').val(res.weight);
                 $('#uproduct_description').val(res.description);
                 $('#uproduct_discount').val(res.product_discount);
                 $('#uproduct_category').val(res.category_id);
+                $('#uproduct_brand').val(res.brand_id);
                 $('#uproduct_code').val(res.product_code);
                 $('#ucolor_family').val(res.color_family);
                 $('#ugroup_code').val(res.group_code);

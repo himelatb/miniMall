@@ -55,6 +55,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('attribute.status', 'ProductController@changeAttributeStatus');
         Route::post('attribute.delete', 'ProductController@attributeDelete');
 
+        //brand pages routes
+        Route::get('view.brand', 'BrandController@view');
+        Route::post('add.brand', 'BrandController@add');
+        Route::post('get.brand', 'BrandController@edit');
+        Route::post('update.brand', 'BrandController@update');
+        Route::post('delete.brand', 'BrandController@delete');
+
     });
 
 });

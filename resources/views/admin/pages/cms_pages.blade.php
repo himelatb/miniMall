@@ -31,7 +31,7 @@
                 <td>{{$cmsPage['title']}}</td>
                 <td>{{$cmsPage['url']}}</td>
                 <td>{{date("d/m/Y H:i A", strtotime($cmsPage['updated_at']))}}</td>
-                <td>{{($cmsPage['status'])==1 ? "Inactive" : "Active"}}</td>
+                <td>{{($cmsPage['status'])==1 ? "Active" : "Inactive"}}</td>
                 <td class="d-flex" style="border-left-width: 0px;border-top-width: 0px;border-right-width: 0px;">
     
                        <div data-toggle="modal" data-target="#UpdateCmsModal" style="margin-right: 15px;" class="btn btn-primary editCmsBtn"
