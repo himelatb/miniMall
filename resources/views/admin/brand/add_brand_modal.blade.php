@@ -73,7 +73,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="brand_discount" class="col-sm-2 control-label">discount(%)</label>
+                            <label for="brand_discount" class="col-sm-2 control-label">Discount(%)</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="brand_discount" name="brand_discount"
                                     placeholder="discount...">

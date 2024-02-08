@@ -62,6 +62,9 @@
 
             @include('admin.brand.edit_brand_modal')
             @include('admin.brand.add_brand_modal')
+
+            @include('admin.banner.edit_banner_modal')
+            @include('admin.banner.add_banner_modal')
             {!! Toastr::message() !!}
         </div>
         <!-- ./wrapper -->
@@ -111,6 +114,7 @@
         <script src="{{ url('admin/js/custom/customcategoryactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/customcmsactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/custombrandactions.js')}}"></script>
+        <script src="{{ url('admin/js/custom/custombanneractions.js')}}"></script>
 
         <script type="text/javascript">
             $.ajaxSetup({
@@ -129,6 +133,15 @@
                 productActions();
                 categoryActions();
                 brandActions();
+                bannerActions();
+
+                $('.nav-link').each(function () {
+                    if ($(this).prop('href') == window.location.href) {
+                        
+                        $(this).parents('.side-li').addClass('shadow bg-light rounded');
+                  }
+                    
+                });
 
             });
 

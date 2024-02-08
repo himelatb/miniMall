@@ -23,7 +23,7 @@ class CategoryController extends Controller
         if($request->has('deleteCategoryImage') && $request->file('ucategory_image')==null){
             $category = Category::where('cat_id',$request->ucategory_id)->first();
             if($category['category_image']!=''){
-                $old_path = public_path('category/images/'.$category['category_image']);
+                $old_path = public_path('front/images/category/'.$category['category_image']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -33,7 +33,7 @@ class CategoryController extends Controller
         if($request->has('ucategory_image')){
             $category = Category::where('cat_id',$request->ucategory_id)->first();
             if($category['category_image']!=''){
-                $old_path = public_path('category/images/'.$category['category_image']);
+                $old_path = public_path('front/images/category/'.$category['category_image']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -41,7 +41,7 @@ class CategoryController extends Controller
                 $img_tmp = $request->ucategory_image;
                 $extension = $img_tmp->getClientOriginalExtension();
                 $imgName = rand(1,99999).'.'.$extension;
-                $request->ucategory_image->move(public_path('category/images/'), $imgName);
+                $request->ucategory_image->move(public_path('front/images/category/'), $imgName);
                 Category::where('cat_id',$request->ucategory_id)->update(['category_image'=> $imgName]);
         }
         Category::where('cat_id',$request->ucategory_id)->update([
@@ -69,7 +69,7 @@ class CategoryController extends Controller
                 $img_tmp = $request->category_image;
                 $extension = $img_tmp->getClientOriginalExtension();
                 $imgName = rand(1,99999).'.'.$extension;
-                $request->category_image->move(public_path('category/images/'), $imgName);
+                $request->category_image->move(public_path('front/images/category/'), $imgName);
                 $category->category_image = $imgName;
         }
         
@@ -91,7 +91,7 @@ class CategoryController extends Controller
         
         $category = Category::where('cat_id',$request->id)->first();
         if($category['category_image']!=''){   
-        $image_path = public_path('category/images/'.$category['category_image']);
+        $image_path = public_path('front/images/category/'.$category['category_image']);
         if(file_exists($image_path)){
           unlink($image_path);
         }}

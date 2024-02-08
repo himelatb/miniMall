@@ -77,7 +77,7 @@ function categoryActions() {
         $('#ucategory_parent').val($(this).data("parent_id"));
 
         if ($(this).data("image") != '') {
-            $('#ucategory_imageView').attr('src', "/category/images/" + $(this).data("image"));
+            $('#ucategory_imageView').attr('src', "/front/images/category/" + $(this).data("image"));
             $old = $('#ucategory_imageView').attr('src');
         }
         $('#ucategory_imageView').attr('alt', 'Empty image');

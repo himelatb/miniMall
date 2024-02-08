@@ -141,7 +141,7 @@ function brandActions() {
 
                         
                 if (res.brand_image != null) {
-                    $('#ubrand_imageView').attr('src', "/brand/images/" + res.brand_image);
+                    $('#ubrand_imageView').attr('src', "/front/images/brand/images/" + res.brand_image);
                     $oldimg = $('#ubrand_imageView').attr('src');
                     $("#deleteBrandImage").prop("disabled", false);
                     $("#deleteBrandImage").prop("checked", false);
@@ -177,7 +177,7 @@ function brandActions() {
 
 
                 if (res.brand_logo != null) {
-                    $('#ubrand_logoView').attr('src', "/brand/logos/" + res.brand_logo);
+                    $('#ubrand_logoView').attr('src', "/front/images/brand/logos/" + res.brand_logo);
                     $oldlogo = $('#ubrand_logoView').attr('src');
                     $("#deleteBrandLogo").prop("disabled", false);
                     $("#deleteBrandLogo").prop("checked", false);

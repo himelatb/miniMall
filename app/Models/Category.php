@@ -16,7 +16,7 @@ class Category extends Model
 
     public static function tree()
     {
-       $allcategories = Category::with('parent')->get();
+       $allcategories = Category::with('parent')->where('status', 1)->get();
 
        $rootcategories = $allcategories->where('parent_id',null);
        

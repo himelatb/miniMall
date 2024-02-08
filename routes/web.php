@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Front\IndexController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(IndexController::class)->group(function () {
+    Route::get('/miniMall', 'index');
 });
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
@@ -61,6 +60,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('get.brand', 'BrandController@edit');
         Route::post('update.brand', 'BrandController@update');
         Route::post('delete.brand', 'BrandController@delete');
+
+        //brand pages routes
+        Route::get('view.banner', 'BannerController@view');
+        Route::post('add.banner', 'BannerController@add');
+        Route::post('get.banner', 'BannerController@edit');
+        Route::post('update.banner', 'BannerController@update');
+        Route::post('delete.banner', 'BannerController@delete');
 
     });
 

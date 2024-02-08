@@ -45,14 +45,14 @@ class BrandController extends Controller
             $tmp_img = $request->brand_image;
             $extension = $tmp_img->getClientOriginalExtension();
             $imgName = rand(0,9999).'.'.$extension;
-            $request->brand_image->move(public_path('brand/images/'), $imgName);
+            $request->brand_image->move(public_path('front/images/brand/'), $imgName);
             $brand->brand_image = $imgName;
         }
         if($request->has("brand_logo")){
             $tmp_logo = $request->brand_logo;
             $extension = $tmp_logo->getClientOriginalExtension();
             $logoName = rand(0,9999).'.'.$extension;
-            $request->brand_logo->move(public_path('brand/logos/'), $logoName);
+            $request->brand_logo->move(public_path('front/brand/logos/'), $logoName);
             $brand->brand_logo = $logoName;
         }
 
@@ -98,7 +98,7 @@ class BrandController extends Controller
         
         if($request->has('deleteBrandImage') && $request->file('ubrand_image')==null){
             if($oldbrand['brand_image']!=''){
-                $old_path = public_path('brand/images/'.$oldbrand['brand_image']);
+                $old_path = public_path('front/images/brand/'.$oldbrand['brand_image']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -108,7 +108,7 @@ class BrandController extends Controller
 
         if($request->has('deleteBrandImage') && $request->file('ubrand_logo')==null){
             if($oldbrand['brand_logo']!=''){
-                $old_path = public_path('brand/logos/'.$oldbrand['brand_logo']);
+                $old_path = public_path('front/brand/logos/'.$oldbrand['brand_logo']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -119,7 +119,7 @@ class BrandController extends Controller
         $brand = new Brand();
         if($request->has("ubrand_image")){
             if($oldbrand['brand_image']!=''){
-                $old_path = public_path('brand/images/'.$oldbrand['brand_image']);
+                $old_path = public_path('front/images/brand/'.$oldbrand['brand_image']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -127,12 +127,12 @@ class BrandController extends Controller
             $tmp_img = $request->ubrand_image;
             $extension = $tmp_img->getClientOriginalExtension();
             $imgName = rand(0,9999).'.'.$extension;
-            $request->ubrand_image->move(public_path('brand/images/'), $imgName);
+            $request->ubrand_image->move(public_path('front/images/brand/'), $imgName);
             Brand::where('id',$request->ubrand_id)->update(['brand_image'=> $imgName]);
         }
         if($request->has("ubrand_logo")){
             if($oldbrand['brand_logo']!=''){
-                $old_path = public_path('brand/logos/'.$oldbrand['brand_logo']);
+                $old_path = public_path('front/brand/logos/'.$oldbrand['brand_logo']);
                 if(file_exists($old_path)){
                 unlink($old_path);
                 }
@@ -140,7 +140,7 @@ class BrandController extends Controller
             $tmp_logo = $request->ubrand_logo;
             $extension = $tmp_logo->getClientOriginalExtension();
             $logoName = rand(0,9999).'.'.$extension;
-            $request->ubrand_logo->move(public_path('brand/logos/'), $logoName);
+            $request->ubrand_logo->move(public_path('front/brand/logos/'), $logoName);
             Brand::where('id',$request->ubrand_id)->update(['brand_logo'=> $logoName]);
         }
 
@@ -164,19 +164,19 @@ class BrandController extends Controller
         $brand = Brand::where('id',$request->id)->first();
 
         if($brand['brand_image']!=''){
-            $old_path = public_path('brand/images/'.$brand['brand_image']);
+            $old_path = public_path('front/images/brand/'.$brand['brand_image']);
             if(file_exists($old_path)){
             unlink($old_path);
             }
         }
 
         if($brand['brand_logo']!=''){
-            $old_path = public_path('brand/logos/'.$brand['brand_logo']);
+            $old_path = public_path('front/brand/logos/'.$brand['brand_logo']);
             if(file_exists($old_path)){
             unlink($old_path);
             }
         }
-        Brand::where('id', $request->id)->delete();
+        $brand->delete();
 
         return response()->json(['status' => 'success']);
     }

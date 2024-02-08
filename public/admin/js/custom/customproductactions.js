@@ -268,7 +268,7 @@ function productActions() {
                                     success: function (res) {
                                         $('#imageContainer').html("");
                                         res.forEach(function (image) {
-                                            $('#imageContainer').append('<img src="/product/images/small/' + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input type="text" style="width: 20px;" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + image.product_id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
+                                            $('#imageContainer').append('<img src="/front/images/product/small/' + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input type="text" style="width: 20px;" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + image.product_id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
                                         });
 
                                         Command: toastr["error"]("Image deleted successfully", "Deleted")
@@ -299,7 +299,7 @@ function productActions() {
                 })
                 $('#imageContainer').html("");
                 res.images.forEach(function (image) {
-                    $('#imageContainer').append('<img src="' + "/product/images/small/" + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input style="width: 20px;" type="text" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + res.id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
+                    $('#imageContainer').append('<img src="' + "/front/images/product/small/" + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input style="width: 20px;" type="text" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + res.id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
                 });
             }
         });
@@ -327,7 +327,7 @@ function productActions() {
                     oTable.fnDraw(false);
                     $('#imageContainer').html("");
                     res.forEach(function (image) {
-                        $('#imageContainer').append('<img src="' + "/product/images/small/" + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input type="text" style="width: 20px;" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + res.id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
+                        $('#imageContainer').append('<img src="' + "/front/images/product/small/" + image.image + '" alt="Image"  style="width: 100px;position : block; margin-left: auto;"><input type="text" style="width: 20px;" name="usort[]" value="' + image.image_sort + '"></input><input hidden type="text" style="width: 20px;" name="uimage[]" value="' + image.image + '"></input><a class="p-1 deleteProductImage" href="javascript:void(0)" data-id="' + image.id + '" data-product_id="' + res.id + '"><i class="fas fa-eraser" style="color: #fd0404;"></i></a>');
                     });
 
                     Command: toastr["info"]("Product updated successfully", "Updated")

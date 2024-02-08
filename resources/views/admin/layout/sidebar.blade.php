@@ -33,7 +33,7 @@
                  data-accordion="false">
                  <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                 <li class="nav-item menu-open">
+                 <li class="nav-item side-li">
                      <a href="{{url('admin/dashboard')}}" class="nav-link">
                          <i class="nav-icon fas fa-chart-pie"></i>
                          <p>
@@ -43,32 +43,32 @@
 
                  </li>
 
-                 <li class="nav-item">
-                     <a href="{{url('admin/view.admins')}}" class="nav-link ">
+                 <li class="nav-item side-li">
+                     <a href="{{url('admin/view.admins')}}" class="nav-link">
                          <i class="nav-icon fas fa-users"></i>
                          <p>
-                             Staff
+                             Admin Management
                          </p>
                      </a>
                  </li>
-                 <li class="nav-item">
+                 <li class="nav-item side-li">
                      <a href="{{url('admin/cms.pages')}}" class="nav-link">
                          <i class="nav-icon fas fa-pencil-alt"></i>
                          <p>
-                             CMS pages
+                             Page Management
                          </p>
                      </a>
                  </li>
-                 <li class="nav-item">
+                 <li class="nav-item side-li">
                      <a href="#" class="nav-link">
                          <i class="nav-icon fas fa-warehouse"></i>
                          <p>
-                             Catelogues
+                             Catelogue Management
                              <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
                      <ul class="nav nav-treeview" style="display: none;">
-                         <li class="nav-item">
+                         <li class="nav-item side-li">
                              <a href="{{url('admin/view.category')}}" class="nav-link">
                                  <i class="nav-icon far fa-circle"></i>
                                  <p>
@@ -76,15 +76,15 @@
                                  </p>
                              </a>
                          </li>
-                         <li class="nav-item">
-                            <a href="{{url('admin/view.brand')}}" class="nav-link">
-                                <i class="nav-icon far fa-circle"></i>
-                                <p>
-                                    Brands
-                                </p>
-                            </a>
-                        </li>
-                         <li class="nav-item">
+                         <li class="nav-item side-li">
+                             <a href="{{url('admin/view.brand')}}" class="nav-link">
+                                 <i class="nav-icon far fa-circle"></i>
+                                 <p>
+                                     Brands
+                                 </p>
+                             </a>
+                         </li>
+                         <li class="nav-item side-li">
                              <a href="{{url('admin/view.product')}}" class="nav-link">
                                  <i class="nav-icon far fa-circle"></i>
                                  <p>
@@ -94,9 +94,17 @@
                          </li>
                      </ul>
                  </li>
+                 <li class="nav-item side-li">
+                     <a href="{{url('admin/view.banner')}}" class="nav-link">
+                         <i class="nav-icon far fa-images"></i>
+                         <p>
+                             Banner Management
+                         </p>
+                     </a>
 
-                 @if(Auth::guard('admin')->user()->type ==1)
-                 <li class="nav-item">
+                 </li>
+                 @if(Auth::guard('admin')->user()->type == 1)
+                 <li class="nav-item side-li">
                      <a href="#" class="nav-link">
                          <i class="nav-icon fas fa-wrench"></i>
                          <p>
