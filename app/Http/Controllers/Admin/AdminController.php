@@ -29,8 +29,8 @@ class AdminController extends Controller
             if(Auth::guard('admin')->attempt(['email' => $req['email'], 'password' => $req['password'],'status'=> 1])){
                     
                 if (isset($req['remember'])&&!empty($req['remember'])) {
-                    setcookie('email',$req["email"],time()+3600);
-                    setcookie('password',$req["password"],time()+3600);
+                    setcookie('email',$req["email"],time()+8400);
+                    setcookie('password',$req["password"],time()+8400);
                 } else {
                     setcookie('email','');
                     setcookie('password','');

@@ -9,7 +9,7 @@
                 });
                 $(".dpIn").addClass('fa-angle-right');
                 $(".dpIn").removeClass('fa-angle-down');
-                if ($(window).width() <= 992) {
+                if ($(window).width() < 992) {
                     $('.dropdown, .dropright').children('button').on('mouseover', function () {
                         $(this).siblings('.dropdown-menu').trigger('click');
                     }).on('mouseout', function () {

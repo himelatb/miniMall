@@ -13,7 +13,7 @@
                     <div class="navbar-nav mr-auto py-0">
                         <div class="nav-item dropdown">
                             <button style="height: 65px" type="button" class="btn d-flex align-items-center justify-content-between bg-primary w-100">
-                                <h6 class="text-dark m-0 pr-3"><i class="fa fa-bars mr-2"></i> Categories</h6><i class="fa fa-angle-down text-dark"></i>
+                                <h6 class="text-dark m-0 pr-5"><i class="fa fa-bars mr-2"></i> Categories</h6><i class="fa fa-angle-down text-dark"></i>
                             </button>
                             @if(isset($categories) && !empty($categories))
                             <div class="dropdown-menu">
@@ -21,14 +21,14 @@
                             </div> 
                             @endif
                         </div>
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        <a href="shop.html" class="nav-item nav-link">Shop</a>
-                        <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+                        <a href="{{url('/miniMall')}}" class="nav-item nav-link">Home</a>
+                        <a href="#" class="nav-item nav-link">Shop</a>
+                        <a href="#" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
-                            <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                <a href="checkout.html" class="dropdown-item">Checkout</a>
+                            <div class="dropdown-menu bg-primary rounded-0 border-0 m-0" style="left: auto;">
+                                <a href="#" class="dropdown-item">Shopping Cart</a>
+                                <a href="#" class="dropdown-item">Checkout</a>
                             </div>
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
