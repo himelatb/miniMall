@@ -16,20 +16,19 @@ return new class extends Migration
             $table->integer('brand_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->string('product_name')->default('generic product');
-            $table->string('product_code');
-            $table->string('group_code');
-            $table->string('product_color');
-            $table->string('color_family');
+            $table->string('product_code')->nullable();
+            $table->string('group_code')->nullable();
+            $table->string('product_color')->nullable();
+            $table->string('color_family')->nullable();
             $table->float('product_price');
             $table->float('product_discount')->nullable();
-            $table->float('final_price');
+            $table->float('final_price')->nullable();
             $table->string('discount_type')->nullable();
             $table->string('product_video')->nullable();
-            $table->string('product_image')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('wash_care')->nullable();
-            $table->text('keywords');
-            $table->string('material');
+            $table->text('keywords')->nullable();
+            $table->string('material')->nullable();
             $table->string('sleeve')->nullable();
             $table->string('weight')->nullable();
             $table->string('fit')->nullable();
@@ -39,7 +38,7 @@ return new class extends Migration
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->enum('is_featured', ['No', 'Yes'])->nullable()->default("No");
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

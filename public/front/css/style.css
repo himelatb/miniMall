@@ -5,7 +5,7 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
+ :root {
   --blue: #007bff;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -3207,14 +3207,16 @@ input[type="button"].btn-block {
 
 .dropdown-item:hover, .dropdown-item:focus {
   color: #16181b;
-  text-decoration: none;
+  text-decoration: underline;
   background-color: #f8f9fa;
+  text-decoration-color: #FFD333;
 }
 
 .dropdown-item.active, .dropdown-item:active {
   color: #fff;
-  text-decoration: none;
+  text-decoration: underline;
   background-color: #FFD333;
+  text-decoration-color: #FFD333;
 }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
@@ -9710,16 +9712,31 @@ a.text-dark:hover, a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+.dropdown .dropdown-menu {
+  left: 0;
+  width: 100%;
+  top: 90%;
+}
+.dropdown  .inside {
+  top: 0;
+  left: 100%;
+}
 
-@media (min-width: 992px){
-
-  .dropright:hover > .dropdown-menu, .dropdown:hover > .dropdown-menu {
+@media (min-width: 991.98px) {
+  .dropdown:hover > .dropdown-menu {
     display: block;
-    left: 50%;
-    margin-top: 0.125em;
   }
-  
-  .dropright:hover > .dropdown-menu{
-    left: 100%;
+  .dropdown:hover > .inside {
+    display: block;
   }
+}
+
+.selectInput {
+  width: 160px;  
+  border: none; 
+  position:relative; 
+  left:1px; 
+  margin-right: 25px; 
+  height:inherit;
+  top: 01px;
 }

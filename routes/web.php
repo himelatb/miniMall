@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\IndexController;
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +13,14 @@ use App\Http\Controllers\Front\IndexController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::controller(IndexController::class)->group(function () {
-    Route::get('/miniMall', 'index');
+Route::namespace("App\Http\Controllers\Front")->group(function () {
+    Route::get('/miniMall',[IndexController::class, 'index']);
+
+    $catUrls = Category::select('url')->where('status', 1)->get()->pluck('url');
+    //dd($catUrls);
+    foreach ($catUrls as $key => $catUrl) {
+        Route::get($catUrl, "ProductsController@catListing");
+    }
 });
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){

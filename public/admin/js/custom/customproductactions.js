@@ -132,7 +132,8 @@ function productActions() {
                 $('.spanmsg').remove();
                 $('.errbr').remove();
                 $.each(error.errors, function (index, value) {
-                    $('.errormsg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
+                    
+                        $('.errormsg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
                 });
             }
         });

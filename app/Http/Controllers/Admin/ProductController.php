@@ -39,21 +39,25 @@ class ProductController extends Controller
         $request->validate([
             'product_name'=> 'required',
             'product_status' => 'required',
-            'color_family' => 'required',
             'product_code' => 'required|unique:products,product_code',
             'product_description' => 'required',
-            'product_color' => 'required',
+            'sort' => 'required|array',
+            'sort.*' => 'required|distinct',
             'product_price' => 'required|numeric',
             'product_category' => 'required',
             'product_material' => 'required',
             'product_video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:8000',
+        ],
+        [
+            'sort.*.required' => 'Sorting number beside each image is required',
+            'sort.*.distinct' => 'Sorting number beside each image must be unique',
         ]);
 
         if($request->has('product_video')){
             $vid_tmp = $request->product_video;
             $extension = $vid_tmp->getClientOriginalExtension();
             $vidName = rand(1,99999).'.'.$extension;
-            $request->product_video->move(public_path('product/videos/'), $vidName);
+            $request->product_video->move(public_path('front/images/product/videos/'), $vidName);
             $product->product_video = $vidName;
         }
 
@@ -71,10 +75,10 @@ class ProductController extends Controller
         }
         else
         {
-            $category_discount = Category::where('cat_id',$request->product_category)->get(['category_discount']);
-            if($category_discount > 0){
+            $category = Category::where('cat_id',$request->product_category)->get()->first();
+            if($category['category_discount']  != null){
                 $product->discount_type = "Category";
-                $product->final_price = $request->product_price - ($request->product_price * ($category_discount / 100));
+                $product->final_price = $request->product_price - ($request->product_price * ($category['category_discount'] / 100));
             }
             else{
                 $product->discount_type = "Category";
@@ -111,9 +115,9 @@ class ProductController extends Controller
                 $extension = $image->getClientOriginalExtension();
                 $imgName = rand(1,99999).'.'.$extension;
 
-                $img_tmp->resize(1040,1200)->save(public_path('product/images/large/'.$imgName));
-                $img_tmp->resize(520,600)->save(public_path('product/images/medium/'.$imgName));
-                $img_tmp->resize(260,300)->save(public_path('product/images/small/'.$imgName));
+                $img_tmp->resize(1040,1200)->save(public_path('front/images/product/large/'.$imgName));
+                $img_tmp->resize(520,600)->save(public_path('front/images/product/medium/'.$imgName));
+                $img_tmp->resize(260,300)->save(public_path('front/images/product/small/'.$imgName));
                 
                 $image_upload = new products_images();
                 $image_upload->image = $imgName;
@@ -180,9 +184,9 @@ class ProductController extends Controller
 
         $image = products_images::find($request->id);
 
-                $image_largepath = public_path('product/images/large/'.$image['image']);
-                $image_mediumpath = public_path('product/images/medium/'.$image['image']);
-                $image_smallepath = public_path('product/images/small/'.$image['image']);
+                $image_largepath = public_path('front/images/product/large/'.$image['image']);
+                $image_mediumpath = public_path('front/images/product/medium/'.$image['image']);
+                $image_smallepath = public_path('front/images/product/small/'.$image['image']);
 
                 $image_paths = [$image_largepath, $image_mediumpath, $image_smallepath ];
                 
@@ -204,24 +208,28 @@ class ProductController extends Controller
         $request->validate([
             'uproduct_name'=> 'required',
             'uproduct_status' => 'required',
-            'ucolor_family' => 'required',
             'uproduct_code' => 'required|unique:products,product_code,'.$request->uproduct_id.',id',
             'uproduct_description' => 'required',
-            'uproduct_color' => 'required',
+            'usort.*' => 'required|distinct',
             'uproduct_price' => 'required|numeric',
             'uproduct_category' => 'required',
             'uproduct_material' => 'required',
             'uproduct_video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:8000',
-        ]);
+        ],
+        [
+            'usort.*.required' => 'Sorting number beside each image is required',
+            'usort.*.distinct' => 'Sorting numbers of images must be unique',
+        ]
+    );
         
         if($request->has('uproduct_video')){
             $vid_tmp = $request->uproduct_video;
             $extension = $vid_tmp->getClientOriginalExtension();
             $vidName = rand(1,99999).'.'.$extension;
-            $request->uproduct_video->move(public_path('product/videos/'), $vidName);
+            $request->uproduct_video->move(public_path('front/images/product/videos/'), $vidName);
             Product::where('id',$request->uproduct_id)->update(['product_video'=> $vidName]);
         }
-        if(!empty($request->uproduct_discount) && $request->has('uproduct_discount') && $request->uproduct_discount != 0)
+        if(!empty($request->uproduct_discount) && $request->uproduct_discount != 0)
         {
             $discount_type = "Product";
             $final_price = $request->uproduct_price  - ($request->uproduct_price * ($request->uproduct_discount / 100));
@@ -275,9 +283,9 @@ class ProductController extends Controller
                 $extension = $image->getClientOriginalExtension();
                 $imgName = rand(1,99999).'.'.$extension;
 
-                $img_tmp->resize(1040,1200)->save(public_path('product/images/large/'.$imgName));
-                $img_tmp->resize(520,600)->save(public_path('product/images/medium/'.$imgName));
-                $img_tmp->resize(260,300)->save(public_path('product/images/small/'.$imgName));
+                $img_tmp->resize(1040,1200)->save(public_path('front/images/product/large/'.$imgName));
+                $img_tmp->resize(520,600)->save(public_path('front/images/product/medium/'.$imgName));
+                $img_tmp->resize(260,300)->save(public_path('front/images/product/small/'.$imgName));
                 $image_upload = new products_images();
                 $image_upload->image = $imgName;
                 $image_upload->image_sort = $request->sort[$key];
@@ -330,9 +338,9 @@ class ProductController extends Controller
 
         if(!empty($images)){
             foreach ($images as $image) {
-                $image_largepath = public_path('product/images/large/'.$image['image']);
-                $image_mediumpath = public_path('product/images/medium/'.$image['image']);
-                $image_smallepath = public_path('product/images/small/'.$image['image']);
+                $image_largepath = public_path('front/images/product/large/'.$image['image']);
+                $image_mediumpath = public_path('front/images/product/medium/'.$image['image']);
+                $image_smallepath = public_path('front/images/product/small/'.$image['image']);
 
                 $image_paths = [$image_largepath, $image_mediumpath, $image_smallepath ];
                 
@@ -346,7 +354,7 @@ class ProductController extends Controller
             }   
         }
          if($product['product_video']!=''){   
-                    $vid_path = public_path('product/videos/'.$product['product_video']);
+                    $vid_path = public_path('front/images/product/videos/'.$product['product_video']);
                     if(file_exists($vid_path)){
                     unlink($vid_path);
                     }

@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="product_category" class="col-sm-7 control-label">Category*</label>
-                            <div class="col-sm-15">
+                            <div class="col-sm-12">
                                 <select class="form-control" id="product_category" name="product_category">
                                     <option value="" selected disabled hidden>Select the category</option>
                                     <option value="0">None</option>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="color_family" class="col-sm-7 control-label">Color Family*</label>
-                            <div class="col-sm-15">
+                            <div class="col-sm-12">
                                 <select class="form-control" id="color_family" name="color_family">
                                     <option value="" selected disabled hidden>Select the color family</option>
                                     <option value="">None</option>
@@ -68,14 +68,15 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="product_material" class="col-sm-2 control-label">Material*</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" id="product_material" name="product_material">
+                            <div class="col-sm-12" style="width: 13.3rem">
+                                <select class="form-control" style="position:absolute;" onchange="this.nextElementSibling.value=this.value">
                                     <option value="" selected disabled hidden>Select material</option>
                                     @if (isset($productsFilters['patternArray']))
                                     @foreach ($productsFilters['materialArray'] as $material)
                                     <option value="{{ $material }}">{{ $material }}</option>
                                     @endforeach
                                     @endif
+                                    <input class="form-control" id="product_material" name="product_material" placeholder="Select Material" style="width: 160px;  border: none; position:relative; left:1px; margin-right: 25px; height:inherit;top: 01px;">
                                 </select>
                             </div>
                         </div>

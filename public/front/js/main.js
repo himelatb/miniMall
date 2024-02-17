@@ -4,23 +4,23 @@
     // Dropdown on mouse hover
     $(document).ready(function () {
         function toggleNavbarMethod() {
-                $('.dropdown, .dropright').children('button').on('click', function () {
+                $('.dropdown').children('button').on('click', function () {
                     $(this).siblings('.dropdown-menu').toggle();
                 });
                 $(".dpIn").addClass('fa-angle-right');
                 $(".dpIn").removeClass('fa-angle-down');
                 if ($(window).width() < 992) {
-                    $('.dropdown, .dropright').children('button').on('mouseover', function () {
-                        $(this).siblings('.dropdown-menu').trigger('click');
-                    }).on('mouseout', function () {
-                        $(this).siblings('.dropdown-menu').trigger('click').blur();
-                    });
                     $(".dpIn").removeClass('fa-angle-right');
                     $(".dpIn").addClass('fa-angle-down');
                 }
         }
         toggleNavbarMethod();
         $(window).resize(toggleNavbarMethod);
+
+        $('#sorting').on('change', function (){
+            this.form.submit();
+        });
+
     });
     
     

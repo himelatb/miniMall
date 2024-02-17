@@ -24,13 +24,13 @@ class CategoryFactory extends Factory
         return [
             'parent_id'=> $this->faker->numberBetween(0, 2),
             'category_name'=> $name,
-            'category_discount'=> $this->faker->numberBetween(0, 80),
+            'category_discount'=> $this->faker->numberBetween(0, 40),
             'description'=> $desc,
             'url'=> $this->faker->url(),
             'meta_title'=> $title ,
             'meta_description'=> $desc,
             'meta_keywords'=> $name.','.$title,
-            'status'=> $this->faker->numberBetween(1, 2),
+            'status'=> $this->faker->numberBetween(0,1),
         ];
     }
 }
