@@ -17,11 +17,13 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $price = $this->faker->numberBetween(100,19999);
         return [
             'product_name'=> $this->faker->words(3, true),
             'category_id'=> $this->faker->numberBetween(0,12),
             'product_code'=> $this->faker->word(),
-            'product_price'=>$this->faker->numberBetween(100,19999),
+            'product_price'=>$price,
+            'final_price'=>$price,
             'description'=> $this->faker->paragraph(),
         ];
     }

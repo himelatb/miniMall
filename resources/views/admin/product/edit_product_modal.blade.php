@@ -48,28 +48,6 @@
                             </div>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="ucolor_family" class="col-sm-6 control-label">Color Family*</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" id="ucolor_family" name="ucolor_family">
-                                    <option value="" selected disabled hidden>Select the color family</option>
-                                    <option value="">None</option>
-                                    @php
-                                    $colorFamily = \App\Models\Color::colors()
-                                    @endphp
-                                    @foreach ($colorFamily as $color)
-                                    <option value="{{$color['color_name']}}">{{$color['color_name']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="uproduct_color" class="col-sm-2 control-label">Color*</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_color" name="uproduct_color"
-                                    placeholder="Product color">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-2">
                             <label for="uproduct_material" class="col-sm-2 control-label">Material*</label>
                             <div class="col-sm-12" style="width: 13.3rem">
                                 <select class="form-control" style="position:absolute;" onchange="this.nextElementSibling.value=this.value">
@@ -81,6 +59,13 @@
                                     @endif
                                     <input class="form-control selectInput" id="uproduct_material" name="uproduct_material" placeholder="Select Material">
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="uproduct_discount" class="col-sm-4 control-label">Discount(%)</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="uproduct_discount" name="uproduct_discount"
+                                    placeholder="Discount...">
                             </div>
                         </div>
                     </div>
@@ -160,7 +145,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-12">
                             <label for="added_attributes" class="col-sm-6 control-label">Added attributes</label>
                             <div class="col-sm-12">
                                 <table class="table table-bordered">
@@ -169,31 +154,28 @@
                                         <th>SKU</th>
                                         <th>Price</th>
                                         <th>Stock</th>
+                                        <th>Color</th>
+                                        <th>Color code</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody class="added_attributes_table" id="added_attributes_table"></tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="form-row col-sm-8 field_wrapper" style="display: block;">
+                        <div class="form-group col-md-12 field_wrapper">
                                 <label class="col-sm-12" >Product attributes</label>
                                 <div class="d-flex col-sm-12">
-                                    <input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size"/>
-                                    <input type="text" class="col-sm-2 m-1 form-control" name="sku[]" value="" placeholder="SKU"/>
-                                    <input type="text" class="col-sm-2 m-1 form-control" name="price[]" value="" placeholder="Price"/>
-                                    <input type="text" class="col-sm-2 m-1 form-control" name="stock[]" value="" placeholder="Stock"/>
+                                    <input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size (letters only.example:S)"/>
+                                    <input type="text" class="col-sm-1 m-1 form-control" name="color[]" value="" placeholder="Color" />
+                                    <input type="text" class="col-sm-1 m-1 form-control" name="colorCode[]" value="" placeholder="Color code" />
+                                    <input type="text" class="col-sm-1 m-1 form-control" name="sku[]" value="" placeholder="SKU"/>
+                                    <input type="text" class="col-sm-1 m-1 form-control" name="price[]" value="" placeholder="Price"/>
+                                    <input type="text" class="col-sm-1 m-1 form-control" name="stock[]" value="" placeholder="Stock"/>
                                     <a href="javascript:void(0);" class="col-sm-1 m-1 form-control add_button btn btn-primary" style="background: #464768;" title="Add field">Add</a>
                                 </div>   
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="uproduct_discount" class="col-sm-4 control-label">Discount(%)</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="uproduct_discount" name="uproduct_discount"
-                                    placeholder="Discount...">
-                            </div>
-                        </div>
                         <div class="form-group col-md-4">
                             <label for="uproduct_price" class="col-sm-4 control-label">Product price*</label>
                             <div class="col-sm-12">

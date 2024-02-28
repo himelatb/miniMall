@@ -26,7 +26,6 @@
                         <th>ID</th>
                         <th>Code</th>
                         <th>Name</th>
-                        <th>Color</th>
                         <th>Brand</th>
                         <th>Category</th>
                         <th>Parent category</th>

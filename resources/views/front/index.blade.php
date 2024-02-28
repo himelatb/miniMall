@@ -109,14 +109,14 @@
                                 @endforeach
                             @endif
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="{{url('/product',[$product['id']])}}"><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                 </div>
                             </div>
                             <div class="text-center py-4">
                                 <a class="h6 text-decoration-none text-truncate" href="">{{$product['product_name']}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>{{$product['final_price'] == null ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == null ? '':$product['product_price']}}</del></h6>
+                                    <h5>{{$product['final_price'] == $product['product_price'] ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == $product['product_price'] ? '':$product['product_price']}}</del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     <small class="fa fa-star text-primary mr-1"></small>
@@ -176,14 +176,14 @@
                                 @endforeach
                             @endif
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="{{url('/product',[$product['id']])}}"><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                 </div>
                             </div>
                             <div class="text-center py-4">
                                 <a class="h6 text-decoration-none text-truncate" href="">{{$product['product_name']}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>{{$product['final_price'] == null ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == null ? '':$product['product_price']}}</del></h6>
+                                    <h5>{{$product['final_price'] == $product['product_price'] ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == $product['product_price'] ? '':$product['product_price']}}</del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     <small class="fa fa-star text-primary mr-1"></small>

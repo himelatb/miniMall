@@ -41,9 +41,9 @@ class ProductController extends Controller
             'product_status' => 'required',
             'product_code' => 'required|unique:products,product_code',
             'product_description' => 'required',
-            'sort' => 'required|array',
             'sort.*' => 'required|distinct',
             'product_price' => 'required|numeric',
+            'product_discount'=> 'numeric|max:100',
             'product_category' => 'required',
             'product_material' => 'required',
             'product_video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:8000',
@@ -63,15 +63,14 @@ class ProductController extends Controller
 
         $product->product_name = ucwords($request->product_name);
         $product->product_code = $request->product_code;
-        $product->product_color = $request->product_color;
         $product->group_code = $request->group_code;
         $product->weight = $request->product_weight;
-        $product->product_discount = $request->product_discount;
 
-        if(!empty($request->product_discount) && $request->product_discount != 0)
+        if(!empty($request->product_discount) && $request->product_discount > 0)
         {
             $product->discount_type = "Product";
             $product->final_price = ($request->product_price) - ($request->product_price * ($request->product_discount / 100));
+            $product->product_discount =  $request->product_discount;
         }
         else
         {
@@ -79,10 +78,21 @@ class ProductController extends Controller
             if($category['category_discount']  != null){
                 $product->discount_type = "Category";
                 $product->final_price = $request->product_price - ($request->product_price * ($category['category_discount'] / 100));
+                $product->product_discount =  $category['category_discount'];
             }
             else{
-                $product->discount_type = "Category";
-                $product->final_price = $request->product_price;
+                $brand = Brand::where('id',$request->product_brand)->get()->first();
+                if($brand['discount']  != null){
+                    $product->discount_type = "Brand";
+                    $product->final_price = $request->product_price - ($request->product_price * ($brand['discount'] / 100));
+                    $product->product_discount =  $brand['discount'];
+                }
+                else{
+                    $product->discount_type = '';
+                    $product->final_price = $request->product_price;
+                    $product->product_discount =  0;
+
+                }
             }
         }
         $product->product_price = $request->product_price;
@@ -91,7 +101,6 @@ class ProductController extends Controller
         $product->wash_care = $request->product_wash;
         $product->category_id = $request->product_category;
         $product->material = $request->product_material;
-        $product->color_family = $request->color_family;
         $product->fit = $request->has(['product_fit']) ? $request->product_fit : "";
         $product->occasion = $request->has(['product_occasion']) ? $request->product_occasion : "";
         $product->sleeve = $request->has(['product_sleeve']) ? $request->product_sleeve : "";
@@ -136,8 +145,11 @@ class ProductController extends Controller
                 }
                 $attribute = new ProductAttribute();
                 $attribute->product_id = $id;
+                $attribute->category_id = $request->product_category;
                 $attribute->size = $request->size[$key];
                 $attribute->sku = $request->sku[$key];
+                $attribute->color = $request->color[$key];
+                $attribute->color_code = $request->colorCode[$key];
                 $attribute->price = $request->price[$key];
                 $attribute->stock = $request->stock[$key];
                 $attribute->save();
@@ -160,10 +172,10 @@ class ProductController extends Controller
     {
 
         ProductAttribute::where('id', $request->id)->update([
-            'status' => $request->status == 1 ? 0 : 1,
+            'status' => $request->status == 1 ? 0: 1,
         ]);
 
-        $productAttributeStatus = ProductAttribute::where('id', $request->id)->get(["status","id"])->toArray();
+        $productAttributeStatus = ProductAttribute::where('id', $request->id)->get(["status","id","product_id"])->toArray();
 
         return response()->json($productAttributeStatus);
 
@@ -179,6 +191,8 @@ class ProductController extends Controller
         return response()->json($productAttributes);
 
     }
+
+
 
     public function deleteImage(Request $request){
 
@@ -212,6 +226,7 @@ class ProductController extends Controller
             'uproduct_description' => 'required',
             'usort.*' => 'required|distinct',
             'uproduct_price' => 'required|numeric',
+            'uproduct_discount'=> 'numeric|max:100',
             'uproduct_category' => 'required',
             'uproduct_material' => 'required',
             'uproduct_video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:8000',
@@ -229,41 +244,48 @@ class ProductController extends Controller
             $request->uproduct_video->move(public_path('front/images/product/videos/'), $vidName);
             Product::where('id',$request->uproduct_id)->update(['product_video'=> $vidName]);
         }
-        if(!empty($request->uproduct_discount) && $request->uproduct_discount != 0)
+        if(!empty($request->uproduct_discount) && $request->uproduct_discount > 0)
         {
             $discount_type = "Product";
-            $final_price = $request->uproduct_price  - ($request->uproduct_price * ($request->uproduct_discount / 100));
+            $final_price = ($request->uproduct_price) - ($request->uproduct_price * ($request->uproduct_discount / 100));
+            $product_discount =  $request->uproduct_discount;
         }
-        else 
+        else
         {
-            $category= Category::where('cat_id',$request->uproduct_category)->get()->first();
-            if ($category['category_discount'] != 0 || $category['category_discount']  != null)
-            {
+            $category = Category::where('cat_id',$request->uproduct_category)->get()->first();
+            if($category['category_discount']  != null){
                 $discount_type = "Category";
-                $final_price = ($request->uproduct_price )- ($request->uproduct_price * ($category['category_discount'] / 100) );
+                $final_price = $request->uproduct_price - ($request->uproduct_price * ($category['category_discount'] / 100));
+                $product_discount =  $category['category_discount'];
             }
             else{
-                $discount_type = "";
-                $final_price = $request->uproduct_price;
+                $brand = Brand::where('id',$request->uproduct_brand)->get()->first();
+                if($brand['discount']  != null){
+                    $discount_type = "Brand";
+                    $final_price = $request->uproduct_price - ($request->uproduct_price * ($brand['discount'] / 100));
+                    $product_discount =  $brand['discount'];
+                }
+                else{
+                    $discount_type = '';
+                    $final_price = $request->uproduct_price;
+                    $product_discount =  0;
+
+                }
             }
-            
         }
         Product::where('id',$request->uproduct_id)->update([
             'product_name' => ucwords($request->uproduct_name),
             'product_code' => $request->uproduct_code,
-            'product_color' => $request->uproduct_color,
-            'group_code' => $request->group_code,
             'final_price' => $final_price,
+            'product_discount' => $product_discount,
             'discount_type' => $discount_type,
             'weight' => $request->uproduct_weight,
-            'product_discount' => $request->uproduct_discount,
             'product_price' => $request->uproduct_price,
             'description' => ucfirst($request->uproduct_description),
             'wash_care' => $request->uproduct_wash,
             'category_id' => $request->uproduct_category,
             'brand_id' => $request->uproduct_brand,
             'material' => $request->uproduct_material,
-            'color_family' => $request->ucolor_family,
             'fit' => $request->uproduct_fit,
             'occasion' => $request->uproduct_occasion,
             'sleeve' => $request->uproduct_sleeve,
@@ -319,8 +341,11 @@ class ProductController extends Controller
                 }
                 $attribute = new ProductAttribute();
                 $attribute->product_id = $request->uproduct_id;
+                $attribute->category_id = $request->uproduct_category;
                 $attribute->size = $request->size[$key];
                 $attribute->sku = $request->sku[$key];
+                $attribute->color = $request->color[$key];
+                $attribute->color_code = $request->colorCode[$key];
                 $attribute->price = $request->price[$key];
                 $attribute->stock = $request->stock[$key];
                 $attribute->save();
@@ -361,6 +386,7 @@ class ProductController extends Controller
                 }
         Product::find($request->id)->delete();
         products_images::where('product_id',$request->id)->delete();
+        ProductAttribute::where('product_id', $request->id)->delete();
         
         return response()->json(['status' => 'success']);
     }

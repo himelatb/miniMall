@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{ url('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ url('admin/css/adminlte.min.css') }}">
+        <link rel="stylesheet" href="{{ url('admin/css/adminlte.css') }}">
         <link rel="stylesheet" href="http://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     </head>

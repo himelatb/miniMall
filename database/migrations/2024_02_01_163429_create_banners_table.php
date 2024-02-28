@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('type');
             $table->string('title');
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->string('text')->nullable();
             $table->tinyInteger('sort');
             $table->timestamps();

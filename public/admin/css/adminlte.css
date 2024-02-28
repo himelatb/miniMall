@@ -53010,3 +53010,13 @@ a.text-muted:hover {
   border-color: #4b545c !important;
 }
 /*# sourceMappingURL=adminlte.css.map */
+
+.selectInput {
+  width: 160px;  
+  border: none; 
+  position:relative; 
+  left:1px; 
+  margin-right: 25px; 
+  height:inherit;
+  top: 01px;
+}

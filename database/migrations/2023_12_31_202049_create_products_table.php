@@ -17,9 +17,6 @@ return new class extends Migration
             $table->integer('category_id')->nullable();
             $table->string('product_name')->default('generic product');
             $table->string('product_code')->nullable();
-            $table->string('group_code')->nullable();
-            $table->string('product_color')->nullable();
-            $table->string('color_family')->nullable();
             $table->float('product_price');
             $table->float('product_discount')->nullable();
             $table->float('final_price')->nullable();
@@ -38,7 +35,7 @@ return new class extends Migration
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->enum('is_featured', ['No', 'Yes'])->nullable()->default("No");
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

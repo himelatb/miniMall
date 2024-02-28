@@ -20,7 +20,6 @@ class AdminsTableSeeder extends Seeder
             'mobile' => 3422222,
             'email' => 'admin@admin.com',
             'password' => Hash::make(123),
-            'status' => 2,
             'type' => 1,
             ],
             [
@@ -28,7 +27,6 @@ class AdminsTableSeeder extends Seeder
                 'mobile' => 31211,
                 'email' => 'himel@admin.com',
                 'password' => Hash::make(123),
-                'status' => 2,
                 'type' => 2,
             ],
             [
@@ -36,7 +34,6 @@ class AdminsTableSeeder extends Seeder
             'mobile' => 341,
             'email' => 'admin2@admin.com',
             'password' => Hash::make(123),
-            'status' => 1,
             'type' => 2,
             ],
             [
@@ -44,7 +41,6 @@ class AdminsTableSeeder extends Seeder
                 'mobile' => 222,
                 'email' => 'Admin3@admin.com',
                 'password' => Hash::make(123),
-                'status' => 1,
                 'type' => 1,
             ],
         ];

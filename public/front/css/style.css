@@ -9740,3 +9740,7 @@ a.text-dark:hover, a.text-dark:focus {
   height:inherit;
   top: 01px;
 }
+
+.toast {
+  opacity: 1 !important;
+}

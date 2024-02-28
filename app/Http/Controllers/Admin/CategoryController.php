@@ -61,7 +61,8 @@ class CategoryController extends Controller
         $request->validate([
             'category_name'=> 'required',
             'category_url'=> 'required|unique:categories,url',
-            'category_status' => 'required'
+            'category_status' => 'required',
+            'category_discount' => 'numeric|max:100',
             
         ]);
         $category = new Category();

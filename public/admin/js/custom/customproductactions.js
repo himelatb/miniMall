@@ -1,9 +1,34 @@
 function productActions() {
 
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div class="d-flex col-sm-12"><input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size"/><input type="text" class="col-sm-2 m-1 form-control" name="sku[]" value="" placeholder="SKU"/><input type="text" class="col-sm-2 m-1 form-control" name="price[]" value="" placeholder="Price"/><input type="text" class="col-sm-2 m-1 form-control" name="stock[]" value="" placeholder="Stock"/><a href="javascript:void(0);" style="background: #464768;" class="col-sm-1 m-1 form-control remove_button btn btn-primary">Remove</a></div>'; //New input field html 
+    var fieldHTML = `<div class="d-flex col-sm-12">
+    <input type="text" class="col-sm-2 m-1 form-control" name="size[]" value="" placeholder="Size (letters only.example:S)"/>
+    <input type="text" class="col-sm-1 m-1 form-control" name="color[]" value="" placeholder="Color"/>
+    <input type="text" class="col-sm-1 m-1 form-control" name="colorCode[]" value="" placeholder="Color code"/>
+    <input type="text" class="col-sm-1 m-1 form-control" name="sku[]" value="" placeholder="SKU"/>
+    <input type="text" class="col-sm-1 m-1 form-control" name="price[]" value="" placeholder="Price"/>
+    <input type="text" class="col-sm-1 m-1 form-control" name="stock[]" value="" placeholder="Stock"/>
+    <a href="javascript:void(0);" style="background: #464768;" class="col-sm-1 m-1 form-control remove_button btn btn-primary">Remove</a>
+    </div>`; //New input field html 
     var x = 1; //Initial field counter is 1
 
     // Once add button is clicked
@@ -51,10 +76,6 @@ function productActions() {
                 {
                     data: 'product_name',
                     name: 'product_name'
-                },
-                {
-                    data: 'product_color',
-                    name: 'product_color'
                 },
                 {
                     data: 'brand.brand_name',
@@ -107,23 +128,6 @@ function productActions() {
                     oTable.fnDraw(false);
 
                     Command: toastr["success"]("Product added successfully", "Added")
-
-                    toastr.options = {
-                        "closeButton": true,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "preventDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "200",
-                        "hideDuration": "1000",
-                        "timeOut": "2000",
-                        "extendedTimeOut": "500",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
                 }
 
             },
@@ -170,15 +174,12 @@ function productActions() {
             success: function (res) {
                 $('#uproduct_id').val(res.id);
                 $('#uproduct_name').val(res.product_name);
-                $('#uproduct_color').val(res.product_color);
                 $('#uproduct_weight').val(res.weight);
                 $('#uproduct_description').val(res.description);
                 $('#uproduct_discount').val(res.product_discount);
                 $('#uproduct_category').val(res.category_id);
                 $('#uproduct_brand').val(res.brand_id);
                 $('#uproduct_code').val(res.product_code);
-                $('#ucolor_family').val(res.color_family);
-                $('#ugroup_code').val(res.group_code);
                 $('#udiscount_type').val(res.discount_type);
                 $('#ufinal_price').val(res.final_price);
                 $('#uproduct_price').val(res.product_price);
@@ -196,10 +197,10 @@ function productActions() {
                 $('#added_attributes_table').html("");
 
                 res.attributes.forEach(function (attribute) {
-                    $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash"></i></a></td></tr>');
-                });
+                    $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeColors[]" value="'+ attribute.color + '" class="col-sm-8 border-0 form-control"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeColorCodes[]" value="'+ attribute.color_code + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash deleteAttribute"></i></a></td></tr>');
+                    });
 
-                $(document).on('click', '.toggleAttributeStatus', function(e){
+                $(document).on('click','.toggleAttributeStatus', function(e){
                     e.preventDefault();
                     let id = $(this).data('id'); 
                     let status = $(this).data('status');
@@ -234,15 +235,16 @@ function productActions() {
                         },
                         success: function (res) {
                             $('#added_attributes_table').html("");
-                            console.log(res);
                             res.forEach(function (attribute) {
-                                $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash deleteAttribute"></i></a></td></tr>');
+                                $('#added_attributes_table').append('<tr><td hidden><input type="text" id="attributeId" name="attributeId[]" value="'+ attribute.id + '"/></td><td>' + attribute.size + '</td><td>' + attribute.sku + '</td><td>'+'<input type="text" id="attributePrices" name="attributePrices[]" class="col-sm-10 border-0 form-control" value="'+ attribute.price + '"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeStocks[]" value="'+ attribute.stock + '" class="col-sm-8 border-0 form-control"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeColors[]" value="'+ attribute.color + '" class="col-sm-8 border-0 form-control"/></td><td>' +'<input type="text" id="attributeStocks" name="attributeColorCodes[]" value="'+ attribute.color_code + '" class="col-sm-8 border-0 form-control"/></td><td id="astatusd-'+attribute.id+'"><a href="javascript:void(0);" data-id="'+attribute.id+'" data-status="'+attribute.status+'" class="toggleAttributeStatus"><i  class="fas m-1 '+(attribute.status == 1 ? "fa-toggle-on" : "fa-toggle-off")+'"></i></a><a href="javascript:void(0);" data-id="'+attribute.id+'" data-product_id="'+attribute.product_id+'" class="deleteAttribute"><i class="fas fa-trash deleteAttribute"></i></a></td></tr>');
                             });
                         },
                     });
                 });
-                $(document).on('click', '.deleteProductImage', function () {
 
+
+
+                $(document).on('click', '.deleteProductImage', function () {
                     let id = $(this).data('id');
                     let product_id = $(this).data('product_id');
                     swal({
@@ -273,22 +275,7 @@ function productActions() {
                                         });
 
                                         Command: toastr["error"]("Image deleted successfully", "Deleted")
-                                        toastr.options = {
-                                            "closeButton": true,
-                                            "debug": false,
-                                            "newestOnTop": false,
-                                            "progressBar": false,
-                                            "preventDuplicates": true,
-                                            "onclick": null,
-                                            "showDuration": "200",
-                                            "hideDuration": "1000",
-                                            "timeOut": "2000",
-                                            "extendedTimeOut": "500",
-                                            "showEasing": "swing",
-                                            "hideEasing": "linear",
-                                            "showMethod": "fadeIn",
-                                            "hideMethod": "fadeOut"
-                                        }
+
                                     }
 
                                 });
@@ -310,7 +297,6 @@ function productActions() {
 
     $(document).on('submit', '#updateProductForm', function (e) {
         e.preventDefault();
-
         $('.spanmsg').remove();
         $('.errbr').remove();
         var formData = new FormData(this);
@@ -333,22 +319,6 @@ function productActions() {
 
                     Command: toastr["info"]("Product updated successfully", "Updated")
 
-                    toastr.options = {
-                        "closeButton": true,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "preventDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "2000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
                 }
 
             },
@@ -392,23 +362,6 @@ function productActions() {
                                 oTable.fnDraw(false);
 
                                 Command: toastr["error"]("Product deleted successfully", "Deleted")
-
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "preventDuplicates": true,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "2000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
 
                             }
                         }

@@ -4,24 +4,8 @@
             <span class="ml-2 font-weight-normal">{{ ' ('.$products->total().($products->total()> 1 ?' products)' :' product)')}}</span> 
         </div>
     </div>
-    <div class="col-lg-right text-right mb-3 pr-0.5">
-        <input type="text" value="{{url($Url)}}" hidden>
-            <form method="get" style="width: 94%" name="productsorting" id="productsorting">
-                <div class="col-sm-12">
-                    <select style="position: absolute" onchange="this.nextElementSibling.value=this.value" class="form-control bg-secondary" name="sorting" id="sorting"> 
-                        <option class="dropdown-item" disabled selected>Sort By</option>
-                        <option class="dropdown-item" value="Latest first">Latest first</option>
-                        <option class="dropdown-item" value="Price (Lowest first)">Price (Lowest first)</option>
-                        <option class="dropdown-item" value="Price (Highest first)">Price (Highest first)</option>
-                        {{-- <option class="dropdown-item" value="Rating">Rating</option> --}}
-                    </select>
-                    <input class="selectInput form-control" id="sortSelectInput" readonly type="text" autocomplete="disabled" placeholder="Sort By" 
-                    @if(isset($sortingOrder) && !empty($sortingOrder))
-                        value="{{$sortingOrder}}"
-                    @endif>
-                </div>
-            </form>
-    </div>
+    {{-- <div class="col-lg-right text-right mb-3 pr-0.5">
+    </div> --}}
 </div>
 @foreach($products as $product)
 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -34,12 +18,12 @@
                 @endforeach
             @endif
             <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark btn-square" href="{{url('/product',[$product['id']])}}"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
             </div>
         </div>
         <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">{{$product['product_name']}}</a>
+            <a class="h6 text-decoration-none text-truncate" href="{{url('/product',[$product['id']])}}">{{$product['product_name']}}</a>
             <div class="d-flex align-items-center justify-content-center mt-2">
                 <h5>{{$product['final_price'] == null ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == null ? '':$product['product_price']}}</del></h6>
             </div>

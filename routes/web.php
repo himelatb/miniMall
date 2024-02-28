@@ -21,6 +21,13 @@ Route::namespace("App\Http\Controllers\Front")->group(function () {
     foreach ($catUrls as $key => $catUrl) {
         Route::get($catUrl, "ProductsController@catListing");
     }
+    Route::get('/shop', "ProductsController@catListing");
+    Route::get('/product/{id}', "ProductsController@getProduct");
+    Route::post('/get_color_by_size', 'ProductsController@getColorBySize');
+    Route::post('/add_to_cart', 'ProductsController@addToCart');
+    Route::get('/cart', 'IndexController@showCart');
+    Route::post('/update_cart_qty', 'IndexController@updateQty');
+    Route::post('/delete_cart_item', 'IndexController@deleteCartItem');
 });
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
