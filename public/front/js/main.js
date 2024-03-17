@@ -1,8 +1,7 @@
 (function ($) {
     "use strict";
-
+    
     $('#price').tooltip('toggle');
-
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -155,6 +154,7 @@
                             data-final_price="${attribute['final_price']}"
                             data-price="${attribute['price']}" 
                             data-sku_id="${attribute['id']}"
+                            data-stock="${attribute['stock']}"
                             id="${attribute['color']}" name="color">
                             <label class="custom-control-label" for="${attribute['color']}">${attribute['color']}</label>
                             </div>`);
@@ -166,8 +166,10 @@
                                 $('#discount-price').html($(this).data('price'));
                                 let final_price = $('#final-price').html();
                                 let sku_id = $(this).data('sku_id');
+                                let stock = $(this).data('stock');
                                 $('#cartForm').children('#sku_id').val(sku_id);
                                 $('#cartForm').children('#price').val(final_price);
+                                $('.stock').html(stock+" item/s available!")
                             })
                         });
                     }
@@ -301,13 +303,23 @@
                 sku_id: sku_id,
             },
             success:function(res){
-                if(res.status == false){
-                    $("#error"+id).html(res.massage);
-                    location.reload(true);
-                }
-                else{
-                    location.reload();
-                }
+                let total = 0;
+                res.cart.forEach(value => {
+                    $('#productTotal'+value.id).html(value.total);
+                    if(value.maxStock == true){
+                        $('#error'+value.id).prop('disabled', false);
+                        $('#error'+value.id).prop('hidden', false);
+                        $('#btn'+value.id).prop('disabled', true);
+                    }
+                    else{
+                        $('#error'+value.id).prop('disabled', true);
+                        $('#error'+value.id).prop('hidden', true);
+                        $('#btn'+value.id).prop('disabled', false);
+                    }
+                    total += value.total;
+                });
+                $("#subtotal").html(total);
+                $("#totalCost").html(total + 60);
             },
             error: function(){
                 alert('ERROR!!!! Something went wrong!!!!');
@@ -340,8 +352,17 @@
                     data:{
                         id: id,
                     },
-                    success: function () {
-                        setTimeout(location.reload.bind(location), 500);
+                    success: function (res) {
+                        let total = 0;
+                        let count = 0;
+                        $('#cartrow'+id).remove();
+                        res.cart.forEach(value => {
+                            total += value.total;
+                            count += 1;
+                        });
+                        $("#subtotal").html(total);
+                        $("#totalCost").html(total + 60);
+                        $("#cartCount").html(count);
                         Command: toastr["error"]("Item deleted successfully", "Deleted")
 
                     },
@@ -353,6 +374,85 @@
             }
         });
     })
+
+    $(document).on('click', ".dropdown-item, cat-item, .action", function(){
+        $('.ring').prop('hidden', false);
+    });
+
+    $('#infoEdit').on('click', function () {
+
+        if ($(this).val() == 'Save') {
+            
+            let formdata = $('#infoForm').serialize();
+            $.ajax({
+                method: 'POST',
+                url: '/profile',
+                data: formdata,
+                success:function (res) {
+                    if(res.status == 'success'){  
+                    
+                    $('.spanmsg').remove();
+                    $('.errbr').remove();
+                    $('#msg').html('<span class="text-success spanmsg">Profile updated successfully!!</span>')
+                    }
+                },
+                error:function(err){
+                    $('.spanmsg').remove();
+                    $('.errbr').remove();
+                    let error = err.responseJSON;
+                    $.each(error.errors, function (index, value) {
+                        $('#msg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
+                    });
+                }
+            })
+            let elements = document.querySelectorAll('.form-control');
+
+            elements.forEach(function (element) {
+                    element.disabled = true;        
+            });
+
+            $(this).val('Edit');
+        }
+        else{
+            let elements = document.querySelectorAll('.form-control');
+
+            elements.forEach(function (element) {
+                    if(element.name != "country_code"){
+                        element.disabled = false; 
+                    }  
+            });
+    
+            $(this).val('Save');
+        }
+
+    });
+
+    $('#country').on('change', function () {
+        const name = $(this).val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method:"post",
+            url:'get.country_details',
+            data:{
+                name: name
+            },
+            success: function(res){
+                $('#countrycode').val(res[0].phonecode);
+                $('select[name="district"]').empty();
+                $.each(res[0].state, function(key, value) {
+                    $('select[name="district"]').append('<option value="'+ value.name +'">'+ value.name +'</option>');
+                    
+                    });
+            },
+            error: function(){
+                alert('Country selection failed!');
+            }
+
+        })
+    })
+
     
 })(jQuery);
 

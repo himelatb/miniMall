@@ -43,8 +43,8 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input name="password" type="password" class="form-control" @if(isset($_COOKIE["Password"])) 
-          value="{{ $_COOKIE["Password"] }}" @endif placeholder="Password">
+          <input name="password" type="password" class="form-control" @if(isset($_COOKIE["password"])) 
+          value="{{ $_COOKIE["password"] }}" @endif placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

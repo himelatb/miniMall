@@ -27,7 +27,18 @@ Route::namespace("App\Http\Controllers\Front")->group(function () {
     Route::post('/add_to_cart', 'ProductsController@addToCart');
     Route::get('/cart', 'IndexController@showCart');
     Route::post('/update_cart_qty', 'IndexController@updateQty');
+    Route::get('/checkout', 'IndexController@checkout');
     Route::post('/delete_cart_item', 'IndexController@deleteCartItem');
+    Route::match(['get','post'],'/register','UserController@register');
+    Route::match(['get','post'],'user/confirm/{code}','UserController@confirmRegistration');
+    route::match(['get','post'],'login','UserController@login')->name('login');
+    Route::middleware(['auth'])->group(function () {
+        Route::match(['get','post'],'/profile','UserController@profile');
+        Route::get('/logout', 'UserController@logout');
+        Route::post('/get.country_details','UserController@getCountryDetails');
+    });
+    Route::match(['get','post'],'/password_forget','UserController@forgetPassword');
+    Route::match(['get','post'],'user/password_reset/{token?}','UserController@resetPassword');
 });
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
@@ -81,6 +92,14 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('get.banner', 'BannerController@edit');
         Route::post('update.banner', 'BannerController@update');
         Route::post('delete.banner', 'BannerController@delete');
+
+        //product pages routes
+        Route::get('view.customers', 'UsersController@view');
+        Route::post('add.customers', 'UsersController@add');
+        Route::post('get.customers', 'UsersController@edit');
+        Route::post('update.customers', 'UsersController@update');
+        Route::post('delete.customers', 'UsersController@delete');
+        Route::post('delete.customers.image', 'UsersController@deleteImage');
 
     });
 

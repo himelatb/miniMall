@@ -176,7 +176,7 @@
                                 @endforeach
                             @endif
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href="{{url('/product',[$product['id']])}}"><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn action btn-outline-dark btn-square" href="{{url('/product',[$product['id']])}}"><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                 </div>
                             </div>

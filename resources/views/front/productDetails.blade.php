@@ -58,7 +58,7 @@
                         <div id="showColors">
                         </div>
                     </div>
-
+                    <small class="stock" style="color: rgb(53, 53, 52)"></small>
                     <small class="error" style="color: red"></small>
 
                     <div class="d-flex align-items-center mb-4 pt-2">

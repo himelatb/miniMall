@@ -24,14 +24,25 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{url ('front/css/style.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="{{url ('front/css/toastr.min.css')}}">
 </head>
-
+<script type="text/javascript">  
+  	window.onpageshow = function(event) {
+		if (event.persisted) {
+			window.location.reload();
+		}
+	};
+</script>
 <body>
+    
     <!-- Topbar Start -->
-@include('front.layout.topbar')
+@include('front.layout.header')
     <!-- Topbar End -->
 
+    {{-- loading --}}
+<div class="ring" hidden>Loading
+    <span id="ringspan"></span>
+</div>
 
     <!-- Navbar Start -->
 @include('front.layout.navbar')

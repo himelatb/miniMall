@@ -42,10 +42,25 @@
                      </a>
 
                  </li>
-
+                 <li class="nav-item side-li">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-paste"></i>
+                        <p>
+                            Order Management
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item side-li">
+                    <a href="{{url('admin/view.customers')}}" class="nav-link">
+                        <i class="nav-icon fas fa-user-alt"></i>
+                        <p>
+                            Customer Management
+                        </p>
+                    </a>
+                </li>
                  <li class="nav-item side-li">
                      <a href="{{url('admin/view.admins')}}" class="nav-link">
-                         <i class="nav-icon fas fa-users"></i>
+                         <i class="nav-icon fas fa-user-tie"></i>
                          <p>
                              Admin Management
                          </p>

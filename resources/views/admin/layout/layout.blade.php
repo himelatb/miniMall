@@ -66,6 +66,9 @@
 
             @include('admin.banner.edit_banner_modal')
             @include('admin.banner.add_banner_modal')
+
+            @include('admin.customers.edit_customers_modal')
+            @include('admin.customers.add_customers_modal')
             {!! Toastr::message() !!}
         </div>
         <!-- ./wrapper -->
@@ -116,6 +119,7 @@
         <script src="{{ url('admin/js/custom/customcmsactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/custombrandactions.js')}}"></script>
         <script src="{{ url('admin/js/custom/custombanneractions.js')}}"></script>
+        <script src="{{ url('admin/js/custom/customusersactions.js')}}"></script>
 
         <script type="text/javascript">
             $.ajaxSetup({
@@ -135,6 +139,7 @@
                 categoryActions();
                 brandActions();
                 bannerActions();
+                customersActions();
 
                 $('.nav-link').each(function () {
                     if ($(this).prop('href') == window.location.href) {

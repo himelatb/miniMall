@@ -26,14 +26,13 @@ class Cart extends Model
 
     public static function getCartItems(){
         $session_id = Session::get('session_id');
-        $product_ids = array();
         if(Auth::check()){
             $user_id = Auth::user()->id;
             $cart = Cart::with('product', 'attribute','images')
-            ->where(['session_id' => $session_id, 'user_id' => $user_id])->get()->toArray();
+            ->where(['user_id' => $user_id])->get();
         }
         else{
-            $cart = Cart::with('product', 'attribute','images')->where(['session_id' => $session_id])->get()->toArray();
+            $cart = Cart::with('product', 'attribute','images')->where(['session_id' => $session_id])->get();
         }
 
         return $cart;

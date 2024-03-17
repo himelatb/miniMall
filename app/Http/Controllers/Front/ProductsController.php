@@ -172,7 +172,6 @@ class ProductsController extends Controller
                     'session_id'=> $session_id])->count();
                 }
                 else{
-                    $user_id = 0;
                     $countProducts = Cart::where(['product_id' => $request['product_id'], 'sku_id'=> $request['sku_id'], 'session_id'=> $session_id])->count();
                 }
                 
