@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 104.93">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #ffdf36;
+      }
+
+      .cls-1, .cls-3 {
+        font-family: FranklinGothic-Heavy, 'Franklin Gothic Heavy';
+        font-size: 84.06px;
+        font-weight: 800;
+      }
+
+      .cls-4, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-4, .cls-3 {
+        fill: #333;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-2" width="432" height="101.82"/>
+    <rect class="cls-4" width="199.29" height="101.82"/>
+    <text class="cls-1" transform="translate(6.77 79.15)"><tspan x="0" y="0">MINI</tspan></text>
+    <text class="cls-3" transform="translate(203.96 79.15)"><tspan x="0" y="0">MALL</tspan></text>
+  </g>
+</svg>

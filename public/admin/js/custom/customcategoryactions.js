@@ -123,7 +123,7 @@ function categoryActions() {
         $('.spanmsg').remove();
         $('.errbr').remove();
         var formData = new FormData(this);
-        console.log(formData);
+        
         $.ajax({
             url: "update.category",
             method: 'post',

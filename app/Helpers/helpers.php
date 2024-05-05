@@ -1,5 +1,7 @@
 <?php
 use App\Models\Cart;
+use App\Models\User;
+use App\Models\Product;
 
 function totalCartItems() {
     if(Auth::check()) {
@@ -10,3 +12,15 @@ function totalCartItems() {
     }
     return $total;
 }
+
+function totalUsers() {
+    $total = User::count();
+    return $total;
+}
+
+function totalProducts() {
+    $total = Product::count();
+    return $total;
+}
+
+

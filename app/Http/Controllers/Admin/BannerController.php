@@ -17,7 +17,7 @@ class BannerController extends Controller
             return datatables()->of(Banner::get()->toArray())
             ->addColumn("action","admin/banner/banner-action")
             ->addColumn("image","admin/banner/showimage")
-            ->addColumn("status","admin/banner/showstatus")
+            ->addColumn("status","components/showstatus")
             ->rawColumns(['action', 'image', 'status'])
             ->addIndexColumn()
             ->make(true);

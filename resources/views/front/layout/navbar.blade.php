@@ -28,7 +28,7 @@
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0" style="left: auto;">
                                 @if (Auth::check())
                                     <a href="{{url('/profile')}}" class="dropdown-item">Profile</a>
-                                    <a href="#" class="dropdown-item">Orders</a>
+                                    <a href="{{url('/my_orders')}}" class="dropdown-item">Orders</a>
                                     <a href="#" class="dropdown-item">Privacy & Policy</a>
                                     <a class="dropdown-item" href="{{url('/logout')}}">Logout</a>
                                 @else
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="" class="btn px-0">
+                        <a href="#" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                         </a>

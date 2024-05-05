@@ -62,23 +62,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="customers_image" class="col-sm-6 control-label">Select image</label>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" id="customers_image" name="customers_image">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="customers_imageView" class="col-sm-6 control-label">Image</label>
-                            <div class="h-100 d-flex align-items-center justify-content-center">
-                                <img class="border" width="150" height="150" id="customers_imageView"
-                                    name="customers_imageView" />
-                            </div>
-                        </div>
-                    </div>
                     <div class="m-3 d-flex align-items-center justify-content-center">
                         <button type="submit" class="btn btn-primary">Save
                         </button>

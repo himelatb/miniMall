@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('product_qty');
             $table->integer('sku_id');
+            $table->float('price');
             $table->timestamps();
         });
     }

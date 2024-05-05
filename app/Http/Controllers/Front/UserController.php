@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Country;
-
+use App\Models\Order;
+use App\Models\UserAddresses;
+use App\Models\OrderProducts;
+use App\Models\Product;
+use App\Models\productAttribute;
+use App\Models\OrderLog;
 use Hash;
 use Auth;
 use Session;
@@ -47,7 +52,7 @@ class UserController extends Controller
 
         if($request->isMethod('POST')){
             $validator = Validator::make($request->all(),[
-                'email'=> 'required|email|unique:users',
+                'email'=> 'required|email|unique:users,email',
                 'password'=> 'required|confirmed',
                 'name'=> 'required|max:255',
                 'terms' => 'accepted',
@@ -190,21 +195,30 @@ class UserController extends Controller
 
     public function profile(Request $request){
 
+        $email = Auth::user()->email;
+        $id = Auth::user()->id;
         $countries = Country::with('state')->get();
-        $user = User::where('email', Auth::user()->email)->first();
+        $user = User::where('email', $email)->first();
+        $address = UserAddresses::where(['user_id' => $id, 'status' => true])->first();
 
+        $countrycode = $countries->where('name', $address->country)->first()->phonecode;
+        $states = $countries->where('name', $address->country)->first()->state;
+        
         if($request->isMethod('post')){
             $request->validate([
                 'email'=> 'required|email|unique:users,email,'.$request->email.',email',
                 'name'=> 'required|max:255',
             ]);
                         $user->name = $request->name;
-                        $user->mobile = $request->mobile;
-                        $user->country = $request->country;
-                        $user->town = $request->town;
-                        $user->district = $request->district;
-                        $user->zipcode = $request->zipcode;
-                        $user->address = $request->address;
+
+                        $address->mobile  = $request->mobile;
+                        $address->country   = $request->country;
+                        $address->town   = $request->town;
+                        $address->district  = $request->district;
+                        $address->zipcode   = $request->zipcode;
+                        $address->address  = $request->address;
+                        $address->name  = $request->name;
+                        $address->save();
 
                     if($request->email != $user->email){
                         $user->email_verified_at = null;
@@ -216,10 +230,8 @@ class UserController extends Controller
                         return response()->json(['status' => 'success']);
 
         }
-        $countrycode = $countries->where('name', $user->country)->first()->phonecode;
-        $states = $countries->where('name', $user->country)->first()->state;
 
-        return view('front/profile',compact('user','countries','countrycode','states'));
+        return view('front/profile',compact('user','countries','countrycode','states','address'));
     }
 
     public function getCountryDetails(Request $request){
@@ -227,6 +239,110 @@ class UserController extends Controller
         
         return response()->json($country);
     }
+    public function changePassword(Request $request){
+        
+        if($request->isMethod('POST')){
+            $request->validate([
+                'old_password' => 'required',
+                'password' => 'required|confirmed',
+            ]);
+            $user = User::where('email', Auth::user()->email)->first();
+            
+            if(Hash::check($request->old_password, $user->password)) { 
+                $user->password = Hash::make($request->password);
+                $user->save();
+                $message = "Password changed successfully!!";
+                return response()->json(['msg' => $message, 'success' => true]);
+            }
+            else{
+                return response()->json(['msg' => 'Incorrect password!!', 'success' => false]);
+            }
+        }
+        else{
+            return view('front/pass_change');
+        }                
+    }
 
+    public function myAddresses(Request $request){
+
+        $countries = Country::get();
+        $states = Country::get();
+        $addresses = UserAddresses::where('user_id', Auth::user()->id)->get();
+
+        return view('front/addresses', compact('countries', 'addresses','states'));
+    }
+
+    public function defaultAddress(Request $request){
+
+        $addresses = UserAddresses::all();
+
+        foreach ($addresses as $key => $address) {
+            if($address->id == $request->id){
+                $address->status = true;
+                $address->save();
+                User::where('id', Auth::user()->id)->update([
+                    'name' => $address->name,
+                ]);
+            }
+            else{
+                $address->status = false;
+                $address->save();
+            }
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function myOrders(){
+        $orders = Order::getUsersOrder();
+        // dd($orders->toArray());
+        return view('front/my_orders', compact('orders'));
+    }
+
+    public function orderDetail($id){
+        $order = Order::with('orderProducts','customer', 'billingAddress', 'shippingAddress')->where('id', $id)->get()->first()->toArray();
+        $orderLog = OrderLog::where('order_id', $id)->get()->toArray();
+        //  dd($order);
+        return view('front/order_details')->with(['order' => $order, 'orderLog' => $orderLog]);
+    }
+
+    public function cancelOrder(Request $request){
+        DB::beginTransaction();
+        $order = Order::where('id', $request->id)->first();
+        $order->status = 'Cancelled';
+        $order->save();
+
+        $orderLog = new OrderLog;
+        $orderLog->order_id = $request->id;
+        $orderLog->status = 'Cancelled';
+        $orderLog->save();
+
+        $message = " Order has been Cancelled (Order ID: ".$order->id.").";
+        $products = OrderProducts::with('images')->where('order_id', $order->id)->get();
+        foreach ($products as $product) {
+            $product->name = Product::where('id', $product->product_id)->first()->product_name;
+            $product->color = productAttribute::where('id', $product->attribute_id)->first()->color;
+            $product->size = productAttribute::where('id', $product->attribute_id)->first()->size;
+            
+            productAttribute::where('id', $product->attribute_id)->increment('stock', $product->qty);
+            
+        }
+
+        $userData = ['email' => Auth::user()->email,'name'=> Auth::user()->name, 
+        'msg' => $message, 
+        'order' => $order, 
+        'billingAddress' => UserAddresses::where('id', $order->billing_id)->first(), 
+        'shippingAddress' => UserAddresses::where('id', $order->shipping_id)->first(), 
+        'products' => $products];
+
+        Mail::send('email.order', $userData, function ($message) use($userData){
+            $message->to($userData['email'], $userData['name']);
+            $message->subject('Order Cancelled. miniMall');
+        });
+        DB::commit();
+
+        return response()->json(['status' => 'success']);
+        
+    }
 
 }

@@ -1,3 +1,16 @@
+function myAddressActions(id) {        
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method:'post',
+        url:'default_address',
+        data:{
+            id:id
+        }
+    });
+}
+
 (function ($) {
     "use strict";
     
@@ -286,6 +299,19 @@
         $('#cartForm').children('#qty').val(newVal);
     });
 
+    function CouponActions(total) {
+        $("#subtotal").html(total +' tk');
+        $("#totalCost").html(total +' tk');
+        $('.couponTag').html('');
+        $('.couponAmount').html('');
+        $('#couponSubmit').prop('hidden', false);
+        $('#couponRemove').prop('hidden', true);
+        $('#coupon_code').prop('disabled', false);
+        $('#coupon_code').val('');
+        $('.spanmsg').remove();
+        $('.errbr').remove();
+    }
+
     $('.qtyButton').on('click', function(){
         let id = $(this).data('id');
         var qty = $(this).parent('div').siblings('.qty').val();
@@ -318,8 +344,7 @@
                     }
                     total += value.total;
                 });
-                $("#subtotal").html(total);
-                $("#totalCost").html(total + 60);
+                CouponActions(total);
             },
             error: function(){
                 alert('ERROR!!!! Something went wrong!!!!');
@@ -360,9 +385,8 @@
                             total += value.total;
                             count += 1;
                         });
-                        $("#subtotal").html(total);
-                        $("#totalCost").html(total + 60);
-                        $("#cartCount").html(count);
+                        CouponActions(total);
+                        $('#cartCount').html(count);
                         Command: toastr["error"]("Item deleted successfully", "Deleted")
 
                     },
@@ -427,7 +451,7 @@
 
     });
 
-    $('#country').on('change', function () {
+    $('#country, #edit_country').on('change', function () {
         const name = $(this).val();
         $.ajax({
             headers: {
@@ -440,9 +464,9 @@
             },
             success: function(res){
                 $('#countrycode').val(res[0].phonecode);
-                $('select[name="district"]').empty();
+                $('select[name="district"], select[name="edit_district"]').empty();
                 $.each(res[0].state, function(key, value) {
-                    $('select[name="district"]').append('<option value="'+ value.name +'">'+ value.name +'</option>');
+                    $('select[name="district"], select[name="edit_district"]').append('<option value="'+ value.name +'">'+ value.name +'</option>');
                     
                     });
             },
@@ -453,6 +477,313 @@
         })
     })
 
-    
+    $("#submitNewPass").on('click', function(){
+        let formData = $('#passChangeForm').serialize();
+        $.ajax({
+            url:'/change_password',
+            method:'POST',
+            data: formData,
+            success: function(res){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                if(res.success == true){
+                    $('#msg').append('<span class="text-success spanmsg">' + res.msg + '</span>' + '<br class="errbr">');
+                    $('#passChangeForm').html(`<a href="/miniMall" class="nav-item nav-link action d-flex justify-content-center">Go back to home page</a>`);
+                }
+                else{
+                    $('#msg').append('<span class="text-danger spanmsg">' + res.msg + '</span>' + '<br class="errbr">');
+                }
+                
+            },
+            error: function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function (index, value) {
+                    $('#msg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
+                });
+            }
+        })
+    });
+
+    $("#couponSubmit").on('click', function(e){
+        e.preventDefault();
+        var formData = $('#couponForm').serialize();
+        $.ajax({
+            method: 'POST',
+            url:'/add_coupon',
+            data: formData,
+            success: function(res){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                if(res.status == 'success'){
+                    $('#coupon_code').prop('disabled', true);
+                    $('#couponSubmit').prop('hidden', true);
+                    $('#couponRemove').prop('hidden', false);
+                    let total = 0;
+                    res.cart.forEach(value => {
+                        total += value.total;
+                    });
+                    $('.couponTag').html('Coupon');
+
+                    if (res.coupon.amount_type == 'Fixed') {
+                        $('.couponAmount').html(res.coupon.amount + 'tk');
+                        total = total - res.coupon.amount;
+                    }
+                    else {
+                        $('.couponAmount').html(res.coupon.amount + '%');
+                        total = total - total* (res.coupon.amount/100);
+                    }
+                    $("#totalCost").html(total +' tk');
+                    
+                    $('#couponForm').append('<small class="text-success spanmsg">' + res.message + '</small>');
+                }
+                else{
+                    $('#couponForm').append('<small class="text-danger spanmsg">' + res.message + '</small>');
+                }
+                    
+            },
+            error: function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function (index, value) {
+                    $('#couponForm').append('<small class="text-danger spanmsg">' + value + '</small>');
+                });
+            }
+        });
+
+    });
+
+    $("#couponRemove").on('click', function(e){
+        e.preventDefault();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            url:'/remove_coupon',
+            success: function(res){
+                if(res.status == 'success'){
+                    let total = 0;
+                    res.cart.forEach(value => {
+                        total += value.total;
+                    });
+                    CouponActions(total);
+                }      
+            },
+            error: function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function (index, value) {
+                    $('#couponForm').append('<small class="text-danger spanmsg">' + value + '</small>');
+                });
+            }
+        });
+
+    });
+
+    $('#newAddressBtn').on('click', function(e){
+        e.preventDefault();
+        $('.spanmsg').remove();
+        $('.errbr').remove();
+        let formData = $('#newAddress').serialize();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            url: '/add_address',
+            data: formData,
+            success: function(){
+                $("#addAddressModal .close").click();
+                $('#newAddress').trigger("reset");
+                setTimeout(location.reload.bind(location), 1500);
+                Command: toastr["success"]("Address added successfully!", "Added")
+            },
+            error:function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function (index, value) {
+                    $('.msg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
+                });
+            }
+
+        });
+
+
+    });
+
+    $('.editAddressBtn').on('click', function(){
+        $('.spanmsg').remove();
+        $('.errbr').remove();
+        let id = $(this).data('id');
+        let country = $(this).data('country');
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            url: '/get_address',
+            data: {
+                id: id,
+                country: country
+            },
+            success: function(res){
+                $('#editAddress').trigger("reset");
+                $('select[name="edit_district"]').empty();
+                $.each(res.states, function(key, value) {
+                    $(' select[name="edit_district"]').append('<option value="'+ value.name +'">'+ value.name +'</option>');
+                    
+                    });
+                $('#id').val(res.address.id);
+                $('#edit_name').val(res.address.name);
+                $('#edit_mobile').val(res.address.mobile);
+                $('#edit_address').val(res.address.address);
+                $('#edit_road_house').val(res.address.road_house);
+                $('#edit_town').val(res.address.town);
+                $('#edit_district').val(res.address.district);
+                $('#edit_country').val(res.address.country);
+                $('#edit_zipcode').val(res.address.zipcode);
+            }
+        });
+
+
+    });
+
+    $('#changeAddressBtn').on('click', function(){
+        let formData = $('#editAddress').serialize();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            url: '/update_address',
+            data: formData,
+            success: function(res){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                $("#editAddressModal .close").click();
+                $('#editAddress').trigger("reset");
+                $('.address'+res.id).html(`
+                ${res.name+', '+ res.mobile+', '+res.address
+                + (res.road_house != null ? ", "+res.road_house: '')
+                + (res.town != null ? ", "+res.town: '')
+                + (res.district != null ? ", "+res.district: '')
+                + (res.country != null ? ", "+res.country: '')
+                + (res.zipcode != null ? ", "+res.zipcode: '')
+            }`);
+
+            $.each($('.myAddress'), function(key, address) {
+                        if(address.checked == true && res.id == address.value){ 
+                                myAddressActions(res.id);
+                        }
+            });
+
+                Command: toastr["info"]("Address Updated successfully!", "Updated")
+            },
+            error:function(err){
+                $('.spanmsg').remove();
+                $('.errbr').remove();
+                let error = err.responseJSON;
+                $.each(error.errors, function (index, value) {
+                    $('.msg').append('<span class="text-danger spanmsg">' + value + '</span>' + '<br class="errbr">');
+                });
+            }
+
+        });
+
+
+    });
+
+    $('.deleteAddressBtn').on('click', function(){
+        let id = $(this).data('id');
+        swal({
+            title: "Do you want delete this address?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    url: "/delete_address",
+                    data:{
+                        id: id,
+                    },
+                    success: function () {
+                        $('.addressrow'+id).remove();
+
+                        Command: toastr["error"]("Address deleted successfully", "Deleted")
+
+                    },
+                    error: function(){
+                        alert('ERROR!!!! Something went wrong!!!!');
+                    }
+
+                });
+            }
+        });
+    })
+
+    $('.myAddress').on('change', function(){
+        let id = $(this).val();
+        myAddressActions(id);
+    })
+
+    $('#cancelOrderBtn').on('click', function(){
+        let id = $(this).data('id');
+        swal({
+            title: "Do you want cancel this order?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    url: "/cancel_order",
+                    data:{
+                        id: id,
+                    },
+                    success: function () {
+                        $('.track').html(`<div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order Cancelled</span> </div>`);
+                        $('#detailOrderStatus').html('Cancelled');
+                        $('#cancelOrderBtn').remove();
+
+                        Command: toastr["error"]("Order cancelled successfully", "Cancelled")
+
+                    },
+                    error: function(){
+                        alert('ERROR!!!! Something went wrong!!!!');
+                    }
+
+                });
+            }
+        });
+    })
+
 })(jQuery);
 

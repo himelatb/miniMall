@@ -39,62 +39,100 @@ class Product extends Model
         return $this->hasOne('App\Models\Brand','id', 'brand_id');
     }
 
+    /**
+     * This function sorts and filters the products based on the request and ids.
+     *
+     * @param object $request The request object containing the filtering parameters.
+     * @param array|null $ids The array of category ids to filter the products.
+     * @return \Illuminate\Pagination\LengthAwarePaginator The paginated collection of sorted products.
+     */
     public static function productFilterSort($request, $ids = null){
-
+        // Initialize the product query
         if($ids == null) {
-            $products = Product::with(['images', 'attributes', 'brand'])->where('status', 1);
+            if (isset($request->search)) {
+                $search = $request->search;
+                $products = Product::with(['images', 'attributes', 'brand'])
+                    ->where(function ($query) use ($search) {
+                        return $query->where('product_name', 'like', '%'.$search.'%')
+                            ->orWhere('description', 'like', '%'.$search.'%')
+                            ->orWhere('keywords', 'like', '%'.$search.'%')
+                            ->orWhere('meta_keywords', 'like', '%'.$search.'%')
+                            ->orWhere('meta_description', 'like', '%'.$search.'%')
+                            ->orWhere('meta_title', 'like', '%'.$search.'%')
+                            ->orWhereHas('category', function ($query) use ($search) {
+                                $query->where('category_name', 'like', '%'.$search.'%');
+                            });
+                    });
+            }
+            else {
+                $products = Product::with(['images', 'attributes', 'brand']);
+            }
         } 
         else{
-            $products = Product::with(['images', 'attributes', 'brand'])->where('status', 1)
+            // Filter the products by category ids
+            $products = Product::with(['images', 'attributes', 'brand'])
             ->WhereIn('category_id', $ids);
         }   
             
-            if ($request->all() != null) {
-                $sizes = array();
-                $colors = array();
-                
-                if(!$request->has('allColors') && $request->colors != null) {
-                    foreach ($request->colors as $key => $value) {
-                        $colors[] = $key;
-                    }
-                    $products = $products->whereHas('attributes', function($query) use ($colors){
-                        $query->whereIn('color', $colors);
-                    });
+        // Apply the filtering conditions
+        if ($request->all() != null) {
+
+            // Initialize the size and color arrays
+            $sizes = array();
+            $colors = array();
+            
+            // Filter the products by color
+            if(!$request->has('allColors') && $request->colors != null) {
+                foreach ($request->colors as $key => $value) {
+                    $colors[] = $key;
                 }
-                if(!$request->has('allSizes') && $request->sizes != null) {
-                    foreach ($request->sizes as $key => $value) {
-                        $sizes[] = $key;
-                    }
-                    $products = $products->whereHas('attributes', function($query) use ($sizes){
-                        $query->whereIn('size', $sizes);
-                    }); 
+                // Apply the color filter
+                $products = $products->whereHas('attributes', function($query) use ($colors){
+                    $query->whereIn('color', $colors);
+                });
+            }
+
+            // Filter the products by size
+            if(!$request->has('allSizes') && $request->sizes != null) {
+                foreach ($request->sizes as $key => $value) {
+                    $sizes[] = $key;
                 }
-                //dd($request->has('colors'),$request->has('sizes'),$products->get());
-        
-                if($request->has('price')){
-                    $products = $products->where('final_price',"<=", $request['price']);
-                }
-        
-                if($request->has('sorting')) {
-                    switch ($request['sorting']) {
-                        case 'Latest first':
-                            $products = $products->orderBy('created_at');
-                            break;
-                        case 'Price (Highest first)':
-                            $products = $products->orderByDesc('final_price')->orderByDesc('product_price');
-                            break;
-                        case 'Price (Lowest first)':
-                            $products = $products->orderBy('final_price')->orderBy('product_price');
-                            break;
-                    }
+                // Apply the size filter
+                $products = $products->whereHas('attributes', function($query) use ($sizes){
+                    $query->whereIn('size', $sizes);
+                }); 
+            }
+
+            // Filter the products by price
+            if($request->has('price')){
+                $products = $products->where('final_price',"<=", $request['price']);
+            }
+
+            // Sort the products
+            if($request->has('sorting')) {
+                switch ($request['sorting']) {
+                    case 'Latest first':
+                        // Sort the products by latest first
+                        $products = $products->orderBy('created_at');
+                        break;
+                    case 'Price (Highest first)':
+                        // Sort the products by highest price first and then by product price
+                        $products = $products->orderByDesc('final_price')->orderByDesc('product_price');
+                        break;
+                    case 'Price (Lowest first)':
+                        // Sort the products by lowest price first and then by product price
+                        $products = $products->orderBy('final_price')->orderBy('product_price');
+                        break;
                 }
             }
-            $products = $products->paginate(20);
-            //dd($products);
+        }
 
-            return $products;
+        // Apply the status filter and paginate the results
+        $products = $products->where('status', 1)->paginate(20);
 
-
-    }
+        // Return the paginated collection of sorted products
+        return $products;
     
+    }
+
 }

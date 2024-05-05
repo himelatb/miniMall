@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">{{$product['product_name']}}</a>
+                                <a class="h6 text-decoration-none text-truncate" href="{{url('/product',[$product['id']])}}">{{$product['product_name']}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
                                     <h5>{{$product['final_price'] == $product['product_price'] ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == $product['product_price'] ? '':$product['product_price']}}</del></h6>
                                 </div>
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">{{$product['product_name']}}</a>
+                                <a class="h6 text-decoration-none text-truncate" href="{{url('/product',[$product['id']])}}">{{$product['product_name']}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
                                     <h5>{{$product['final_price'] == $product['product_price'] ? $product['product_price']:$product['final_price']}}</h5><h6 class="text-muted ml-2"><del>{{$product['final_price'] == $product['product_price'] ? '':$product['product_price']}}</del></h6>
                                 </div>

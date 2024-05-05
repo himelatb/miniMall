@@ -43,7 +43,7 @@
 
                  </li>
                  <li class="nav-item side-li">
-                    <a href="#" class="nav-link">
+                    <a href="{{url('admin/view.order')}}" class="nav-link">
                         <i class="nav-icon fas fa-paste"></i>
                         <p>
                             Order Management
@@ -74,6 +74,14 @@
                          </p>
                      </a>
                  </li>
+                 <li class="nav-item side-li">
+                    <a href="{{url('admin/view.coupon')}}" class="nav-link">
+                        <i class="nav-icon fas fa-money-bill"></i>
+                        <p>
+                            Coupon Management
+                        </p>
+                    </a>
+                </li>
                  <li class="nav-item side-li">
                      <a href="#" class="nav-link">
                          <i class="nav-icon fas fa-warehouse"></i>

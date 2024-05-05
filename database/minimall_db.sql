@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 17, 2024 at 11:00 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Mar 27, 2024 at 08:06 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `miniMall_db`
+-- Database: `minimall_db`
 --
 
 -- --------------------------------------------------------
@@ -78,7 +78,7 @@ INSERT INTO `banners` (`id`, `image`, `url`, `type`, `title`, `status`, `text`, 
 (2, '8724.jpg', 'women', 'Slider', 'Women\'s Fashion', 1, 'Women\'s fashion products from all over the world', 2, NULL, '2024-02-20 02:30:14'),
 (3, '3973.jpg', 'kids', 'Slider', 'Kid\'s Fashion', 1, 'Kid\'s fashion products from all over the world', 0, '2024-02-20 02:31:22', '2024-02-20 02:31:22'),
 (4, '2222.jpg', 'save20%', 'Offer', 'SAVE 20%', 1, 'Special Offer', 2, '2024-02-20 02:32:04', '2024-02-20 02:32:04'),
-(5, '3719.jpg', 'save40%', 'Offer', 'SAVE 40%', 1, 'Special Offer', 1, '2024-02-20 02:32:35', '2024-02-20 02:32:35'),
+(5, '3719.jpg', 'save40%', 'Offer', 'SAVE 40%', 0, 'Special Offer', 1, '2024-02-20 02:32:35', '2024-03-21 02:23:58'),
 (6, '2315.jpg', 'free-delivery', 'Offer', 'Get Free Delivery', 1, 'With Every Item', 1, '2024-02-20 02:33:41', '2024-02-20 02:33:41');
 
 -- --------------------------------------------------------
@@ -122,13 +122,21 @@ CREATE TABLE `carts` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `session_id` varchar(255) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL,
   `product_qty` int(11) NOT NULL,
   `sku_id` int(11) NOT NULL,
-  `price` varchar(10) NOT NULL,
+  `price` double(8,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `session_id`, `product_id`, `user_id`, `product_qty`, `sku_id`, `price`, `created_at`, `updated_at`) VALUES
+(45, 'dua7upZMldv3xtAoujjfbN616FHSnJtMp6Ycvgnc', 2, 31, 1, 6, 96.00, '2024-03-22 02:53:44', '2024-03-26 00:47:14'),
+(46, 'dua7upZMldv3xtAoujjfbN616FHSnJtMp6Ycvgnc', 2, 31, 1, 10, 96.00, '2024-03-22 02:53:51', '2024-03-26 09:09:38');
 
 -- --------------------------------------------------------
 
@@ -204,263 +212,294 @@ INSERT INTO `cms_pages` (`id`, `title`, `description`, `url`, `meta_title`, `met
 --
 
 CREATE TABLE `countries` (
-  `id` int(11) NOT NULL,
-  `shortname` varchar(3) NOT NULL,
-  `name` varchar(150) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `shortname` varchar(255) NOT NULL,
   `phonecode` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `countries`
 --
 
-INSERT INTO `countries` (`id`, `shortname`, `name`, `phonecode`) VALUES
-(1, 'AF', 'Afghanistan', 93),
-(2, 'AL', 'Albania', 355),
-(3, 'DZ', 'Algeria', 213),
-(4, 'AS', 'American Samoa', 1684),
-(5, 'AD', 'Andorra', 376),
-(6, 'AO', 'Angola', 244),
-(7, 'AI', 'Anguilla', 1264),
-(8, 'AQ', 'Antarctica', 0),
-(9, 'AG', 'Antigua And Barbuda', 1268),
-(10, 'AR', 'Argentina', 54),
-(11, 'AM', 'Armenia', 374),
-(12, 'AW', 'Aruba', 297),
-(13, 'AU', 'Australia', 61),
-(14, 'AT', 'Austria', 43),
-(15, 'AZ', 'Azerbaijan', 994),
-(16, 'BS', 'Bahamas The', 1242),
-(17, 'BH', 'Bahrain', 973),
-(18, 'BD', 'Bangladesh', 880),
-(19, 'BB', 'Barbados', 1246),
-(20, 'BY', 'Belarus', 375),
-(21, 'BE', 'Belgium', 32),
-(22, 'BZ', 'Belize', 501),
-(23, 'BJ', 'Benin', 229),
-(24, 'BM', 'Bermuda', 1441),
-(25, 'BT', 'Bhutan', 975),
-(26, 'BO', 'Bolivia', 591),
-(27, 'BA', 'Bosnia and Herzegovina', 387),
-(28, 'BW', 'Botswana', 267),
-(29, 'BV', 'Bouvet Island', 0),
-(30, 'BR', 'Brazil', 55),
-(31, 'IO', 'British Indian Ocean Territory', 246),
-(32, 'BN', 'Brunei', 673),
-(33, 'BG', 'Bulgaria', 359),
-(34, 'BF', 'Burkina Faso', 226),
-(35, 'BI', 'Burundi', 257),
-(36, 'KH', 'Cambodia', 855),
-(37, 'CM', 'Cameroon', 237),
-(38, 'CA', 'Canada', 1),
-(39, 'CV', 'Cape Verde', 238),
-(40, 'KY', 'Cayman Islands', 1345),
-(41, 'CF', 'Central African Republic', 236),
-(42, 'TD', 'Chad', 235),
-(43, 'CL', 'Chile', 56),
-(44, 'CN', 'China', 86),
-(45, 'CX', 'Christmas Island', 61),
-(46, 'CC', 'Cocos (Keeling) Islands', 672),
-(47, 'CO', 'Colombia', 57),
-(48, 'KM', 'Comoros', 269),
-(49, 'CG', 'Republic Of The Congo', 242),
-(50, 'CD', 'Democratic Republic Of The Congo', 242),
-(51, 'CK', 'Cook Islands', 682),
-(52, 'CR', 'Costa Rica', 506),
-(53, 'CI', 'Cote D\'Ivoire (Ivory Coast)', 225),
-(54, 'HR', 'Croatia (Hrvatska)', 385),
-(55, 'CU', 'Cuba', 53),
-(56, 'CY', 'Cyprus', 357),
-(57, 'CZ', 'Czech Republic', 420),
-(58, 'DK', 'Denmark', 45),
-(59, 'DJ', 'Djibouti', 253),
-(60, 'DM', 'Dominica', 1767),
-(61, 'DO', 'Dominican Republic', 1809),
-(62, 'TP', 'East Timor', 670),
-(63, 'EC', 'Ecuador', 593),
-(64, 'EG', 'Egypt', 20),
-(65, 'SV', 'El Salvador', 503),
-(66, 'GQ', 'Equatorial Guinea', 240),
-(67, 'ER', 'Eritrea', 291),
-(68, 'EE', 'Estonia', 372),
-(69, 'ET', 'Ethiopia', 251),
-(70, 'XA', 'External Territories of Australia', 61),
-(71, 'FK', 'Falkland Islands', 500),
-(72, 'FO', 'Faroe Islands', 298),
-(73, 'FJ', 'Fiji Islands', 679),
-(74, 'FI', 'Finland', 358),
-(75, 'FR', 'France', 33),
-(76, 'GF', 'French Guiana', 594),
-(77, 'PF', 'French Polynesia', 689),
-(78, 'TF', 'French Southern Territories', 0),
-(79, 'GA', 'Gabon', 241),
-(80, 'GM', 'Gambia The', 220),
-(81, 'GE', 'Georgia', 995),
-(82, 'DE', 'Germany', 49),
-(83, 'GH', 'Ghana', 233),
-(84, 'GI', 'Gibraltar', 350),
-(85, 'GR', 'Greece', 30),
-(86, 'GL', 'Greenland', 299),
-(87, 'GD', 'Grenada', 1473),
-(88, 'GP', 'Guadeloupe', 590),
-(89, 'GU', 'Guam', 1671),
-(90, 'GT', 'Guatemala', 502),
-(91, 'XU', 'Guernsey and Alderney', 44),
-(92, 'GN', 'Guinea', 224),
-(93, 'GW', 'Guinea-Bissau', 245),
-(94, 'GY', 'Guyana', 592),
-(95, 'HT', 'Haiti', 509),
-(96, 'HM', 'Heard and McDonald Islands', 0),
-(97, 'HN', 'Honduras', 504),
-(98, 'HK', 'Hong Kong S.A.R.', 852),
-(99, 'HU', 'Hungary', 36),
-(100, 'IS', 'Iceland', 354),
-(101, 'IN', 'India', 91),
-(102, 'ID', 'Indonesia', 62),
-(103, 'IR', 'Iran', 98),
-(104, 'IQ', 'Iraq', 964),
-(105, 'IE', 'Ireland', 353),
-(106, 'IL', 'Israel', 972),
-(107, 'IT', 'Italy', 39),
-(108, 'JM', 'Jamaica', 1876),
-(109, 'JP', 'Japan', 81),
-(110, 'XJ', 'Jersey', 44),
-(111, 'JO', 'Jordan', 962),
-(112, 'KZ', 'Kazakhstan', 7),
-(113, 'KE', 'Kenya', 254),
-(114, 'KI', 'Kiribati', 686),
-(115, 'KP', 'Korea North', 850),
-(116, 'KR', 'Korea South', 82),
-(117, 'KW', 'Kuwait', 965),
-(118, 'KG', 'Kyrgyzstan', 996),
-(119, 'LA', 'Laos', 856),
-(120, 'LV', 'Latvia', 371),
-(121, 'LB', 'Lebanon', 961),
-(122, 'LS', 'Lesotho', 266),
-(123, 'LR', 'Liberia', 231),
-(124, 'LY', 'Libya', 218),
-(125, 'LI', 'Liechtenstein', 423),
-(126, 'LT', 'Lithuania', 370),
-(127, 'LU', 'Luxembourg', 352),
-(128, 'MO', 'Macau S.A.R.', 853),
-(129, 'MK', 'Macedonia', 389),
-(130, 'MG', 'Madagascar', 261),
-(131, 'MW', 'Malawi', 265),
-(132, 'MY', 'Malaysia', 60),
-(133, 'MV', 'Maldives', 960),
-(134, 'ML', 'Mali', 223),
-(135, 'MT', 'Malta', 356),
-(136, 'XM', 'Man (Isle of)', 44),
-(137, 'MH', 'Marshall Islands', 692),
-(138, 'MQ', 'Martinique', 596),
-(139, 'MR', 'Mauritania', 222),
-(140, 'MU', 'Mauritius', 230),
-(141, 'YT', 'Mayotte', 269),
-(142, 'MX', 'Mexico', 52),
-(143, 'FM', 'Micronesia', 691),
-(144, 'MD', 'Moldova', 373),
-(145, 'MC', 'Monaco', 377),
-(146, 'MN', 'Mongolia', 976),
-(147, 'MS', 'Montserrat', 1664),
-(148, 'MA', 'Morocco', 212),
-(149, 'MZ', 'Mozambique', 258),
-(150, 'MM', 'Myanmar', 95),
-(151, 'NA', 'Namibia', 264),
-(152, 'NR', 'Nauru', 674),
-(153, 'NP', 'Nepal', 977),
-(154, 'AN', 'Netherlands Antilles', 599),
-(155, 'NL', 'Netherlands The', 31),
-(156, 'NC', 'New Caledonia', 687),
-(157, 'NZ', 'New Zealand', 64),
-(158, 'NI', 'Nicaragua', 505),
-(159, 'NE', 'Niger', 227),
-(160, 'NG', 'Nigeria', 234),
-(161, 'NU', 'Niue', 683),
-(162, 'NF', 'Norfolk Island', 672),
-(163, 'MP', 'Northern Mariana Islands', 1670),
-(164, 'NO', 'Norway', 47),
-(165, 'OM', 'Oman', 968),
-(166, 'PK', 'Pakistan', 92),
-(167, 'PW', 'Palau', 680),
-(168, 'PS', 'Palestinian Territory Occupied', 970),
-(169, 'PA', 'Panama', 507),
-(170, 'PG', 'Papua new Guinea', 675),
-(171, 'PY', 'Paraguay', 595),
-(172, 'PE', 'Peru', 51),
-(173, 'PH', 'Philippines', 63),
-(174, 'PN', 'Pitcairn Island', 0),
-(175, 'PL', 'Poland', 48),
-(176, 'PT', 'Portugal', 351),
-(177, 'PR', 'Puerto Rico', 1787),
-(178, 'QA', 'Qatar', 974),
-(179, 'RE', 'Reunion', 262),
-(180, 'RO', 'Romania', 40),
-(181, 'RU', 'Russia', 70),
-(182, 'RW', 'Rwanda', 250),
-(183, 'SH', 'Saint Helena', 290),
-(184, 'KN', 'Saint Kitts And Nevis', 1869),
-(185, 'LC', 'Saint Lucia', 1758),
-(186, 'PM', 'Saint Pierre and Miquelon', 508),
-(187, 'VC', 'Saint Vincent And The Grenadines', 1784),
-(188, 'WS', 'Samoa', 684),
-(189, 'SM', 'San Marino', 378),
-(190, 'ST', 'Sao Tome and Principe', 239),
-(191, 'SA', 'Saudi Arabia', 966),
-(192, 'SN', 'Senegal', 221),
-(193, 'RS', 'Serbia', 381),
-(194, 'SC', 'Seychelles', 248),
-(195, 'SL', 'Sierra Leone', 232),
-(196, 'SG', 'Singapore', 65),
-(197, 'SK', 'Slovakia', 421),
-(198, 'SI', 'Slovenia', 386),
-(199, 'XG', 'Smaller Territories of the UK', 44),
-(200, 'SB', 'Solomon Islands', 677),
-(201, 'SO', 'Somalia', 252),
-(202, 'ZA', 'South Africa', 27),
-(203, 'GS', 'South Georgia', 0),
-(204, 'SS', 'South Sudan', 211),
-(205, 'ES', 'Spain', 34),
-(206, 'LK', 'Sri Lanka', 94),
-(207, 'SD', 'Sudan', 249),
-(208, 'SR', 'Suriname', 597),
-(209, 'SJ', 'Svalbard And Jan Mayen Islands', 47),
-(210, 'SZ', 'Swaziland', 268),
-(211, 'SE', 'Sweden', 46),
-(212, 'CH', 'Switzerland', 41),
-(213, 'SY', 'Syria', 963),
-(214, 'TW', 'Taiwan', 886),
-(215, 'TJ', 'Tajikistan', 992),
-(216, 'TZ', 'Tanzania', 255),
-(217, 'TH', 'Thailand', 66),
-(218, 'TG', 'Togo', 228),
-(219, 'TK', 'Tokelau', 690),
-(220, 'TO', 'Tonga', 676),
-(221, 'TT', 'Trinidad And Tobago', 1868),
-(222, 'TN', 'Tunisia', 216),
-(223, 'TR', 'Turkey', 90),
-(224, 'TM', 'Turkmenistan', 7370),
-(225, 'TC', 'Turks And Caicos Islands', 1649),
-(226, 'TV', 'Tuvalu', 688),
-(227, 'UG', 'Uganda', 256),
-(228, 'UA', 'Ukraine', 380),
-(229, 'AE', 'United Arab Emirates', 971),
-(230, 'GB', 'United Kingdom', 44),
-(231, 'US', 'United States', 1),
-(232, 'UM', 'United States Minor Outlying Islands', 1),
-(233, 'UY', 'Uruguay', 598),
-(234, 'UZ', 'Uzbekistan', 998),
-(235, 'VU', 'Vanuatu', 678),
-(236, 'VA', 'Vatican City State (Holy See)', 39),
-(237, 'VE', 'Venezuela', 58),
-(238, 'VN', 'Vietnam', 84),
-(239, 'VG', 'Virgin Islands (British)', 1284),
-(240, 'VI', 'Virgin Islands (US)', 1340),
-(241, 'WF', 'Wallis And Futuna Islands', 681),
-(242, 'EH', 'Western Sahara', 212),
-(243, 'YE', 'Yemen', 967),
-(244, 'YU', 'Yugoslavia', 38),
-(245, 'ZM', 'Zambia', 260),
-(246, 'ZW', 'Zimbabwe', 263);
+INSERT INTO `countries` (`id`, `name`, `shortname`, `phonecode`) VALUES
+(1, 'Afghanistan', 'AF', 93),
+(2, 'Albania', 'AL', 355),
+(3, 'Algeria', 'DZ', 213),
+(4, 'American Samoa', 'AS', 1684),
+(5, 'Andorra', 'AD', 376),
+(6, 'Angola', 'AO', 244),
+(7, 'Anguilla', 'AI', 1264),
+(8, 'Antarctica', 'AQ', 0),
+(9, 'Antigua And Barbuda', 'AG', 1268),
+(10, 'Argentina', 'AR', 54),
+(11, 'Armenia', 'AM', 374),
+(12, 'Aruba', 'AW', 297),
+(13, 'Australia', 'AU', 61),
+(14, 'Austria', 'AT', 43),
+(15, 'Azerbaijan', 'AZ', 994),
+(16, 'Bahamas The', 'BS', 1242),
+(17, 'Bahrain', 'BH', 973),
+(18, 'Bangladesh', 'BD', 880),
+(19, 'Barbados', 'BB', 1246),
+(20, 'Belarus', 'BY', 375),
+(21, 'Belgium', 'BE', 32),
+(22, 'Belize', 'BZ', 501),
+(23, 'Benin', 'BJ', 229),
+(24, 'Bermuda', 'BM', 1441),
+(25, 'Bhutan', 'BT', 975),
+(26, 'Bolivia', 'BO', 591),
+(27, 'Bosnia and Herzegovina', 'BA', 387),
+(28, 'Botswana', 'BW', 267),
+(29, 'Bouvet Island', 'BV', 0),
+(30, 'Brazil', 'BR', 55),
+(31, 'British Indian Ocean Territory', 'IO', 246),
+(32, 'Brunei', 'BN', 673),
+(33, 'Bulgaria', 'BG', 359),
+(34, 'Burkina Faso', 'BF', 226),
+(35, 'Burundi', 'BI', 257),
+(36, 'Cambodia', 'KH', 855),
+(37, 'Cameroon', 'CM', 237),
+(38, 'Canada', 'CA', 1),
+(39, 'Cape Verde', 'CV', 238),
+(40, 'Cayman Islands', 'KY', 1345),
+(41, 'Central African Republic', 'CF', 236),
+(42, 'Chad', 'TD', 235),
+(43, 'Chile', 'CL', 56),
+(44, 'China', 'CN', 86),
+(45, 'Christmas Island', 'CX', 61),
+(46, 'Cocos (Keeling) Islands', 'CC', 672),
+(47, 'Colombia', 'CO', 57),
+(48, 'Comoros', 'KM', 269),
+(49, 'Republic Of The Congo', 'CG', 242),
+(50, 'Democratic Republic Of The Congo', 'CD', 242),
+(51, 'Cook Islands', 'CK', 682),
+(52, 'Costa Rica', 'CR', 506),
+(53, 'Cote D\'Ivoire (Ivory Coast)', 'CI', 225),
+(54, 'Croatia (Hrvatska)', 'HR', 385),
+(55, 'Cuba', 'CU', 53),
+(56, 'Cyprus', 'CY', 357),
+(57, 'Czech Republic', 'CZ', 420),
+(58, 'Denmark', 'DK', 45),
+(59, 'Djibouti', 'DJ', 253),
+(60, 'Dominica', 'DM', 1767),
+(61, 'Dominican Republic', 'DO', 1809),
+(62, 'East Timor', 'TP', 670),
+(63, 'Ecuador', 'EC', 593),
+(64, 'Egypt', 'EG', 20),
+(65, 'El Salvador', 'SV', 503),
+(66, 'Equatorial Guinea', 'GQ', 240),
+(67, 'Eritrea', 'ER', 291),
+(68, 'Estonia', 'EE', 372),
+(69, 'Ethiopia', 'ET', 251),
+(70, 'External Territories of Australia', 'XA', 61),
+(71, 'Falkland Islands', 'FK', 500),
+(72, 'Faroe Islands', 'FO', 298),
+(73, 'Fiji Islands', 'FJ', 679),
+(74, 'Finland', 'FI', 358),
+(75, 'France', 'FR', 33),
+(76, 'French Guiana', 'GF', 594),
+(77, 'French Polynesia', 'PF', 689),
+(78, 'French Southern Territories', 'TF', 0),
+(79, 'Gabon', 'GA', 241),
+(80, 'Gambia The', 'GM', 220),
+(81, 'Georgia', 'GE', 995),
+(82, 'Germany', 'DE', 49),
+(83, 'Ghana', 'GH', 233),
+(84, 'Gibraltar', 'GI', 350),
+(85, 'Greece', 'GR', 30),
+(86, 'Greenland', 'GL', 299),
+(87, 'Grenada', 'GD', 1473),
+(88, 'Guadeloupe', 'GP', 590),
+(89, 'Guam', 'GU', 1671),
+(90, 'Guatemala', 'GT', 502),
+(91, 'Guernsey and Alderney', 'XU', 44),
+(92, 'Guinea', 'GN', 224),
+(93, 'Guinea-Bissau', 'GW', 245),
+(94, 'Guyana', 'GY', 592),
+(95, 'Haiti', 'HT', 509),
+(96, 'Heard and McDonald Islands', 'HM', 0),
+(97, 'Honduras', 'HN', 504),
+(98, 'Hong Kong S.A.R.', 'HK', 852),
+(99, 'Hungary', 'HU', 36),
+(100, 'Iceland', 'IS', 354),
+(101, 'India', 'IN', 91),
+(102, 'Indonesia', 'ID', 62),
+(103, 'Iran', 'IR', 98),
+(104, 'Iraq', 'IQ', 964),
+(105, 'Ireland', 'IE', 353),
+(106, 'Israel', 'IL', 972),
+(107, 'Italy', 'IT', 39),
+(108, 'Jamaica', 'JM', 1876),
+(109, 'Japan', 'JP', 81),
+(110, 'Jersey', 'XJ', 44),
+(111, 'Jordan', 'JO', 962),
+(112, 'Kazakhstan', 'KZ', 7),
+(113, 'Kenya', 'KE', 254),
+(114, 'Kiribati', 'KI', 686),
+(115, 'Korea North', 'KP', 850),
+(116, 'Korea South', 'KR', 82),
+(117, 'Kuwait', 'KW', 965),
+(118, 'Kyrgyzstan', 'KG', 996),
+(119, 'Laos', 'LA', 856),
+(120, 'Latvia', 'LV', 371),
+(121, 'Lebanon', 'LB', 961),
+(122, 'Lesotho', 'LS', 266),
+(123, 'Liberia', 'LR', 231),
+(124, 'Libya', 'LY', 218),
+(125, 'Liechtenstein', 'LI', 423),
+(126, 'Lithuania', 'LT', 370),
+(127, 'Luxembourg', 'LU', 352),
+(128, 'Macau S.A.R.', 'MO', 853),
+(129, 'Macedonia', 'MK', 389),
+(130, 'Madagascar', 'MG', 261),
+(131, 'Malawi', 'MW', 265),
+(132, 'Malaysia', 'MY', 60),
+(133, 'Maldives', 'MV', 960),
+(134, 'Mali', 'ML', 223),
+(135, 'Malta', 'MT', 356),
+(136, 'Man (Isle of)', 'XM', 44),
+(137, 'Marshall Islands', 'MH', 692),
+(138, 'Martinique', 'MQ', 596),
+(139, 'Mauritania', 'MR', 222),
+(140, 'Mauritius', 'MU', 230),
+(141, 'Mayotte', 'YT', 269),
+(142, 'Mexico', 'MX', 52),
+(143, 'Micronesia', 'FM', 691),
+(144, 'Moldova', 'MD', 373),
+(145, 'Monaco', 'MC', 377),
+(146, 'Mongolia', 'MN', 976),
+(147, 'Montserrat', 'MS', 1664),
+(148, 'Morocco', 'MA', 212),
+(149, 'Mozambique', 'MZ', 258),
+(150, 'Myanmar', 'MM', 95),
+(151, 'Namibia', 'NA', 264),
+(152, 'Nauru', 'NR', 674),
+(153, 'Nepal', 'NP', 977),
+(154, 'Netherlands Antilles', 'AN', 599),
+(155, 'Netherlands The', 'NL', 31),
+(156, 'New Caledonia', 'NC', 687),
+(157, 'New Zealand', 'NZ', 64),
+(158, 'Nicaragua', 'NI', 505),
+(159, 'Niger', 'NE', 227),
+(160, 'Nigeria', 'NG', 234),
+(161, 'Niue', 'NU', 683),
+(162, 'Norfolk Island', 'NF', 672),
+(163, 'Northern Mariana Islands', 'MP', 1670),
+(164, 'Norway', 'NO', 47),
+(165, 'Oman', 'OM', 968),
+(166, 'Pakistan', 'PK', 92),
+(167, 'Palau', 'PW', 680),
+(168, 'Palestinian Territory Occupied', 'PS', 970),
+(169, 'Panama', 'PA', 507),
+(170, 'Papua new Guinea', 'PG', 675),
+(171, 'Paraguay', 'PY', 595),
+(172, 'Peru', 'PE', 51),
+(173, 'Philippines', 'PH', 63),
+(174, 'Pitcairn Island', 'PN', 0),
+(175, 'Poland', 'PL', 48),
+(176, 'Portugal', 'PT', 351),
+(177, 'Puerto Rico', 'PR', 1787),
+(178, 'Qatar', 'QA', 974),
+(179, 'Reunion', 'RE', 262),
+(180, 'Romania', 'RO', 40),
+(181, 'Russia', 'RU', 70),
+(182, 'Rwanda', 'RW', 250),
+(183, 'Saint Helena', 'SH', 290),
+(184, 'Saint Kitts And Nevis', 'KN', 1869),
+(185, 'Saint Lucia', 'LC', 1758),
+(186, 'Saint Pierre and Miquelon', 'PM', 508),
+(187, 'Saint Vincent And The Grenadines', 'VC', 1784),
+(188, 'Samoa', 'WS', 684),
+(189, 'San Marino', 'SM', 378),
+(190, 'Sao Tome and Principe', 'ST', 239),
+(191, 'Saudi Arabia', 'SA', 966),
+(192, 'Senegal', 'SN', 221),
+(193, 'Serbia', 'RS', 381),
+(194, 'Seychelles', 'SC', 248),
+(195, 'Sierra Leone', 'SL', 232),
+(196, 'Singapore', 'SG', 65),
+(197, 'Slovakia', 'SK', 421),
+(198, 'Slovenia', 'SI', 386),
+(199, 'Smaller Territories of the UK', 'XG', 44),
+(200, 'Solomon Islands', 'SB', 677),
+(201, 'Somalia', 'SO', 252),
+(202, 'South Africa', 'ZA', 27),
+(203, 'South Georgia', 'GS', 0),
+(204, 'South Sudan', 'SS', 211),
+(205, 'Spain', 'ES', 34),
+(206, 'Sri Lanka', 'LK', 94),
+(207, 'Sudan', 'SD', 249),
+(208, 'Suriname', 'SR', 597),
+(209, 'Svalbard And Jan Mayen Islands', 'SJ', 47),
+(210, 'Swaziland', 'SZ', 268),
+(211, 'Sweden', 'SE', 46),
+(212, 'Switzerland', 'CH', 41),
+(213, 'Syria', 'SY', 963),
+(214, 'Taiwan', 'TW', 886),
+(215, 'Tajikistan', 'TJ', 992),
+(216, 'Tanzania', 'TZ', 255),
+(217, 'Thailand', 'TH', 66),
+(218, 'Togo', 'TG', 228),
+(219, 'Tokelau', 'TK', 690),
+(220, 'Tonga', 'TO', 676),
+(221, 'Trinidad And Tobago', 'TT', 1868),
+(222, 'Tunisia', 'TN', 216),
+(223, 'Turkey', 'TR', 90),
+(224, 'Turkmenistan', 'TM', 7370),
+(225, 'Turks And Caicos Islands', 'TC', 1649),
+(226, 'Tuvalu', 'TV', 688),
+(227, 'Uganda', 'UG', 256),
+(228, 'Ukraine', 'UA', 380),
+(229, 'United Arab Emirates', 'AE', 971),
+(230, 'United Kingdom', 'GB', 44),
+(231, 'United States', 'US', 1),
+(232, 'United States Minor Outlying Islands', 'UM', 1),
+(233, 'Uruguay', 'UY', 598),
+(234, 'Uzbekistan', 'UZ', 998),
+(235, 'Vanuatu', 'VU', 678),
+(236, 'Vatican City State (Holy See)', 'VA', 39),
+(237, 'Venezuela', 'VE', 58),
+(238, 'Vietnam', 'VN', 84),
+(239, 'Virgin Islands (British)', 'VG', 1284),
+(240, 'Virgin Islands (US)', 'VI', 1340),
+(241, 'Wallis And Futuna Islands', 'WF', 681),
+(242, 'Western Sahara', 'EH', 212),
+(243, 'Yemen', 'YE', 967),
+(244, 'Yugoslavia', 'YU', 38),
+(245, 'Zambia', 'ZM', 260),
+(246, 'Zimbabwe', 'ZW', 263);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `coupon_option` varchar(255) NOT NULL,
+  `coupon_code` varchar(255) NOT NULL,
+  `categories` varchar(255) NOT NULL,
+  `brands` text NOT NULL,
+  `coupon_type` varchar(255) NOT NULL,
+  `users` text NOT NULL,
+  `amount_type` varchar(255) NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `expiry_date` date NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `coupon_option`, `coupon_code`, `categories`, `brands`, `coupon_type`, `users`, `amount_type`, `amount`, `expiry_date`, `status`, `created_at`, `updated_at`) VALUES
+(5, 'Manual', 'ALL10', '', '2,3', 'Single', 'himel@gmail.com', 'Percentage', 10.00, '2024-03-23', 1, '2024-03-21 10:36:55', '2024-03-21 11:22:58'),
+(6, 'Automatic', 'nddo5', '', '', 'Multiple', 'himel@gmail.com', 'Percentage', 12.00, '2024-03-22', 1, '2024-03-21 10:52:41', '2024-03-21 11:26:13'),
+(7, 'Manual', '1A', '1,2,10,11,3,4,5,6,7,8', '', 'Multiple', 'himel@gmail.com', 'Fixed', 122.00, '2024-03-30', 1, '2024-03-21 10:56:10', '2024-03-24 04:27:42');
 
 -- --------------------------------------------------------
 
@@ -507,9 +546,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2024_01_22_191452_create_product_attributes_table', 1),
 (11, '2024_01_25_210114_create_brands_table', 1),
 (12, '2024_02_01_163429_create_banners_table', 1),
-(13, '2024_02_26_221225_create_carts_table', 2),
-(14, '2024_02_28_162852_create_sessions_table', 3),
-(15, '2024_02_29_115418_add_column_to_users', 3);
+(13, '2024_02_26_221225_create_carts_table', 1),
+(14, '2024_02_28_162852_create_sessions_table', 1),
+(15, '2024_03_16_120917_create_countries_table', 1),
+(16, '2024_03_16_121249_create_states_table', 1),
+(17, '2024_03_20_141413_create_coupons_table', 1),
+(18, '2024_03_26_140431_create_user_addresses_table', 1);
 
 -- --------------------------------------------------------
 
@@ -582,13 +624,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `brand_id`, `category_id`, `product_name`, `product_code`, `product_price`, `product_discount`, `final_price`, `discount_type`, `product_video`, `description`, `wash_care`, `keywords`, `material`, `sleeve`, `weight`, `fit`, `pattern`, `occasion`, `meta_title`, `meta_description`, `meta_keywords`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES
-(1, NULL, 3, 'Ll', 'g', 16095.00, 10.00, 14485.50, 'Product', NULL, 'Dolorem a esse soluta exercitationem omnis nobis. Facere qui quaerat inventore voluptatem quas. Veritatis quas aut nostrum. Voluptatem assumenda nisi reiciendis eveniet aut.', NULL, NULL, 'Leather', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-02-28 04:19:27'),
-(2, NULL, 7, 'Gg', '123', 14041.00, 20.00, 11232.80, 'Product', NULL, 'Laboriosam autem fuga temporibus velit aut. Laborum incidunt asperiores aut autem nostrum unde ut ea. Aliquid eos rerum aut iusto molestiae.', NULL, NULL, 'Polyester', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-02-28 04:19:35'),
-(3, NULL, 5, 'Perspiciatis Officiis Aut', 'sed', 2528.00, 10.00, 2275.20, 'Product', NULL, 'Omnis culpa ipsum quia dolor ab iusto. Suscipit ut quidem doloremque maiores minus. Id reprehenderit quia debitis veritatis corrupti. Explicabo voluptas ipsa aliquam vero.', NULL, NULL, 'Cotton', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-02-27 09:11:23'),
+(1, 1, 3, 'Ll', 'g', 16095.00, 10.00, 14485.50, 'Product', NULL, 'Dolorem a esse soluta exercitationem omnis nobis. Facere qui quaerat inventore voluptatem quas. Veritatis quas aut nostrum. Voluptatem assumenda nisi reiciendis eveniet aut.', NULL, NULL, 'Leather', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-03-24 03:50:15'),
+(2, 2, 7, 'Gg', '123', 14041.00, 20.00, 11232.80, 'Product', NULL, 'Laboriosam autem fuga temporibus velit aut. Laborum incidunt asperiores aut autem nostrum unde ut ea. Aliquid eos rerum aut iusto molestiae.', NULL, NULL, 'Polyester', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-03-24 03:50:23'),
+(3, 2, 5, 'Perspiciatis Officiis Aut', 'sed', 2528.00, 10.00, 2275.20, 'Product', NULL, 'Omnis culpa ipsum quia dolor ab iusto. Suscipit ut quidem doloremque maiores minus. Id reprehenderit quia debitis veritatis corrupti. Explicabo voluptas ipsa aliquam vero.', NULL, NULL, 'Cotton', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 1, '2024-02-20 02:08:48', '2024-03-24 03:50:32'),
 (4, NULL, 6, 'dolorem temporibus cumque', 'eum', 15235.00, NULL, 15235.00, NULL, NULL, 'Repudiandae non omnis voluptatem et ea quis est. Dignissimos omnis suscipit porro odio nulla voluptates.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
 (5, NULL, 6, 'porro impedit eum', 'eaque', 7543.00, NULL, 7543.00, NULL, NULL, 'Aperiam voluptate adipisci porro et. Ea eveniet quo nisi nobis. Consequuntur et non laudantium aut ut.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
-(6, NULL, 6, 'suscipit aut et', 'beatae', 11589.00, NULL, 11589.00, NULL, NULL, 'Voluptates aspernatur quisquam totam sit aliquam. Perspiciatis aperiam ut repellendus rem qui aut nisi. Hic sed corrupti fugit voluptatem aut voluptatem.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
-(7, NULL, 7, 'quo harum quidem', 'impedit', 15595.00, NULL, 15595.00, NULL, NULL, 'Omnis perferendis consectetur neque repellendus quia molestiae ullam. Tempore iure ea ipsam quibusdam ad. Et nihil aspernatur esse cum sed quasi. Vel alias quis ea laborum laudantium.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
+(6, 1, 6, 'Suscipit Aut Et', 'beatae', 11589.00, 30.00, 8112.30, 'Category', NULL, 'Voluptates aspernatur quisquam totam sit aliquam. Perspiciatis aperiam ut repellendus rem qui aut nisi. Hic sed corrupti fugit voluptatem aut voluptatem.', NULL, NULL, 'Cotton', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-20 02:08:48', '2024-03-24 03:51:22'),
+(7, NULL, 7, 'Quo Harum Quidem', 'A', 15595.00, 37.00, 9824.85, 'Category', NULL, 'Omnis perferendis consectetur neque repellendus quia molestiae ullam. Tempore iure ea ipsam quibusdam ad. Et nihil aspernatur esse cum sed quasi. Vel alias quis ea laborum laudantium.', NULL, NULL, 'Leather', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-20 02:08:48', '2024-03-24 03:52:54'),
 (8, NULL, 12, 'sit itaque autem', 'dolorem', 4233.00, NULL, 4233.00, NULL, NULL, 'Officia quibusdam et tempore labore ex fugit amet praesentium. Velit et aspernatur dolor veritatis pariatur. Consequuntur a consectetur sint alias autem. Non totam velit quidem magnam rerum debitis. Dicta quisquam in totam tempora.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
 (9, NULL, 10, 'illo voluptas explicabo', 'dolorum', 19745.00, NULL, 19745.00, NULL, NULL, 'Laudantium illum facilis in occaecati. Dolore delectus culpa eum id et. Explicabo exercitationem aliquam et nemo autem. Et aperiam error possimus. Deserunt nostrum voluptate provident perferendis.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
 (10, NULL, 1, 'odio ex nulla', 'voluptate', 7280.00, NULL, 7280.00, NULL, NULL, 'A aut autem exercitationem velit ea dolores. Aut sint nesciunt ipsum culpa. Ut aut quo laudantium voluptate qui dicta totam. Repellendus sed error quod est minima recusandae.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', 1, '2024-02-20 02:08:48', '2024-02-20 02:08:48'),
@@ -701,8 +743,8 @@ CREATE TABLE `products_images` (
 --
 
 INSERT INTO `products_images` (`id`, `product_id`, `image`, `image_sort`, `status`, `created_at`, `updated_at`) VALUES
-(4, 2, '1546.jpg', '1', 1, '2024-02-25 14:54:14', '2024-02-28 04:19:35'),
-(5, 2, '95963.jpg', '2', 1, '2024-02-25 14:54:14', '2024-02-28 04:19:35');
+(4, 2, '1546.jpg', '1', 1, '2024-02-25 14:54:14', '2024-03-24 03:50:23'),
+(5, 2, '95963.jpg', '2', 1, '2024-02-25 14:54:14', '2024-03-24 03:50:23');
 
 -- --------------------------------------------------------
 
@@ -730,12 +772,12 @@ CREATE TABLE `product_attributes` (
 --
 
 INSERT INTO `product_attributes` (`id`, `product_id`, `category_id`, `color`, `color_code`, `size`, `sku`, `stock`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(6, 2, 7, 'Red', '#FF0000', 'S', 'FSR', 12, 100, 1, '2024-02-20 04:30:50', '2024-02-28 04:19:35'),
-(8, 2, 7, 'Green', '#00FF00', 'L', 'LG', 22, 122, 1, '2024-02-20 06:14:07', '2024-02-28 04:19:35'),
-(9, 2, 7, 'Green', '#00FF00', 'S', 'SG', 10, 120, 1, '2024-02-25 14:54:15', '2024-02-28 04:19:35'),
-(10, 2, 7, 'Blue', '#0000FF', 'L', 'LB', 11, 100, 1, '2024-02-25 14:54:15', '2024-02-28 04:19:35'),
-(11, 2, 7, 'Blue', '#0000FF', 'S', 'SB', 12, 100, 1, '2024-02-25 14:54:15', '2024-02-28 04:19:35'),
-(12, 1, 3, 'Yellow', '#00FFFF', 'M', 'MY', 30, 16095, 1, '2024-02-28 04:16:37', '2024-02-28 04:19:27');
+(6, 2, 7, 'Red', '#FF0000', 'S', 'FSR', 12, 100, 1, '2024-02-20 04:30:50', '2024-03-24 03:50:23'),
+(8, 2, 7, 'Green', '#00FF00', 'L', 'LG', 22, 122, 1, '2024-02-20 06:14:07', '2024-03-24 03:50:23'),
+(9, 2, 7, 'Green', '#00FF00', 'S', 'SG', 10, 120, 1, '2024-02-25 14:54:15', '2024-03-24 03:50:23'),
+(10, 2, 7, 'Blue', '#0000FF', 'L', 'LB', 11, 100, 1, '2024-02-25 14:54:15', '2024-03-24 03:50:23'),
+(11, 2, 7, 'Blue', '#0000FF', 'S', 'SB', 12, 100, 1, '2024-02-25 14:54:15', '2024-03-24 03:50:23'),
+(12, 1, 3, 'Yellow', '#00FFFF', 'M', 'MY', 30, 16095, 1, '2024-02-28 04:16:37', '2024-03-24 03:50:15');
 
 -- --------------------------------------------------------
 
@@ -759,10 +801,10 @@ CREATE TABLE `sessions` (
 --
 
 CREATE TABLE `states` (
-  `id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `country_id` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `country_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `states`
@@ -4871,18 +4913,19 @@ INSERT INTO `states` (`id`, `name`, `country_id`) VALUES
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `district` varchar(255) DEFAULT NULL,
   `town` varchar(255) DEFAULT NULL,
   `road_house` varchar(255) DEFAULT NULL,
   `zipcode` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
   `mobile` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -4892,8 +4935,28 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `address`, `country`, `district`, `town`, `road_house`, `zipcode`, `status`, `mobile`, `email`, `image`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(31, 'Himel', 'dhaka', 'Bangladesh', 'Dhaka', NULL, NULL, NULL, 0, '123', 'himel@gmail.com', '3282.png', NULL, '$2y$10$oRLaVuu8ESCml8iHWIa4KejgXpuvSmFvOsP3fqvNowZ083Re4gGae', NULL, '2024-03-10 15:32:14', '2024-03-16 07:52:53');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `user_id`, `address`, `country`, `district`, `town`, `road_house`, `zipcode`, `mobile`, `image`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
+(31, 'Himel', 'himel@gmail.com', NULL, '$2y$10$UXqHvGxECo2pwOahVIn.K.My26mgycqS3cPeSw2HKzYOcLpjr1Zme', 0, 'dhaka', 'Algeria', 'at-Tarif', NULL, NULL, NULL, '123', '3282.png', 0, NULL, '2024-03-10 15:32:14', '2024-03-26 01:50:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_addresses`
+--
+
+CREATE TABLE `user_addresses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `town` varchar(255) DEFAULT NULL,
+  `road_house` varchar(255) DEFAULT NULL,
+  `zipcode` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -4940,6 +5003,12 @@ ALTER TABLE `cms_pages`
 -- Indexes for table `countries`
 --
 ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5009,6 +5078,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -5034,7 +5109,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -5052,7 +5127,13 @@ ALTER TABLE `cms_pages`
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
+--
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -5064,7 +5145,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -5076,7 +5157,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `products_images`
@@ -5094,13 +5175,19 @@ ALTER TABLE `product_attributes`
 -- AUTO_INCREMENT for table `states`
 --
 ALTER TABLE `states`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4122;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4122;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

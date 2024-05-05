@@ -7,14 +7,14 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form action="{{url('/search')}}" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
-                    <div class="input-group-append">
-                        <span class="input-group-text bg-transparent text-primary">
-                            <i class="fa fa-search"></i>
-                        </span>
-                    </div>
+                    <input type="text" class="form-control searchFilter" name="search" id="search" placeholder="Search for products">
+                    <button class="input-group-append bg-transparent" style="border: 0;">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search"></i>
+                            </span>
+                    </button>
                 </div>
             </form>
         </div>

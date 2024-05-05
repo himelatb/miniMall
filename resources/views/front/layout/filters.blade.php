@@ -111,6 +111,12 @@
                 <input type="checkbox" class="custom-control-input allSizes filterElements" name='allSizes' id="allSizes" checked hidden>
             @endif
 
+            @if(isset($breadcrumbs))
+            @foreach ($breadcrumbs as $breadcrumb)
+                <input type="text" name="search" class="searchFilter" value="{{isset($breadcrumb['search']) ? $breadcrumb['search'] : ''}}" hidden>
+            @endforeach
+            @endif
+
             <!-- Size End -->
             </form>
         </div>

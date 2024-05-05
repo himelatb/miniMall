@@ -1,4 +1,4 @@
-function customersActions() {
+function customerActions() {
 
     function customersTable(view) {
         $(view).DataTable({
@@ -21,12 +21,6 @@ function customersActions() {
                     data: 'email',
                     name: 'email',
                     orderable: false,
-                },
-                {
-                    data: 'image',
-                    name: 'image',
-                    orderable: false,
-                    searchable: false
                 },
                 {
                     data: 'status',
@@ -127,7 +121,6 @@ function customersActions() {
                 $('#updateCustomersForm').trigger("reset");
                 $("#ucustomers_imageView").attr("src", null);
 
-                console.log(res);
                 $('.spanmsg').remove();
                 $('.errbr').remove();
                 $('#ucustomers_id').val(res.id);

@@ -54,27 +54,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="ucustomers_image" class="col-sm-6 control-label">Select image</label>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" id="ucustomers_image" name="ucustomers_image">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ucustomers_imageView" class="col-sm-6 control-label">Image</label>
-                            <div class="h-100 d-flex align-items-center justify-content-center">
-                                <img class="border" width="150" height="150" id="ucustomers_imageView"
-                                    name="ucustomers_imageView" />
-                            </div>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="deleteCustomersImage" name="deleteCustomersImage">
-                            <label class="form-check-label" for="deleteCustomersImage">Delete the Customers image</label>
-                        </div>
-                    </div>
                     <div class="m-3 d-flex align-items-center justify-content-center">
                         <button type="submit" class="btn btn-primary">Save
                         </button>

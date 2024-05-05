@@ -26,7 +26,6 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Image</th>
                         <th>Status</th>
                         <th style="width: 2px">Action</th>
                     </tr>

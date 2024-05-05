@@ -90,6 +90,10 @@
 
     <!-- Footer Start -->
  @include('front.layout.footer')
+
+ @include('front.add_address')
+ @include('front.edit_address')
+
     <!-- Footer End -->
     {!! Toastr::message() !!}
     <!-- JavaScript Libraries -->
@@ -100,7 +104,7 @@
     <!-- Contact Javascript File -->
     <script src="{{asset ('front/mail/jqBootstrapValidation.min.js')}}"></script>
     <script src="{{asset ('front/mail/contact.js')}}"></script>
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src={{asset('admin/plugins/toastr/toastr.min.js')}}></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">

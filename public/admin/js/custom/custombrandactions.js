@@ -219,7 +219,7 @@ function brandActions() {
         $('.spanmsg').remove();
         $('.errbr').remove();
         var formData = new FormData(this);
-        console.log(formData);
+        
         $.ajax({
             url: "update.brand",
             method: 'post',

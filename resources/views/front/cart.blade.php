@@ -33,7 +33,7 @@
                                 </td>
                                 <td class="align-middle">{{$product['attribute']['size']}}</td>
                                 <td class="align-middle">{{$product['attribute']['color']}}</td>
-                                <td class="align-middle">{{$product['price']}}</td>
+                                <td class="align-middle">{{$product['price']}} tk</td>
                                 <?php
                                 $total += $product['product_qty'] * $product['price'];
                                 ?>
@@ -55,7 +55,7 @@
                                     </div>
                                     <small id="error{{$product['id']}}" {{$product['maxStock'] == true? '' : 'hidden disabled'}} style="color: red;">Stock maxxed out!!</small>
                                 </td>
-                                <td class="align-middle" id="productTotal{{$product['id']}}">{{$product['product_qty'] * $product['price']}}</td>
+                                <td class="align-middle" id="productTotal{{$product['id']}}">{{$product['product_qty'] * $product['price']}} tk</td>
                                 <td class="align-middle"><button class="btn btn-sm btn-danger deleteCartItems" data-id="{{$product['id']}}"><i class="fa fa-times"></i></button>
                                 </td>
                             </tr>
@@ -65,11 +65,12 @@
                     </table>
                 </div>
                 <div class="col-lg-4">
-                    <form class="mb-30" action="">
+                    <form class="mb-30" id="couponForm" action="#" name="couponForm" method="POST">@csrf
                         <div class="input-group">
-                            <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                            <input type="text" class="form-control border-0 p-4" id="coupon_code" {{Session::has('coupon_code')? 'disabled': ''}} value="{{Session::has('coupon_code')? Session::get('coupon_code'):''}}" name="coupon_code" placeholder="Coupon Code">
                             <div class="input-group-append">
-                                <button class="btn btn-primary">Apply Coupon</button>
+                                <button class="btn btn-primary" type="button" {{Session::has('coupon_code') ? '': 'hidden'}} id="couponRemove">Remove Coupon</button>
+                                <button class="btn btn-primary" type="button" {{Session::has('coupon_code') ? 'hidden': ''}} id="couponSubmit">Apply Coupon</button>
                             </div>
                         </div>
                     </form>
@@ -79,17 +80,17 @@
                         <div class="border-bottom pb-2">
                             <div class="d-flex justify-content-between mb-3">
                                 <h6>Subtotal</h6>
-                                <h6 id="subtotal">{{$total}}</h6>
+                                <h6 id="subtotal">{{$total}} tk</h6>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="font-weight-medium">Shipping</h6>
-                                <h6 class="font-weight-medium">60</h6>
+                            <div class="d-flex justify-content-between  mb-3">
+                            <h6 class="font-weight-medium couponTag">{{Session::has('coupon_code')? 'Coupon' : ''}}</h6>
+                            <h6 class="font-weight-medium couponAmount">{{Session::has("coupon_type") && Session::get("coupon_type") == "Fixed"? '-'.Session::get('coupon_amount').'tk' : (Session::get("coupon_type") == "Percentage"? '-'.Session::get('coupon_amount').'%' : "")}}</h6>
                             </div>
                         </div>
                         <div class="pt-2">
                             <div class="d-flex justify-content-between mt-2">
                                 <h5>Total</h5>
-                                <h5 id="totalCost">{{$total + 60}}</h5>
+                                <h5 id="totalCost">{{(Session::has("coupon_type") && Session::get("coupon_type") == "Fixed"? ($total - Session::get('coupon_amount')) : ($total - $total * (Session::get('coupon_amount')/100)))}} tk</h5>
                             </div>
                             <a href='{{url('/checkout')}}'>
                                 <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>

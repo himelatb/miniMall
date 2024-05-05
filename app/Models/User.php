@@ -26,7 +26,6 @@ protected $fillable = [
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -39,4 +38,9 @@ protected $fillable = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Models\UserAddresses');
+    }
 }
