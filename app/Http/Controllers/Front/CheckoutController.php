@@ -138,7 +138,7 @@ class CheckoutController extends Controller
 
     public function placeOrder(){
         $cart = Cart::getCartItems();
-        $delivery_charge = 10;
+        $delivery_charge = 100;
         $total = $delivery_charge;
 
         foreach($cart as $product){

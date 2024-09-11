@@ -3,8 +3,20 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use DB;
 use Illuminate\Http\Request;
+use App\Models\Country;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\productAttribute;
+use App\Models\OrderProducts;
+use App\Models\UserAddresses;
+use App\Models\OrderLog;
+use Auth;
+use Session;
+use Mail;
+Use DB;
+Use \Carbon\Carbon;
 use App\Library\SslCommerz\SslCommerzNotification;
 
 class SslCommerzPaymentController extends Controller
@@ -131,6 +143,7 @@ class SslCommerzPaymentController extends Controller
         $post_data['value_d'] = "ref004";
 
 
+        DB::beginTransaction();
         #Before  going to initiate the payment order status need to update as Pending.
         $update_product = DB::table('orders')
             ->where('transaction_id', $post_data['tran_id'])
@@ -142,8 +155,67 @@ class SslCommerzPaymentController extends Controller
                 'status' => 'Pending',
                 'address' => $post_data['cus_add1'],
                 'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency']
+                'currency' => $post_data['currency'],
+                'user_id' => Auth::user()->id,
+                'billing_id' => Session::get('billingAddress'),
+                'shipping_id' => Session::get('shippingAddress'),
+                'total' => $post_data['total_amount'],
+                'coupon_code' => Session::get('coupon_code'),
+                'coupon_amount' => Session::get('coupon_amount'),
+                'payment_method' => Session::get('paymentMethod'),
+                'delivery_charge' => 100,
+                'created_at' => Carbon::now()
             ]);
+            $cart = Cart::getCartItems();
+            $order = Order::where('transaction_id', $post_data['tran_id'])->first();
+
+            foreach($cart as $product){
+                $orderProduct = new OrderProducts;
+                $orderProduct->order_id = $order->id;
+                $orderProduct->product_id = $product->product_id;
+                $orderProduct->attribute_id = $product->sku_id;  
+                $orderProduct->qty = $product->product_qty; 
+                $orderProduct->price = $product->product_qty * $product->price;
+                $orderProduct->save();
+    
+                productAttribute::where('id', $product->sku_id)->decrement('stock', $product->product_qty);
+                $product->delete();
+            }
+    
+            Session::forget('billingAddress');
+            Session::forget('shippingAddress');
+            Session::forget('paymentMethod');
+            Session::forget('coupon_type');
+            Session::forget('coupon_amount');
+            Session::forget('coupon_code');
+    
+            $message = " Order has been placed (Order ID: ".$order->id."). Thank you for shopping with us.";
+            $products = OrderProducts::with('images')->where('order_id', $order->id)->get();
+            foreach ($products as $product) {
+                $product->name = Product::where('id', $product->product_id)->first()->product_name;
+                $product->color = productAttribute::where('id', $product->attribute_id)->first()->color;
+                $product->size = productAttribute::where('id', $product->attribute_id)->first()->size;
+                
+            }
+    
+            $orderLog = new OrderLog;
+    
+            $orderLog->order_id = $order->id;
+            $orderLog->status = 'Pending';
+            $orderLog->save();
+    
+            $userData = ['email' => Auth::user()->email,'name'=> Auth::user()->name, 
+            'msg' => $message, 
+            'order' => $order, 
+            'billingAddress' => UserAddresses::where('id', $order->billing_id)->first(), 
+            'shippingAddress' => UserAddresses::where('id', $order->shipping_id)->first(), 
+            'products' => $products];
+            Mail::send('email.order', $userData, function ($message) use($userData){
+                $message->to($userData['email'], $userData['name']);
+                $message->subject('Order Placed. miniMall');
+            });
+    
+            DB::commit();
 
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )

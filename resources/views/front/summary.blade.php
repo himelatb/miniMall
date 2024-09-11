@@ -42,7 +42,7 @@
                             @endif
                             <div class="d-flex justify-content-between">
                                 <p >Shipping</p>
-                                <p >10 tk</p>
+                                <p >100 tk</p>
                             </div>
                         </div>
                         <div class="pt-2">

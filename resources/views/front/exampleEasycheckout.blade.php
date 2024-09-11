@@ -57,9 +57,13 @@
                 </li>
                 @endif
                 <li class="list-group-item d-flex justify-content-between">
+                    <span>Delivery Charge</span>
+                    <strong>100 tk</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
                     <span>Total (BDT)</span>
-                    <strong>{{$totalCost}} tk</strong>
-                    <input type="hidden" value={{$totalCost}} name="amount" id="total_amount" required/> 
+                    <strong>{{$totalCost - Session::get('coupon_amount')}} tk</strong>
+                    <input type="hidden" value={{$totalCost - Session::get('coupon_amount')}} name="amount" id="total_amount" required/> 
                 </li>
             </ul>
         </div>

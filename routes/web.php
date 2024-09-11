@@ -57,11 +57,9 @@ Route::namespace("App\Http\Controllers\Front")->group(function () {
         // sslcommerz routes
         Route::post('/pay', 'SslCommerzPaymentController@index');
         Route::post('/pay-via-ajax', 'SslCommerzPaymentController@payViaAjax');
-
         Route::post('/success', 'SslCommerzPaymentController@success');
         Route::post('/fail', 'SslCommerzPaymentController@fail');
         Route::post('/cancel', 'SslCommerzPaymentController@cancel');
-
         Route::post('/ipn', 'SslCommerzPaymentController@ipn');
         
     });
