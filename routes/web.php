@@ -54,15 +54,15 @@ Route::namespace("App\Http\Controllers\Front")->group(function () {
         Route::post('/delete_address','CheckoutController@deleteAddress');
         Route::get( '/place_order','CheckoutController@placeOrder');
 
-        //sslcommerz routes
-        // Route::post('/pay', 'SslCommerzPaymentController@index');
-        // Route::post('/pay-via-ajax', 'SslCommerzPaymentController@payViaAjax');
+        // sslcommerz routes
+        Route::post('/pay', 'SslCommerzPaymentController@index');
+        Route::post('/pay-via-ajax', 'SslCommerzPaymentController@payViaAjax');
 
-        // Route::post('/success', 'SslCommerzPaymentController@success');
-        // Route::post('/fail', 'SslCommerzPaymentController@fail');
-        // Route::post('/cancel', 'SslCommerzPaymentController@cancel');
+        Route::post('/success', 'SslCommerzPaymentController@success');
+        Route::post('/fail', 'SslCommerzPaymentController@fail');
+        Route::post('/cancel', 'SslCommerzPaymentController@cancel');
 
-        // Route::post('/ipn', 'SslCommerzPaymentController@ipn');
+        Route::post('/ipn', 'SslCommerzPaymentController@ipn');
         
     });
 

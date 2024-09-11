@@ -218,7 +218,7 @@
                             <label class="custom-control-label" for="cod">Cash on Delivery</label>
                         </div>
                     </div>
-                    {{-- <div class="form-group mb-4">
+                    <div class="form-group mb-4">
                         <div class="custom-control custom-radio">
                             <input
                                 type="radio"
@@ -228,7 +228,7 @@
                                 id="PO">
                             <label class="custom-control-label" for="PO">Pay online</label>
                         </div>
-                    </div> --}}
+                    </div>
                     <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Proceed</button>
                 </div>
             </div>

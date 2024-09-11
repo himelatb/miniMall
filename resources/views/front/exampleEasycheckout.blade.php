@@ -58,7 +58,8 @@
                 @endif
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (BDT)</span>
-                    <strong>{{$totalCost}}</strong>
+                    <strong>{{$totalCost}} tk</strong>
+                    <input type="hidden" value={{$totalCost}} name="amount" id="total_amount" required/> 
                 </li>
             </ul>
         </div>
@@ -126,7 +127,6 @@
                 </div>
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" id="sslczPayBtn"
-                        token="if you have any token validation"
                         postdata="your javascript arrays or objects which requires in backend"
                         order="If you already have the transaction generated for current order"
                         endpoint="{{ url('/pay-via-ajax') }}"> Pay Now
@@ -169,8 +169,7 @@
     (function (window, document) {
         var loader = function () {
             var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
-            // script.src = "https://seamless-epay.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7); // USE THIS FOR LIVE
-            script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7); // USE THIS FOR SANDBOX
+            script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
             tag.parentNode.insertBefore(script, tag);
         };
 

@@ -55,7 +55,7 @@
                                     </div>
                                     <small id="error{{$product['id']}}" {{$product['maxStock'] == true? '' : 'hidden disabled'}} style="color: red;">Stock maxxed out!!</small>
                                 </td>
-                                <td class="align-middle" id="productTotal{{$product['id']}}">{{$product['product_qty'] * $product['price']}} tk</td>
+                                <td class="align-middle"><span id="productTotal{{$product['id']}}">{{$product['product_qty'] * $product['price']}}</span> tk</td>
                                 <td class="align-middle"><button class="btn btn-sm btn-danger deleteCartItems" data-id="{{$product['id']}}"><i class="fa fa-times"></i></button>
                                 </td>
                             </tr>

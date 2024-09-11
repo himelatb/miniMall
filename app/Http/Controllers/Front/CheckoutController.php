@@ -54,14 +54,14 @@ class CheckoutController extends Controller
             $totalCost += Session::get('coupon_type') == 'Fixed'? Session::get('coupon_amount') : $totalCost * Session::get('coupon_amount') / 100;
         }
 
-        return view('front/summary', compact('cart', 'billingAddress', 'shippingAddress','email','totalCost'));
+        // return view('front/summary', compact('cart', 'billingAddress', 'shippingAddress','email','totalCost'));
         
-        // if ($request->payment == 'cod') {
-        //     return view('front/summary', compact('cart', 'billingAddress', 'shippingAddress','email','totalCost'));
-        // }
-        // else{
-        //     return view('front/exampleEasycheckout', compact('cart', 'billingAddress', 'email','totalCost'));
-        // }
+        if ($request->payment == 'cod') {
+            return view('front/summary', compact('cart', 'billingAddress', 'shippingAddress','email','totalCost'));
+        }
+        else{
+            return view('front/exampleEasycheckout', compact('cart', 'billingAddress', 'email','totalCost'));
+        }
         }
         else{
             $countries = Country::get();
